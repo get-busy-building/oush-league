@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oush League — Founding Document</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #181818;
+    --ink-mid: #444444;
+    --ink-light: #6B6B6B;
+    --ink-faint: #999999;
+    --paper: #F9F7F5;
+    --paper-tint: #F2F0EE;
+    --rule: #E4E4E4;
+    --accent: #FF5C3A;
+    --accent-light: #FFE8E3;
+    --accent-dark: #D94020;
+  }
+
+  html {
+    font-size: 18px;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.8;
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+  }
+
+  /* Header */
+  .masthead {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 52px 0 44px;
+    margin-bottom: 80px;
+    text-align: center;
+  }
+
+  .masthead-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 28px;
+  }
+
+  .masthead h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 3.6rem;
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .masthead-sub {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--ink-mid);
+    font-weight: 400;
+    margin-bottom: 32px;
+    line-height: 1.7;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .masthead-rule {
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    margin: 0 auto;
+    border-radius: 2px;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 80px;
+  }
+
+  .section-number {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 44px 0 14px;
+  }
+
+  p {
+    margin-bottom: 1.3rem;
+    color: var(--ink-mid);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Pullquote */
+  .pullquote {
+    border-left: 4px solid var(--accent);
+    margin: 52px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pullquote p {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* Example block */
+  .example {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    padding: 28px 32px;
+    margin: 40px 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .example-label {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .example p {
+    font-size: 0.92rem;
+    margin-bottom: 0.8rem;
+    color: var(--ink-mid);
+  }
+
+  .example p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Layer diagram */
+  .layers {
+    margin: 40px 0;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .layer {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--rule);
+    background: white;
+  }
+
+  .layer:last-child {
+    border-bottom: none;
+  }
+
+  .layer-tag {
+    flex-shrink: 0;
+    width: 80px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent);
+    padding-top: 2px;
+  }
+
+  .layer-content strong {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .layer-content p {
+    font-size: 0.88rem;
+    color: var(--ink-light);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--rule);
+    margin: 72px 0;
+  }
+
+  /* Visualizations */
+  .viz-wrap {
+    margin: 48px 0;
+    padding: 32px 24px 28px;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+  }
+
+  .viz-label {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 24px;
+  }
+
+  /* Competitors table */
+  .comparison {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 32px 0;
+    font-size: 0.88rem;
+  }
+
+  .comparison th {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-faint);
+    text-align: left;
+    padding: 8px 16px 8px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .comparison td {
+    padding: 12px 16px 12px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-mid);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .comparison tr:last-child td {
+    border-bottom: none;
+  }
+
+  .comparison .oush-row td {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .check {
+    color: var(--accent);
+    font-size: 1rem;
+  }
+
+  .cross {
+    color: var(--ink-faint);
+    font-size: 1rem;
+  }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 96px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .doc-footer p {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+
+  .doc-footer .wordmark {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    text-transform: none;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 48px 24px 80px; }
+    .masthead h1 { font-size: 2.6rem; }
+    h2 { font-size: 1.6rem; }
+    .layer { flex-direction: column; gap: 8px; }
+    .layer-tag { width: auto; }
+  }
+
+  @media print {
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <p class="masthead-label">Founding Document — 2026</p>
+  <h1>Oush League</h1>
+  <p class="masthead-sub">A new kind of competition where all sports count, all leagues connect, and nothing you do happens in isolation.</p>
+  <div class="masthead-rule"></div>
+  <p style="font-family: 'Source Serif 4', serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-top: 28px; font-weight: 400;">Every move matters.</p>
+</div>
+
+<!-- PART ONE -->
+<section>
+  <span class="section-number">I</span>
+  <h2>Something is missing.</h2>
+
+  <p>Think about the last time you did something physical. A run before work. A swim on a Saturday morning. A kickabout in the park. A long walk that turned into something more. Whatever it was, you did it — and then it disappeared. It went into an app, or a watch, or nowhere at all. It was yours and only yours, which is fine, but it could have been something more.</p>
+
+  <p>Sport, at its best, has never worked that way. The thing that makes sport feel different from just exercising is that other people are involved. Not as an audience, not as followers, but as participants in the same outcome. Your effort changes something for them. Theirs changes something for you. There are stakes. There are rivals. There's a table somewhere with your name on it, and the position you hold in that table was earned by what you actually did with your body this week.</p>
+
+  <p>Most people have felt that feeling at some point — playing for a team at school, competing in something local, being part of a group where showing up actually mattered. And then, somewhere along the way, the structure disappeared. Life got busier. The team dissolved. The organised competition stopped. And what replaced it was a category of apps that measure things very well but offer nothing like the feeling of actually being in it.</p>
+
+  <p>Not because the apps are bad. Some of them are genuinely excellent at what they do. But what they do is track. They record your kilometres and your heart rate and your personal bests and they feed it back to you as data. They do not put you in a league. They do not make your Friday evening run matter to the eleven people in your area who are also out there, also contributing, also competing against the next postcode over. They do not give you something to fight for beyond yourself.</p>
+
+  <p>That is the gap. And it is a surprisingly large one, because it turns out that most people — not just athletes, not just the fitness-obsessed, but most ordinary people who move in ordinary ways — respond very well to having something to compete for. They go a little further. They go a little more often. They drag a friend along. They feel, at the end of the week, that what they did was worth something beyond the calories burned.</p>
+
+  <div class="pullquote">
+    <p>Oush League is not a better way to track movement. It is a reason to move in the first place — and a structure that makes every bit of it count for something beyond yourself.</p>
+  </div>
+</section>
+
+<!-- PART TWO -->
+<section>
+  <span class="section-number">II</span>
+  <h2>The Core Idea</h2>
+
+  <p>Oush League is a competitive system built on top of physical activity. Any activity. Running, swimming, cycling, lifting, rowing, climbing — it all converts into the same currency: points. Those points determine your position in a weekly league, where you compete against others at your level, with promotion and relegation at the end of each week.</p>
+
+  <p>That alone would be a reasonable product. But it is not the idea.</p>
+
+  <p>The idea is what happens when you connect those individuals to something larger. Your points don't only affect your own standing. They also contribute to the performance of your local area — the postcode, neighbourhood, or district you belong to. That area competes against other areas. Areas are promoted and relegated too. They develop histories, rivalries, and shared identities over time.</p>
+
+  <p>And crucially: when your area is performing well, it feeds back into your own experience. Coordinated activity creates multipliers. Rising collective momentum amplifies individual effort. The system is not a simple sum of individual parts — it is something that behaves differently at scale, that rewards coordination and punishes isolation, that turns a solo run on a Tuesday evening into an act with consequences beyond the front door.</p>
+
+  <div class="pullquote">
+    <p>One person running in Norwich on a Friday night can improve their own rank, strengthen their area's position, and tip the outcome of a live matchup against a rival district — simultaneously.</p>
+  </div>
+
+  <p>This is the defining principle of Oush: no action is isolated. Every action affects others. That principle is not a feature — it is the architecture of the whole system.</p>
+
+  <!-- VISUAL: Ripple diagram -->
+  <div class="viz-wrap">
+    <p class="viz-label">One action. Every layer.</p>
+    <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+      <!-- Action node -->
+      <rect x="20" y="72" width="120" height="56" rx="4" fill="#FF5C3A"/>
+      <text x="80" y="97" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="11" font-weight="400" fill="#FFFFFF" letter-spacing="0.05em">ONE RUN</text>
+      <text x="80" y="114" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#FFD5CB">Friday, 6pm, NR2</text>
+      <!-- Arrow 1 -->
+      <line x1="142" y1="100" x2="172" y2="100" stroke="#E4E4E4" stroke-width="1.5"/>
+      <polygon points="172,95 182,100 172,105" fill="#E4E4E4"/>
+      <!-- Individual -->
+      <rect x="184" y="72" width="120" height="56" rx="4" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="244" y="94" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.15em" text-decoration="none">INDIVIDUAL</text>
+      <text x="244" y="112" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="12" fill="#181818">League rank ↑</text>
+      <!-- Arrow 2 -->
+      <line x1="306" y1="100" x2="336" y2="100" stroke="#E4E4E4" stroke-width="1.5"/>
+      <polygon points="336,95 346,100 336,105" fill="#E4E4E4"/>
+      <!-- Local -->
+      <rect x="348" y="60" width="120" height="80" rx="4" fill="#F9F7F5" stroke="#FF5C3A" stroke-width="1.5"/>
+      <text x="408" y="85" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.15em">LOCAL</text>
+      <text x="408" y="104" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="12" fill="#181818">NR2 score ↑</text>
+      <text x="408" y="122" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#FF5C3A">Derby vs NR3</text>
+      <!-- Arrow 3 -->
+      <line x1="470" y1="100" x2="500" y2="100" stroke="#E4E4E4" stroke-width="1.5"/>
+      <polygon points="500,95 510,100 500,105" fill="#E4E4E4"/>
+      <!-- Global -->
+      <rect x="512" y="72" width="120" height="56" rx="4" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="572" y="94" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.15em">GLOBAL</text>
+      <text x="572" y="112" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="12" fill="#181818">City rank shifts</text>
+      <!-- Feedback arrow back -->
+      <path d="M 572 128 Q 572 170 408 170 Q 244 170 80 156" stroke="#FF5C3A" stroke-width="1" fill="none" stroke-dasharray="4,3" opacity="0.4"/>
+      <polygon points="76,151 76,161 86,156" fill="#FF5C3A" opacity="0.4"/>
+      <text x="330" y="188" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9.5" fill="#999999" letter-spacing="0.1em">affects you back</text>
+    </svg>
+  </div>
+</section>
+
+<!-- PART THREE -->
+<section>
+  <span class="section-number">III</span>
+  <h2>How the System Works</h2>
+
+  <p>Oush operates across four interconnected layers of competition. They are not separate modes or product features — they are the same system, seen from different altitudes.</p>
+
+  <div class="layers">
+    <div class="layer">
+      <div class="layer-tag">Individual</div>
+      <div class="layer-content">
+        <strong>Personal competition and weekly progression</strong>
+        <p>Every user earns points through any physical activity. Points determine weekly league position. At the end of each week, the top performers are promoted and the bottom relegated. You compete against people at your level — beginners against beginners, highly active users against their peers. The league resets. The stakes refresh. You are always in a fair fight.</p>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-tag">Group</div>
+      <div class="layer-content">
+        <strong>Shared outcomes with people you know</strong>
+        <p>Users are part of small social units — friends, training groups, informal squads. Performance at this level creates shared wins and shared losses. It introduces accountability without obligation, and competition without formality. You don't have to organise anything. The system already connects you.</p>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-tag">Local</div>
+      <div class="layer-content">
+        <strong>Your area competes as a unified entity</strong>
+        <p>Every user belongs to a geographic area. Their points contribute to that area's collective performance. Areas are ranked, promoted, and relegated just like individuals. They are matched against rival areas in weekly derbies — structured, zero-sum matchups with a winner and a loser. This creates local identity, collective responsibility, and the experience of representing somewhere.</p>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-tag">Global</div>
+      <div class="layer-content">
+        <strong>A worldwide competitive structure</strong>
+        <p>Local areas sit within a global hierarchy. The competitive structure scales upward — city against city, region against region, country against country — creating a narrative that is bigger than any individual or local moment. This is where Oush becomes a new kind of sport with a global stage.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Points: the engine of everything</h3>
+
+  <p>The point system is designed to reward what actually produces good outcomes for people's fitness and for the health of the system as a whole. Base points are earned through any physical activity, calculated from duration, intensity, and effort. A long swim earns points. A short sprint earns points. A yoga session earns points. Everything counts.</p>
+
+  <p>On top of that base, several multipliers operate. A variety multiplier rewards users who move across different activities during the week — the person who runs Monday, lifts Wednesday, and cycles Friday earns more than someone who runs the same route every day. This is not arbitrary. It is a value statement. For the first time, a competitive system is saying out loud that doing lots of different things is worth more than being very good at one. The generalist — who has always been quietly impressive and quietly overlooked — finally has somewhere that recognises that.</p>
+
+  <p>A social multiplier rewards activity that happens in shared contexts — training with others, participating during moments when your local area is surging with coordinated activity. This is where the system becomes genuinely interconnected: collective momentum at the local level feeds back into individual reward, which in turn sustains the collective momentum.</p>
+
+  <p>Finally, a competitive adjustment rewards meaningful progress — beating a personal best, hitting a milestone, finishing the week in a position that earns promotion. The system measures not just output, but improvement.</p>
+
+  <!-- VISUAL: Point system stacking -->
+  <div class="viz-wrap">
+    <p class="viz-label">How points stack in a single week</p>
+    <svg viewBox="0 0 620 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+      <!-- Row 1: Base -->
+      <rect x="0" y="20" width="380" height="40" rx="3" fill="#FF5C3A"/>
+      <text x="16" y="45" font-family="'Plus Jakarta Sans',sans-serif" font-size="12" fill="#FFFFFF">Base points — any movement, any sport</text>
+      <text x="400" y="45" font-family="'Nunito',sans-serif" font-size="14" fill="#181818">100 pts</text>
+      <!-- Row 2: Variety -->
+      <rect x="0" y="76" width="260" height="40" rx="3" fill="#FF8C69"/>
+      <text x="16" y="101" font-family="'Plus Jakarta Sans',sans-serif" font-size="12" fill="#FFFFFF">Variety — 3+ different sports</text>
+      <text x="400" y="101" font-family="'Nunito',sans-serif" font-size="14" fill="#181818">+30 pts</text>
+      <!-- Row 3: Social -->
+      <rect x="0" y="132" width="170" height="40" rx="3" fill="#6B6B6B"/>
+      <text x="16" y="157" font-family="'Plus Jakarta Sans',sans-serif" font-size="12" fill="#FFFFFF">Social — trained with others</text>
+      <text x="400" y="157" font-family="'Nunito',sans-serif" font-size="14" fill="#181818">+20 pts</text>
+      <!-- Divider -->
+      <line x1="0" y1="186" x2="620" y2="186" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="0" y="204" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.18em">WEEKLY TOTAL</text>
+      <text x="400" y="204" font-family="'Nunito',sans-serif" font-size="16" fill="#FF5C3A">150 pts</text>
+    </svg>
+  </div>
+
+  <div class="example">
+    <span class="example-label">Example — NR2, Friday evening</span>
+    <p>A user in Norwich goes for a run at 6pm on a Friday. At the individual level, they earn base points for effort and duration. Their league position improves.</p>
+    <p>At the local level, their points contribute to NR2's weekly total. As it happens, twelve other NR2 users are also active in the same window — the area is in a rising moment. The coordinated activity triggers a multiplier, and that user's run contributes more heavily to NR2's collective performance than it would have in isolation.</p>
+    <p>NR2 is currently in a live derby with NR3. That same run — one Friday evening jog — has just affected the outcome of a head-to-head matchup between two areas. The individual, the local, and the competitive are all moved at once.</p>
+  </div>
+
+  <h3>Rising moments and power windows</h3>
+
+  <p>One of the more subtle and powerful features of the system is what happens when local activity begins to cluster. Oush surfaces real-time signals to users when their area is becoming active — a live indication that momentum is building, that others are moving, that this is a good moment to join. These signals create organic coordination without any explicit organisation. Users respond to the same pull, independently and simultaneously, and the result is collective effort.</p>
+
+  <p>At certain moments within competitive cycles, the system designates power windows — periods when activity has amplified impact on match outcomes. Rankings can shift quickly during these windows. They are not optional events but critical periods when competition intensifies and the energy of the system concentrates. During a power window, every action is worth more. The effect is urgency, awareness, and the experience of competing in real time against a genuine rival.</p>
+
+  <h3>Thresholds and tipping points</h3>
+
+  <p>Some outcomes in Oush require collective thresholds to unlock. If enough users in an area are active within a given window, an area-wide multiplier activates. If an area overtakes a rival during a power window, additional effects are triggered. These mechanics introduce genuine strategy at the collective level — not just individual effort, but coordinated decision-making about when to act, and in what numbers.</p>
+
+  <p>This is borrowed not from fitness apps but from team sport: the idea that timing and coordination matter, that you can outmanoeuvre a rival not just by being more capable but by being better organised. It is what makes the local layer feel genuinely competitive rather than simply additive.</p>
+</section>
+
+<!-- PART FOUR -->
+<section>
+  <span class="section-number">IV</span>
+  <h2>Why This Exists Now</h2>
+
+  <p>The question of timing matters. Oush is not a new idea in the abstract — competitive systems built around shared activity have been imagined in various forms for years. What has changed is the set of conditions that make it actually possible, and the cultural moment that makes it genuinely necessary.</p>
+
+  <h3>The infrastructure is finally there</h3>
+
+  <p>Wearables and activity data have reached a kind of critical mass. Enough people are already tracking their movement — through Apple Watch, Garmin, Fitbit, Strava, and dozens of other platforms — that a unified competitive layer can be built on top of existing behaviour rather than asking people to change how they exercise. The data exists. The devices are worn. The only thing missing is the system that makes that data meaningful in relation to other people.</p>
+
+  <h3>Fitness has become identity</h3>
+
+  <p>The relationship between movement and social identity has shifted significantly in the last decade. Exercise is no longer something people do privately and report reluctantly. It is worn, shared, performed — part of how people present themselves to the world and connect with communities they care about. The growth of running clubs, open-water swimming groups, outdoor fitness communities, and local sports cultures reflects a genuine hunger for shared experience built around physical activity. People want to belong to something through movement. Oush gives that something structure.</p>
+
+  <h3>The next generation of products is participatory</h3>
+
+  <p>The most durable consumer products of the last decade have not been tools that record behaviour — they have been systems that turn behaviour into status, progression, and live consequence. Gaming, social media, and the best fitness communities all share this quality: participation changes something. It creates stakes. It creates narrative. The fitness tracking world has been slow to absorb this insight, still largely treating users as subjects of measurement rather than participants in something. The space is overdue for a product that thinks about engagement the way the best games and sports do.</p>
+
+  <h3>Local culture is having a moment</h3>
+
+  <p>There is a growing appetite for products and experiences that are geographically rooted — that connect to a specific place, a specific community, a specific set of neighbours and rivals. Generic global social feeds have lost much of their appeal. Local identity — the pride of belonging to a neighbourhood, the pleasure of friendly rivalry with the next postcode over — is increasingly resonant. Oush is built precisely for this. It makes local geography competitive and meaningful, which is both culturally timely and strategically useful as a growth mechanic.</p>
+
+  <div class="pullquote">
+    <p>There is a gap between health products, which measure, and sport, which competes. Oush sits in that gap and refuses to choose between them.</p>
+  </div>
+</section>
+
+<!-- PART FIVE -->
+<section>
+  <span class="section-number">V</span>
+  <h2>Who It's For</h2>
+
+  <p>Oush is built to be radically inclusive without being toothless. These two things can coexist because of how the competitive structure works. Nobody is thrown into a pool with people who outclass them. The system places you at the right level and lets you compete honestly from there. A person who runs twice a week and a person who trains six days a week are not fighting the same battle — they are in different leagues, with different rivals, experiencing the same quality of competition at their own altitude.</p>
+
+  <p>This means Oush works for a genuinely wide range of people. The competitive individual who thrives on ranking, promotion, and measurable progress. The casual athlete who wants exercise to feel more meaningful without committing to a rigid programme. The social participant who is simply more consistent when activity connects them to others. The busy professional who needs flexibility and motivation that bends around real life. The person who loved team sport at school and has spent years since quietly missing the feeling of being part of something.</p>
+
+  <p>And then there is a group that no platform has ever properly spoken to: the generalist. The person who runs sometimes, swims occasionally, goes to the gym when they feel like it, plays five-a-side on a Thursday, and cycles at the weekend. The person who is average at a lot of things and excellent at none of them — but who, if you actually think about it, is doing something genuinely impressive. Moving fluidly across disciplines, staying curious, building broad physical capability, never getting bored. Sport has always celebrated the specialist. The person who commits to one thing and gets very good at it. The generalist has been quietly sidelined — appreciated in theory, never rewarded in practice. Oush is the first competitive system that actually celebrates them. The variety multiplier is not just a game mechanic. It is the first time a league has looked at someone who does a bit of everything and said: that is worth more, not less.</p>
+
+  <p>None of these people need to be elite. None of them need to do a specific sport. The only requirement is that they move — and the system is designed to meet them wherever they do.</p>
+
+  <!-- VISUAL: League tiers spectrum -->
+  <div class="viz-wrap">
+    <p class="viz-label">Everyone competes — at their own level</p>
+    <svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+      <text x="340" y="200" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9.5" fill="#999999" letter-spacing="0.12em">ALL IN THE SAME SYSTEM — NONE IN THE SAME LEAGUE</text>
+      <!-- Connecting dashed line -->
+      <polyline points="68,148 178,122 318,90 448,62 578,34" stroke="#E4E4E4" stroke-width="1" fill="none" stroke-dasharray="3,3"/>
+      <!-- Person 1: occasional walker -->
+      <rect x="20" y="148" width="96" height="44" rx="3" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="68" y="167" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" fill="#999999" letter-spacing="0.1em">BRONZE III</text>
+      <text x="68" y="183" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="12" fill="#444444">Occasional walker</text>
+      <!-- Person 2: weekend runner -->
+      <rect x="130" y="122" width="96" height="44" rx="3" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="178" y="141" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" fill="#999999" letter-spacing="0.1em">BRONZE I</text>
+      <text x="178" y="157" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="12" fill="#444444">Weekend runner</text>
+      <!-- Person 3: generalist — highlighted -->
+      <rect x="268" y="90" width="100" height="44" rx="3" fill="#FF8C69"/>
+      <text x="318" y="109" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" fill="#FFFFFF" letter-spacing="0.1em">SILVER II</text>
+      <text x="318" y="125" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="12" fill="#FFFFFF">The generalist</text>
+      <!-- Person 4: dedicated -->
+      <rect x="400" y="62" width="96" height="44" rx="3" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="448" y="81" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" fill="#999999" letter-spacing="0.1em">GOLD I</text>
+      <text x="448" y="97" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="12" fill="#444444">Dedicated athlete</text>
+      <!-- Person 5: elite — fully visible -->
+      <rect x="530" y="14" width="130" height="44" rx="3" fill="#FF5C3A"/>
+      <text x="595" y="33" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" fill="#FFFFFF" letter-spacing="0.1em">ELITE</text>
+      <text x="595" y="49" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="12" fill="#FFFFFF">Top performer</text>
+    </svg>
+  </div>
+</section>
+
+<!-- PART SIX -->
+<section>
+  <span class="section-number">VI</span>
+  <h2>Where We Sit in the Market</h2>
+
+  <p>The fitness technology market is large, fragmented, and dominated by platforms that do one of a few things well: they track activity, they guide training, they analyse health data, or they build loose social communities around shared behaviour. None of them do what Oush does.</p>
+
+  <table class="comparison">
+    <thead>
+      <tr>
+        <th>Platform</th>
+        <th>Tracks activity</th>
+        <th>Cross-sport</th>
+        <th>Structured competition</th>
+        <th>Collective outcomes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Strava</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="cross">—</td>
+        <td class="cross">—</td>
+      </tr>
+      <tr>
+        <td>Fitbit / Garmin</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="cross">—</td>
+        <td class="cross">—</td>
+      </tr>
+      <tr>
+        <td>Zwift</td>
+        <td class="check">✓</td>
+        <td class="cross">—</td>
+        <td class="check">✓</td>
+        <td class="cross">—</td>
+      </tr>
+      <tr>
+        <td>Nike Training Club</td>
+        <td class="cross">—</td>
+        <td class="check">✓</td>
+        <td class="cross">—</td>
+        <td class="cross">—</td>
+      </tr>
+      <tr class="oush-row">
+        <td><strong>Oush League</strong></td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The gap is not subtle. Every existing platform sits entirely at the individual level. Competition, where it exists at all, is contained — a leaderboard that resets, a segment you fight alone, a challenge that carries no consequence beyond a badge. None of them treat the user as part of a living, interdependent system where other people's behaviour matters to your outcomes and yours matters to theirs.</p>
+
+  <p>But there is a second gap that is just as significant and almost entirely unaddressed. Every existing platform keeps your sports separate. A cyclist on Strava lives in a cycling world. A runner lives in a running world. They never meet. There is no system anywhere that puts a swimmer, a cyclist, a runner, and someone who just walks a lot into the same league, competing on the same table, contributing to the same outcome. Oush is the first. A single point system that converts all movement into the same currency, so that your mate's Sunday cycle and your Tuesday swim and your friend's gym session on Thursday are all part of the same competition. That has genuinely never existed before.</p>
+
+  <p>This is not a feature gap. It is a category gap. Oush is not a better fitness tracker or a more competitive Strava. It is a different kind of thing entirely — a competitive system that uses all physical activity as its medium, and treats the people doing it as participants in something shared rather than subjects of individual measurement.</p>
+</section>
+
+<!-- PART SEVEN -->
+<section>
+  <span class="section-number">VII</span>
+  <h2>How Oush Grows</h2>
+
+  <p>Most consumer fitness products rely on conventional growth mechanics: social sharing, referral programmes, influencer partnerships. These work, and Oush will use them too. But they are not the primary growth engine — because Oush has something better built into the system itself.</p>
+
+  <p>When an area is underperforming in a derby, the people within it feel it. Their collective position is visible. The rival area is pulling ahead. The natural response — for competitive people, which is who Oush is built for — is to act. To get active, to coordinate, to bring in others who can contribute. The competitive structure creates internal pressure that drives recruitment. Growth becomes a function of the competition itself rather than a separate marketing effort.</p>
+
+  <div class="pullquote">
+    <p>Competition creates pressure. Pressure drives coordination. Coordination drives recruitment. Recruitment fuels growth. The loop is self-sustaining.</p>
+  </div>
+
+  <!-- VISUAL: Growth loop -->
+  <div class="viz-wrap">
+    <p class="viz-label">The growth loop</p>
+    <svg viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;display:block;margin:0 auto;">
+      <!-- 5 nodes in a pentagon: top, upper-right, lower-right, lower-left, upper-left -->
+      <!-- Center: 250,210. Radius: 140 -->
+      <!-- Top (Competition): 250, 70 -->
+      <!-- Upper-right (Pressure): 383, 157 -->
+      <!-- Lower-right (Coordination): 334, 313 -->
+      <!-- Lower-left (Recruitment): 166, 313 -->
+      <!-- Upper-left (Growth): 117, 157 -->
+
+      <!-- Arrows between nodes (drawn first, behind nodes) -->
+      <!-- Competition → Pressure -->
+      <line x1="298" y1="88" x2="360" y2="142" stroke="#E4E4E4" stroke-width="1.5"/>
+      <polygon points="355,148 366,140 358,133" fill="#E4E4E4"/>
+      <!-- Pressure → Coordination -->
+      <line x1="383" y1="183" x2="350" y2="292" stroke="#E4E4E4" stroke-width="1.5"/>
+      <polygon points="343,288 347,300 356,292" fill="#E4E4E4"/>
+      <!-- Coordination → Recruitment -->
+      <line x1="308" y1="323" x2="192" y2="323" stroke="#E4E4E4" stroke-width="1.5"/>
+      <polygon points="194,317 182,323 194,329" fill="#E4E4E4"/>
+      <!-- Recruitment → Growth -->
+      <line x1="150" y1="292" x2="117" y2="183" stroke="#E4E4E4" stroke-width="1.5"/>
+      <polygon points="111,188 113,176 122,183" fill="#E4E4E4"/>
+      <!-- Growth → Competition (dashed, closes the loop) -->
+      <line x1="140" y1="142" x2="202" y2="88" stroke="#FF5C3A" stroke-width="1.5" stroke-dasharray="5,4"/>
+      <polygon points="197,82 208,80 203,92" fill="#FF5C3A"/>
+
+      <!-- Competition node (top, accent) -->
+      <rect x="160" y="36" width="180" height="54" rx="4" fill="#FF5C3A"/>
+      <text x="250" y="58" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#FFFFFF" letter-spacing="0.18em">COMPETITION</text>
+      <text x="250" y="76" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="13" font-style="italic" fill="#FFD5CB">areas go head to head</text>
+
+      <!-- Pressure node -->
+      <rect x="315" y="130" width="136" height="54" rx="4" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="383" y="152" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.18em">PRESSURE</text>
+      <text x="383" y="170" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="13" font-style="italic" fill="#444444">we're losing</text>
+
+      <!-- Coordination node -->
+      <rect x="210" y="286" width="148" height="54" rx="4" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="284" y="308" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.18em">COORDINATION</text>
+      <text x="284" y="326" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="13" font-style="italic" fill="#444444">let's all go out</text>
+
+      <!-- Recruitment node -->
+      <rect x="49" y="286" width="148" height="54" rx="4" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="123" y="308" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.18em">RECRUITMENT</text>
+      <text x="123" y="326" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="13" font-style="italic" fill="#444444">bring your mates</text>
+
+      <!-- Growth node -->
+      <rect x="49" y="130" width="136" height="54" rx="4" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="117" y="152" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.18em">GROWTH</text>
+      <text x="117" y="170" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="13" font-style="italic" fill="#444444">more players</text>
+
+      <!-- Loop label -->
+      <text x="250" y="222" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="9" fill="#E4E4E4" letter-spacing="0.2em">SELF-SUSTAINING</text>
+    </svg>
+  </div>
+
+  <p>This is important because it means growth and engagement reinforce each other rather than trading off. More users in a market makes the competition better, which makes the product more engaging, which makes it easier to recruit more users. The network effects are genuine and local — the value of the product increases specifically in places where density is growing, which focuses growth organically.</p>
+
+  <h3>The cold start and how to solve it</h3>
+
+  <p>Any system built on network effects has a cold start problem. In the early stages, before density exists, the richest features of Oush — local derbies, power windows, coordinated thresholds — cannot fully activate. The system is honest about this rather than pretending it away.</p>
+
+  <p>In early markets, Oush surfaces projected states: what this area's ranking could look like with more participants, what a future derby against the neighbouring postcode might look like, where the system is heading as adoption grows. Early users are shown not just the present but the full potential of the world they are building. They are not consumers of a finished product — they are founders of a local competitive culture. That framing matters. It gives early adopters a reason to recruit that goes beyond personal benefit: they are building something real in their area that didn't exist before.</p>
+
+  <h3>Stages of activation</h3>
+
+  <p>Oush is designed to deliver genuine value at every stage of scale, not just once the system is fully live. In the earliest stage, individual competition and weekly leagues work immediately — a user can start, earn points, compete, and experience promotion or relegation from day one, regardless of whether anyone else in their area is active yet. As local density grows, the social discovery layer activates: users can see activity happening nearby, find others moving in the same moment, and start to feel the pull of coordination. Once sufficient density exists in an area, local derbies ignite, power windows become meaningful, and the full system comes alive. Physical activation — coordinated real-world moments where areas compete through presence and collective effort at specific places and times — becomes possible at a later stage still.</p>
+
+  <p>Each stage is a complete experience in its own right. The system does not require full activation to be worth using. But each stage is also a clear upgrade on the last — more consequence, more connection, more depth. The trajectory is obvious, and early users can see where they're headed.</p>
+</section>
+
+<!-- PART EIGHT -->
+<section>
+  <span class="section-number">VIII</span>
+  <h2>A New Kind of Sport</h2>
+
+  <p>Sport, at its best, is a system for making effort meaningful. It takes physical capability — something otherwise private and difficult to quantify — and gives it structure, consequence, and narrative. It creates the conditions for genuine competition: stakes that matter, rivals that persist, moments that are remembered. The football club in the local league, the running race on a Sunday morning, the gym competition between friends — these are all different in form, but they share the same underlying logic: your effort counts for something beyond yourself.</p>
+
+  <p>Oush League extends this logic to the full breadth of human movement. Not just the sports that already have competitive structures, not just the athletes who already train for performance, but anyone who moves — in any form, at any level, for any reason. The system is the same. The stakes are real. The consequences propagate.</p>
+
+  <p>What makes this a genuinely new category, rather than just a new product in an existing one, is the multi-layer architecture. Traditional sport is confined to a single domain. A football club competes in football. A running race is about running. Oush is sport without a fixed game — the activity is the input, and the system is the game. Every person who moves, in any way, is playing. The field is everywhere. The season never ends.</p>
+
+  <p>Over time, this creates something that goes beyond an app or a platform: a persistent competitive ecosystem built on top of real-world physical behaviour. League tables that matter. Rivalries between places that develop history. Moments of coordinated collective effort that extend from digital competition into physical reality — areas gathering, competing, turning the outcome of a match into something you can see and feel in a park on a Friday evening.</p>
+
+  <p>That is the destination. A new kind of sport, built for everyone who moves, structured around a system that makes every action matter beyond the individual. Not a fitness tracker. Not a social network. Not a game. Something at the intersection of all three that is fully and distinctly itself.</p>
+
+  <div class="pullquote">
+    <p>Every move matters — not as a tagline, but as an accurate description of how the system works.</p>
+  </div>
+
+  <!-- VISUAL: Traditional sport vs Oush -->
+  <div class="viz-wrap">
+    <p class="viz-label">Traditional sport vs. Oush</p>
+    <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+      <!-- Left side label -->
+      <text x="175" y="22" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999" letter-spacing="0.18em">TRADITIONAL SPORT</text>
+      <!-- Three isolated circles -->
+      <circle cx="110" cy="120" r="52" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="110" y="115" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="14" fill="#444444">Running</text>
+      <text x="110" y="133" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999">its own world</text>
+
+      <circle cx="230" cy="90" r="48" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="230" y="85" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="14" fill="#444444">Cycling</text>
+      <text x="230" y="103" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999">its own world</text>
+
+      <circle cx="175" cy="200" r="44" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="175" y="196" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="14" fill="#444444">Swimming</text>
+      <text x="175" y="214" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#999999">its own world</text>
+
+      <!-- Divider -->
+      <line x1="340" y1="16" x2="340" y2="248" stroke="#E4E4E4" stroke-width="1"/>
+
+      <!-- Right side label -->
+      <text x="530" y="22" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#FF5C3A" letter-spacing="0.18em">OUSH LEAGUE</text>
+
+      <!-- Central hub -->
+      <circle cx="530" cy="140" r="62" fill="#FF5C3A"/>
+      <text x="530" y="134" text-anchor="middle" font-family="'Nunito',sans-serif" font-size="15" fill="#FFFFFF">One league</text>
+      <text x="530" y="154" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#FFD5CB" letter-spacing="0.08em">all sports count</text>
+
+      <!-- Spokes and satellite circles -->
+      <line x1="488" y1="96" x2="458" y2="62" stroke="#E4E4E4" stroke-width="1"/>
+      <circle cx="440" cy="48" r="26" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="440" y="53" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="11" fill="#6B6B6B">Run</text>
+
+      <line x1="530" y1="78" x2="530" y2="46" stroke="#E4E4E4" stroke-width="1"/>
+      <circle cx="530" cy="30" r="18" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="530" y="35" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="10" fill="#6B6B6B">Swim</text>
+
+      <line x1="572" y1="96" x2="604" y2="62" stroke="#E4E4E4" stroke-width="1"/>
+      <circle cx="622" cy="48" r="26" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="622" y="53" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="11" fill="#6B6B6B">Cycle</text>
+
+      <line x1="488" y1="182" x2="458" y2="214" stroke="#E4E4E4" stroke-width="1"/>
+      <circle cx="440" cy="228" r="24" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="440" y="233" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="11" fill="#6B6B6B">Lift</text>
+
+      <line x1="572" y1="182" x2="604" y2="214" stroke="#E4E4E4" stroke-width="1"/>
+      <circle cx="622" cy="228" r="24" fill="#F9F7F5" stroke="#E4E4E4" stroke-width="1"/>
+      <text x="622" y="233" text-anchor="middle" font-family="'Plus Jakarta Sans',sans-serif" font-size="11" fill="#6B6B6B">Walk</text>
+    </svg>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <span class="section-number">IX</span>
+  <h2>What We Are Building Towards</h2>
+
+  <p>The near-term work is to validate the core loop: points, leagues, weekly promotion and relegation, local area aggregation. To build clean integrations with the major wearable and tracking platforms. To design the point system carefully enough that it feels fair and motivating across wildly different types of activity and fitness levels. To find the first local markets where density can be seeded deliberately — places with existing fitness culture and community appetite — and prove that the local layer activates the way we believe it will.</p>
+
+  <p>Beyond that, the ambition scales. Corporate wellness programmes, where organisations compete through collective movement. University and school leagues, where institutions develop competitive identities through physical activity. National and eventually global tournaments, structured competition between cities and countries. A spectator layer, where the standings and rivalries of Oush become something people follow without necessarily participating — the way people follow a football league without playing in it.</p>
+
+  <p>The long arc is towards a world in which Oush League is simply how competitive movement is structured. Where the question "who do you play for?" has a meaningful answer regardless of whether you run marathons or just walk to work. Where a postcode has a rank, a season, a history of derbies won and lost. Where the act of moving is always, simultaneously, an act of participation in something shared.</p>
+
+  <p>That world does not exist yet. Building it starts with the individual user who earns their first points and feels the first pull of a weekly league they could rise through. Everything else follows from there.</p>
+</section>
+
+<div class="doc-footer">
+  <p class="wordmark">Oush League</p>
+  <p>Founding Document &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; 2026</p>
+</div>
+
+</body>
+</html>
