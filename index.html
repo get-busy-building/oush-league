@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oush League · Norwich</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --orange:#FF5C3A;
+  --magenta:#D946EF;
+  --bg:#F9F7F5;
+  --ink:#1A1209;
+  --muted:#7A6450;
+  --border:#E2D9CE;
+}
+
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+
+.page{
+  max-width:1200px;
+  margin:0 auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+}
+
+/* ── WORLD LAYER ── */
+.world-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+}
+
+.topbar,.main,.ticker{
+  position:relative;
+  z-index:1;
+}
+
+.mini-sprite{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  opacity:var(--o,.14);
+  width:var(--w,14px);
+  height:var(--h,22px);
+
+  background-image:url("sprites.png");
+  background-repeat:no-repeat;
+  background-size:800% 500%;
+  background-position:var(--bgx) var(--bgy);
+
+  image-rendering:pixelated;
+  animation:bob var(--dur,4s) ease-in-out infinite;
+}
+
+@keyframes bob{
+  0%,100%{transform:translate(-50%,-50%)}
+  50%{transform:translate(-50%,-50%) translateY(-2px)}
+}
+
+/* ── SIMPLE LAYOUT (kept minimal for clarity) ── */
+
+.topbar{
+  padding:20px;
+  font-family:'Press Start 2P';
+  font-size:12px;
+}
+
+.main{
+  padding:40px;
+}
+
+h1{
+  font-family:'Nunito';
+  font-size:42px;
+  font-weight:900;
+}
+
+.ticker{
+  margin-top:auto;
+  padding:12px;
+  background:black;
+  color:white;
+  font-size:12px;
+}
+
+</style>
+</head>
+
+<body>
+<div class="page">
+
+<div class="world-layer" id="worldLayer"></div>
+
+<div class="topbar">
+OUSH LEAGUE
+</div>
+
+<div class="main">
+<h1>A new kind of sport.</h1>
+</div>
+
+<div class="ticker">
+Live leagues coming soon...
+</div>
+
+</div>
+
+<script>
+
+// sprite grid
+const COLS = 8;
+const ROWS = 5;
+
+// convert grid → background position
+function pos(col,row){
+  return {
+    x: (col/(COLS-1))*100 + '%',
+    y: (row/(ROWS-1))*100 + '%'
+  };
+}
+
+// subtle placements
+const sprites = [
+
+  {x:8,y:20,col:0,row:0,o:.12},
+  {x:15,y:40,col:2,row:0,o:.16},
+  {x:10,y:70,col:0,row:3,o:.13},
+
+  {x:40,y:25,col:4,row:1,o:.10},
+  {x:35,y:75,col:1,row:4,o:.11},
+
+  {x:75,y:20,col:6,row:0,o:.10},
+  {x:90,y:40,col:7,row:1,o:.09},
+  {x:80,y:65,col:5,row:3,o:.11},
+
+  {x:92,y:85,col:7,row:4,o:.08},
+
+  {x:25,y:92,col:3,row:2,o:.08},
+  {x:60,y:94,col:4,row:4,o:.08}
+];
+
+function render(){
+  const layer = document.getElementById('worldLayer');
+  layer.innerHTML='';
+
+  sprites.forEach(s=>{
+    const el=document.createElement('div');
+    const p=pos(s.col,s.row);
+
+    el.className='mini-sprite';
+    el.style.left=s.x+'%';
+    el.style.top=s.y+'%';
+    el.style.setProperty('--bgx',p.x);
+    el.style.setProperty('--bgy',p.y);
+    el.style.setProperty('--o',s.o);
+
+    layer.appendChild(el);
+  });
+}
+
+render();
+
+</script>
+</body>
+</html>
