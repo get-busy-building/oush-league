@@ -1,106 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oush League · Norwich</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oush League · Norwich</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --orange:#FF5C3A;--orange2:#FF8060;--orange-bg:rgba(255,92,58,0.08);
+      --yellow:#FFD166;--magenta:#D946EF;--teal:#0D9488;--amber:#D97706;
+      --green:#059669;--green-bg:rgba(5,150,105,0.08);
+      --blue:#2563EB;
+      --bg:#F9F7F5;--bg2:#F2EFE9;--card:#FFFFFF;
+      --ink:#1A1209;--ink2:#44321A;--muted:#7A6450;--faint:#B8A48C;
+      --border:#E2D9CE;--rule:#EDE8E0;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    html,body{
+      width:100%;
+      min-height:100vh;
+      background:var(--bg);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      color:var(--ink);
+      overflow-x:hidden;
+    }
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+    .page{
+      max-width:1200px;
+      margin:0 auto;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      position:relative;
+    }
 
-body{
-  background:#F9F7F5;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  color:#1A1209;
-}
+    /* world layer */
+    .world-layer{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      overflow:hidden;
+    }
 
-.page{
-  position:relative;
-  min-height:100vh;
-  max-width:1200px;
-  margin:0 auto;
-}
+    .topbar,.main,.ticker{
+      position:relative;
+      z-index:1;
+    }
 
-/* world layer */
-#worldLayer{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-}
+    .mini-sprite{
+      position:absolute;
+      width:var(--w,14px);
+      height:var(--h,22px);
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+      opacity:var(--o,.08);
+      background-image:url("sprites.png");
+      background-repeat:no-repeat;
+      background-size:800% 500%;
+      background-position:var(--bgx,0%) var(--bgy,0%);
+      image-rendering:pixelated;
+      filter:drop-shadow(0 1px 0 rgba(255,255,255,.18));
+      animation:miniBob var(--dur,4.4s) ease-in-out infinite;
+    }
 
-/* content */
-.content{
-  position:relative;
-  z-index:1;
-  padding:40px;
-}
+    @keyframes miniBob{
+      0%,100%{transform:translate(-50%,-50%) translateY(0)}
+      50%{transform:translate(-50%,-50%) translateY(-2px)}
+    }
 
-.logo{
-  font-family:'Press Start 2P';
-  font-size:12px;
-  margin-bottom:60px;
-}
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 36px;
+    }
 
-h1{
-  font-family:'Nunito';
-  font-size:48px;
-  font-weight:900;
-  margin-bottom:20px;
-}
+    .logo{
+      font-family:'Press Start 2P',monospace;
+      font-size:11px;
+      color:var(--orange);
+    }
 
-/* sprites */
-.mini{
-  position:absolute;
-  width:16px;
-  height:24px;
-  background-image:url("sprites.png");
-  background-repeat:no-repeat;
-  background-size:800% 500%;
-  transform:translate(-50%,-50%);
-  opacity:0.12;
-  image-rendering:pixelated;
-}
-</style>
+    .logo span{color:var(--magenta)}
+
+    .week-pill{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:5px 14px;
+    }
+
+    .week-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:var(--orange);
+      animation:pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse{
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.5;transform:scale(.75)}
+    }
+
+    .week-txt{font-size:11px;font-weight:600;color:var(--ink2)}
+    .week-txt em{color:var(--orange);font-style:normal;font-weight:800}
+
+    .main{
+      display:grid;
+      grid-template-columns:1fr 440px;
+      gap:32px;
+      padding:0 36px 48px;
+      flex:1;
+      align-items:start;
+    }
+
+    /* HERO */
+    .hero{display:flex;flex-direction:column;gap:20px}
+
+    .sport-tag{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--orange-bg);
+      border:1px solid rgba(255,92,58,.2);
+      border-radius:20px;
+      padding:5px 14px;
+      font-size:11px;font-weight:700;color:var(--orange);
+      letter-spacing:.06em;text-transform:uppercase;width:fit-content;
+    }
+
+    .big-h{
+      font-family:'Nunito',sans-serif;
+      font-size:clamp(26px,3.6vw,44px);
+      font-weight:900;
+      line-height:1.15;
+      letter-spacing:-.02em;
+      color:var(--ink);
+    }
+
+    .big-h em{color:var(--orange);font-style:normal}
+    .big-h .city{color:var(--magenta)}
+
+    .narr{display:flex;flex-direction:column;gap:4px}
+    .narr-line{font-size:clamp(14px,1.5vw,17px);color:var(--ink2);line-height:1.75}
+    .narr-line strong{color:var(--ink);font-weight:700}
+    .narr-change{
+      font-family:'Nunito',sans-serif;
+      font-size:clamp(13px,1.4vw,16px);
+      font-weight:800;color:var(--orange);margin-top:6px;
+    }
+
+    .descriptor{
+      font-size:13px;color:var(--muted);line-height:1.85;
+      border-left:3px solid var(--orange);padding-left:16px;max-width:500px;
+    }
+
+    .cta{
+      background:var(--card);
+      border:1.5px solid var(--border);
+      border-radius:12px;
+      box-shadow:0 2px 16px rgba(0,0,0,.06);
+      padding:24px 20px;
+      display:flex;flex-direction:column;gap:14px;
+    }
+
+    .st-heart{display:flex;flex-direction:column;align-items:center;gap:12px}
+    .heart-label{font-size:12px;color:var(--muted);text-align:center;line-height:1.8;font-weight:500}
+
+    .heart-btn{
+      background:none;border:none;cursor:pointer;font-size:52px;line-height:1;
+      filter:grayscale(1);opacity:.4;transition:all .2s;
+      animation:hbob 3s ease-in-out infinite;display:block;
+    }
+
+    @keyframes hbob{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.08)}
+    }
+
+    .heart-btn:hover{
+      filter:grayscale(0);opacity:1;transform:scale(1.15)!important;animation:none;
+    }
+
+    .heart-hint{font-size:12px;color:var(--faint);text-align:center}
+
+    .st-email{display:none;flex-direction:column;gap:11px;animation:fup .3s ease forwards}
+
+    @keyframes fup{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .found-box{
+      background:var(--orange-bg);
+      border:1.5px solid rgba(255,92,58,.25);
+      border-radius:8px;
+      padding:14px;
+      text-align:center;
+    }
+
+    .found-tag{
+      font-size:10px;font-weight:700;color:var(--orange);
+      margin-bottom:7px;letter-spacing:.06em;text-transform:uppercase;
+    }
+
+    .found-body{font-size:12px;color:var(--ink2);line-height:1.7}
+    .found-body strong{color:var(--ink);font-weight:700}
+
+    .email-in{
+      width:100%;background:var(--bg);
+      border:1.5px solid var(--border);
+      border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ink);
+      font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .2s;
+    }
+
+    .email-in:focus{border-color:var(--orange)}
+    .email-in::placeholder{color:var(--faint)}
+
+    .sub-btn{
+      width:100%;background:var(--orange);border:none;border-radius:8px;padding:13px;
+      font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:white;cursor:pointer;
+      transition:background .15s,transform .08s;box-shadow:0 4px 0 #c8402a;
+    }
+
+    .sub-btn:hover{background:#e84a2a}
+    .sub-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #c8402a}
+
+    .priv{font-size:11px;color:var(--faint);text-align:center}
+
+    .st-done{
+      display:none;flex-direction:column;align-items:center;gap:10px;
+      text-align:center;animation:fup .3s ease forwards;
+    }
+
+    .done-icon{font-size:48px}
+    .done-h{font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--orange)}
+    .done-s{font-size:13px;color:var(--muted);line-height:1.7}
+
+    .prog-row{display:flex;align-items:center;gap:10px;border-top:1px solid var(--rule);padding-top:12px}
+    .prog-label{
+      font-size:10px;color:var(--muted);font-weight:600;white-space:nowrap;
+      line-height:1.6;text-transform:uppercase;letter-spacing:.05em;
+    }
+
+    .prog-wrap{flex:1;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden}
+    .prog-fill{
+      height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));
+      width:0%;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);border-radius:4px;
+    }
+
+    .prog-count{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap}
+    .prog-count em{color:var(--orange);font-style:normal}
+
+    /* RIGHT PANEL */
+    .right-panel{display:flex;flex-direction:column;gap:12px}
+
+    /* ACTIVITY FEED */
+    .feed-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+    .feed-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--rule)}
+    .feed-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+
+    .live-badge{display:flex;align-items:center;gap:5px;background:var(--green-bg);border-radius:10px;padding:3px 9px}
+    .live-dot2{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.8s ease-in-out infinite}
+    .live-lbl{font-size:10px;font-weight:700;color:var(--green);letter-spacing:.05em}
+
+    .feed-items{min-height:80px;padding:6px 0}
+    .feed-item{display:flex;align-items:center;gap:10px;padding:7px 14px;animation:slideIn .35s ease forwards}
+
+    @keyframes slideIn{
+      from{opacity:0;transform:translateX(-8px)}
+      to{opacity:1;transform:translateX(0)}
+    }
+
+    .fi-av{
+      width:30px;height:30px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:11px;font-weight:800;color:white;flex-shrink:0;
+    }
+
+    .fi-body{flex:1}
+    .fi-name{font-weight:700;color:var(--ink);font-size:12px}
+    .fi-act{color:var(--muted);font-size:11px;margin-top:1px}
+    .fi-pts{font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;color:var(--green);white-space:nowrap}
+
+    /* RIPPLE FLOW */
+    .ripple-card{
+      background:var(--card);border:1.5px solid var(--border);border-radius:12px;
+      padding:14px 16px;overflow:hidden;min-height:56px;
+    }
+
+    .ripple-title{
+      font-size:10px;font-weight:700;color:var(--muted);
+      text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;
+    }
+
+    .ripple-flow{display:flex;align-items:center;gap:0;opacity:0;transition:opacity .4s}
+    .ripple-flow.show{opacity:1}
+
+    .rf-node{
+      flex:1;background:var(--bg);border-radius:8px;padding:8px 10px;text-align:center;position:relative;
+    }
+
+    .rf-layer{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px}
+    .rf-layer.ind{color:var(--orange)}
+    .rf-layer.grp{color:var(--magenta)}
+    .rf-layer.loc{color:var(--amber)}
+    .rf-layer.glb{color:var(--teal)}
+
+    .rf-pts{font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:var(--green)}
+    .rf-sub{font-size:9px;color:var(--muted);margin-top:2px}
+
+    .rf-arr{
+      width:28px;flex-shrink:0;text-align:center;color:var(--faint);font-size:16px;
+      position:relative;overflow:hidden;
+    }
+
+    .rf-pulse{
+      position:absolute;top:50%;left:0;
+      width:100%;height:2px;background:var(--green);
+      transform:translateY(-50%) scaleX(0);transform-origin:left;border-radius:1px;
+    }
+
+    .rf-pulse.animate{animation:pulseLine .5s ease forwards}
+
+    @keyframes pulseLine{
+      0%{transform:translateY(-50%) scaleX(0)}
+      60%{transform:translateY(-50%) scaleX(1)}
+      100%{transform:translateY(-50%) scaleX(1);opacity:0}
+    }
+
+    /* DERBY */
+    .derby-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+    .derby-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 16px;
+      background:linear-gradient(135deg,rgba(255,92,58,.06),rgba(217,119,6,.04));
+      border-bottom:1px solid var(--rule);
+    }
+
+    .derby-tag{
+      font-size:10px;font-weight:800;color:var(--orange);text-transform:uppercase;
+      letter-spacing:.08em;display:flex;align-items:center;gap:6px;
+    }
+
+    .derby-tag::before{content:'⚔';font-size:12px}
+    .derby-ends{font-size:10px;color:var(--muted);font-weight:600}
+    .derby-body{padding:16px}
+
+    .derby-teams{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+
+    .dt{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+    .dt-name{font-family:'Nunito',sans-serif;font-size:20px;font-weight:900}
+    .dt-name.lead{color:var(--orange)}
+    .dt-name.trail{color:var(--ink2)}
+    .dt-label{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+    .dt-pts{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--muted)}
+    .derby-vs{font-size:11px;font-weight:700;color:var(--faint);padding:0 8px}
+
+    .derby-bar-wrap{
+      position:relative;height:10px;background:rgba(44,61,80,.06);
+      border-radius:5px;overflow:hidden;margin-bottom:10px;
+    }
+
+    .derby-bar-lead{
+      height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));
+      border-radius:5px;transition:width 1s ease;
+    }
+
+    .derby-gap{text-align:center;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:10px}
+    .derby-gap strong{color:var(--orange);font-family:'Nunito',sans-serif;font-weight:900}
+
+    .derby-active{
+      display:flex;align-items:center;justify-content:center;gap:6px;
+      background:var(--green-bg);border-radius:6px;padding:6px 10px;
+    }
+
+    .da-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.8s ease-in-out infinite}
+    .da-txt{font-size:11px;color:var(--green);font-weight:600}
+
+    /* TABLES */
+    .tables-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+    .tb-head-outer{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--rule)}
+    .tb-layer{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+    .tb-layer.ind{color:var(--orange)}
+    .tb-layer.grp{color:var(--magenta)}
+    .tb-layer.loc{color:var(--amber)}
+    .tb-layer.glb{color:var(--teal)}
+    .tb-sub{font-size:10px;color:var(--faint);font-weight:500}
+    .tb-rows{padding:2px 0}
+    .tb-block{border-bottom:1px solid var(--rule)}
+    .tb-block:last-child{border-bottom:none}
+
+    .tb-row{
+      display:flex;align-items:center;padding:6px 14px;gap:8px;
+      border-bottom:1px solid var(--rule);position:relative;transition:background .3s;
+    }
+
+    .tb-row:last-child{border-bottom:none}
+    .tb-row.first{background:rgba(255,92,58,.04)}
+    .tb-row.you{
+      background:rgba(255,92,58,.06);
+      margin:2px 8px;border-radius:6px;border:1.5px dashed rgba(255,92,58,.3);
+    }
+
+    .tb-row.moved-up{animation:moveUp .6s ease}
+    .tb-row.moved-dn{animation:moveDn .6s ease}
+
+    @keyframes moveUp{
+      0%{transform:translateY(4px);background:rgba(5,150,105,.1)}
+      100%{transform:translateY(0)}
+    }
+
+    @keyframes moveDn{
+      0%{transform:translateY(-4px);background:rgba(224,64,64,.08)}
+      100%{transform:translateY(0)}
+    }
+
+    .tb-pos{font-size:11px;font-weight:800;color:var(--faint);width:16px;text-align:center}
+    .tb-row.first .tb-pos{color:var(--orange)}
+    .tb-name{font-size:11px;font-weight:600;color:var(--ink);flex:1}
+    .tb-row.first .tb-name{color:var(--orange);font-weight:700}
+    .tb-row.you .tb-name{color:var(--orange);font-style:italic;font-size:11px}
+
+    .tb-pts{
+      font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--muted);
+      min-width:52px;text-align:right;transition:color .4s;
+    }
+
+    .tb-row.first .tb-pts{color:var(--orange)}
+    .tb-row.you .tb-pts{color:var(--faint);font-size:11px;font-style:italic}
+
+    .tb-arr{font-size:10px;width:16px;text-align:right;font-weight:700}
+    .tb-arr.up{color:var(--green)}
+    .tb-arr.dn{color:#E04040}
+    .tb-arr.same{color:var(--faint)}
+
+    @keyframes flashGreen{
+      0%{color:var(--green)}
+      100%{color:inherit}
+    }
+
+    .pts-flash{animation:flashGreen .8s ease forwards}
+
+    .week-strip{
+      background:linear-gradient(90deg,rgba(255,92,58,.06),rgba(217,119,6,.03));
+      border-top:1px solid var(--rule);
+      padding:8px 14px;display:flex;align-items:center;justify-content:space-between;
+    }
+
+    .ws-left{font-size:10px;color:var(--muted);font-weight:600}
+    .ws-right{font-size:10px;color:var(--orange);font-weight:700}
+    .ws-bar{flex:1;height:4px;background:var(--bg2);border-radius:2px;margin:0 12px;overflow:hidden}
+    .ws-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--yellow));border-radius:2px}
+
+    /* TICKER */
+    .ticker{background:var(--ink);padding:10px 0;overflow:hidden;white-space:nowrap;margin-top:auto}
+    .tick-inner{display:inline-flex;gap:32px;animation:tick 34s linear infinite}
+    @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .tick-i{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600}
+
+    @media(max-width:800px){
+      .main{grid-template-columns:1fr}
+      .mini-sprite:nth-child(n+7){display:none}
+    }
+  </style>
 </head>
-
 <body>
-<div class="page">
+  <div class="page">
+    <div class="world-layer" id="worldLayer" aria-hidden="true"></div>
 
-<div id="worldLayer"></div>
+    <div class="topbar">
+      <div class="logo">OUSH <span>LEAGUE</span></div>
+      <div class="week-pill">
+        <div class="week-dot"></div>
+        <div class="week-txt">Week 14 · <em>3 days</em> until reset</div>
+      </div>
+    </div>
 
-<div class="content">
-  <div class="logo">OUSH LEAGUE</div>
-  <h1>A new kind of sport.</h1>
-</div>
+    <div class="main">
+      <div class="hero">
+        <div class="sport-tag">★ A new kind of sport</div>
+        <h1 class="big-h">A new kind<br />of <em>sport.</em><br /><span class="city">Coming to Norwich.</span></h1>
+        <div class="narr">
+          <div class="narr-line">You run. You swim. You cycle.</div>
+          <div class="narr-line"><strong>You've never won anything.</strong></div>
+          <div class="narr-change">That's about to change. →</div>
+        </div>
+        <p class="descriptor">
+          A new kind of sport is coming to Norwich — where all sports count, all leagues connect, and nothing you do happens in isolation. Every move you make affects everyone around you.
+        </p>
 
-</div>
+        <div class="cta">
+          <div class="st-heart" id="stHeart">
+            <div class="heart-label">If this excites you —</div>
+            <button class="heart-btn" id="heartBtn" onclick="heartClick()">❤️</button>
+            <div class="heart-hint">tap the heart to claim your spot</div>
+          </div>
 
-<script>
-function addSprite(x,y,col,row){
-  const el=document.createElement('div');
-  el.className='mini';
-  el.style.left=x+'%';
-  el.style.top=y+'%';
+          <div class="st-email" id="stEmail">
+            <div class="found-box">
+              <div class="found-tag">⭐ Founding Member · Norwich</div>
+              <div class="found-body">
+                Because you love what we're building —<br />
+                <strong>be one of the first 500 founding members of Norwich.</strong><br />
+                We'll share every step of the journey.
+              </div>
+            </div>
+            <input class="email-in" type="email" id="emailIn" placeholder="your@email.com" autocomplete="email" />
+            <button class="sub-btn" onclick="submitEmail()">I'm in — let's go →</button>
+            <div class="priv">No spam. Just the journey. Unsubscribe any time.</div>
+          </div>
 
-  const bx=(col/7)*100;
-  const by=(row/4)*100;
+          <div class="st-done" id="stDone">
+            <div class="done-icon">🏆</div>
+            <div class="done-h">You're in, Norwich.</div>
+            <div class="done-s">Welcome to the founding squad. The leagues are coming — you'll be first to know.</div>
+          </div>
 
-  el.style.backgroundPosition=bx+'% '+by+'%';
+          <div class="prog-row">
+            <div class="prog-label">Founding<br />spots</div>
+            <div class="prog-wrap"><div class="prog-fill" id="progFill"></div></div>
+            <div class="prog-count"><em id="progN">312</em> / 500</div>
+          </div>
+        </div>
+      </div>
 
-  document.getElementById('worldLayer').appendChild(el);
-}
+      <div class="right-panel">
+        <div class="feed-card">
+          <div class="feed-head">
+            <div class="feed-title">Live activity · Norwich</div>
+            <div class="live-badge"><div class="live-dot2"></div><div class="live-lbl">Live</div></div>
+          </div>
+          <div class="feed-items" id="feedItems"></div>
+        </div>
 
-// subtle placements
-addSprite(10,20,0,0);
-addSprite(16,38,2,0);
-addSprite(38,26,4,1);
-addSprite(75,22,6,0);
-addSprite(86,48,7,1);
-addSprite(60,82,3,4);
-</script>
+        <div class="ripple-card">
+          <div class="ripple-title">One move. Every layer.</div>
+          <div class="ripple-flow" id="rippleFlow">
+            <div class="rf-node" id="rfInd">
+              <div class="rf-layer ind">You</div>
+              <div class="rf-pts" id="rfIndPts">—</div>
+              <div class="rf-sub">league rank</div>
+            </div>
+            <div class="rf-arr"><div class="rf-pulse" id="rfP1"></div>→</div>
+            <div class="rf-node" id="rfLoc">
+              <div class="rf-layer loc">NR2</div>
+              <div class="rf-pts" id="rfLocPts">—</div>
+              <div class="rf-sub">area score</div>
+            </div>
+            <div class="rf-arr"><div class="rf-pulse" id="rfP2"></div>→</div>
+            <div class="rf-node" id="rfGlb">
+              <div class="rf-layer glb">Norwich</div>
+              <div class="rf-pts" id="rfGlbPts">—</div>
+              <div class="rf-sub">city rank</div>
+            </div>
+          </div>
+        </div>
 
+        <div class="derby-card">
+          <div class="derby-head">
+            <div class="derby-tag">Live Derby · Week 14</div>
+            <div class="derby-ends">Ends Friday 6pm</div>
+          </div>
+          <div class="derby-body">
+            <div class="derby-teams">
+              <div class="dt">
+                <div class="dt-name lead">NR2</div>
+                <div class="dt-pts" id="derbyLeadPts">84,700</div>
+                <div class="dt-label">Leading</div>
+              </div>
+              <div class="derby-vs">vs</div>
+              <div class="dt">
+                <div class="dt-name trail">NR3</div>
+                <div class="dt-pts" id="derbyTrailPts">76,800</div>
+                <div class="dt-label">Chasing</div>
+              </div>
+            </div>
+            <div class="derby-bar-wrap">
+              <div class="derby-bar-lead" id="derbyBar" style="width:52%"></div>
+            </div>
+            <div class="derby-gap">NR2 leads by <strong id="derbyGap">7,900 pts</strong> · <span id="daysLeft">3 days left</span></div>
+            <div class="derby-active">
+              <div class="da-dot"></div>
+              <div class="da-txt" id="activeCount">23 people active in NR2 right now</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tables-card" id="tablesCard"></div>
+      </div>
+    </div>
+
+    <div class="ticker"><div class="tick-inner" id="ticker"></div></div>
+  </div>
+
+  <script>
+    const activities=[
+      {name:'Sarah M',area:'NR2',sport:'ran 5.2km',pts:142,color:'#FF5C3A'},
+      {name:'Tom K',area:'NR4',sport:'lifted 45min',pts:98,color:'#D946EF'},
+      {name:'Jade R',area:'NR2',sport:'cycled 12km',pts:186,color:'#FF5C3A'},
+      {name:'Marcus',area:'NR1',sport:'swam 30 laps',pts:124,color:'#0D9488'},
+      {name:'Priya S',area:'NR3',sport:'yoga 60min',pts:76,color:'#D97706'},
+      {name:'Dan L',area:'NR6',sport:'5-a-side 90min',pts:210,color:'#059669'},
+      {name:'Beth O',area:'NR2',sport:'walked 8km',pts:88,color:'#FF5C3A'},
+      {name:'Kai W',area:'NR5',sport:'HIIT 30min',pts:112,color:'#6366F1'},
+      {name:'Anya F',area:'NR1',sport:'rowing 20min',pts:134,color:'#0D9488'},
+      {name:'Leo P',area:'NR3',sport:'tennis 60min',pts:158,color:'#D97706'},
+    ];
+
+    function initials(n){
+      return n.split(' ').map(w=>w[0]).join('').slice(0,2);
+    }
+
+    const tableState = {
+      ind:[
+        {pos:1,name:'Jade R',pts:1240,prev:1},
+        {pos:2,name:'Tom K',pts:1187,prev:2},
+        {pos:3,name:'Sarah M',pts:1034,prev:4},
+        {pos:4,name:'You?',pts:null,prev:4,you:true},
+        {pos:5,name:'RunnerK',pts:824,prev:3},
+      ],
+      loc:[
+        {pos:1,name:'NR2',pts:84700,prev:1},
+        {pos:2,name:'NR1',pts:82100,prev:2},
+        {pos:3,name:'NR4',pts:79400,prev:3},
+        {pos:4,name:'NR3',pts:76800,prev:4},
+      ],
+      glb:[
+        {pos:1,name:'London',pts:241000,prev:1},
+        {pos:2,name:'New York',pts:238000,prev:2},
+        {pos:3,name:'Norwich',pts:189000,prev:3},
+        {pos:4,name:'Berlin',pts:174000,prev:4},
+      ],
+    };
+
+    function buildTables(){
+      const card=document.getElementById('tablesCard');
+      card.innerHTML='';
+
+      const configs=[
+        {key:'ind',label:'Individual',cls:'ind',sub:'Your league · Week 14'},
+        {key:'loc',label:'Local',cls:'loc',sub:'Norwich postcodes'},
+        {key:'glb',label:'Global',cls:'glb',sub:'City standings'},
+      ];
+
+      configs.forEach(cfg=>{
+        const block=document.createElement('div');
+        block.className='tb-block';
+        block.id=`block-${cfg.key}`;
+
+        const rows=tableState[cfg.key].map((r,i)=>{
+          const dir=r.prev>r.pos?'up':r.prev<r.pos?'dn':'same';
+          const cls=r.you?'you':i===0?'first':'';
+          const ptsHtml=r.pts===null
+            ? `<span class="tb-pts" style="font-size:10px;font-style:italic;color:var(--faint)">join to play</span>`
+            : `<span class="tb-pts" id="pts-${cfg.key}-${i}" data-base="${r.pts}">${r.pts>9999?r.pts.toLocaleString():r.pts}</span>`;
+          const arrHtml=r.you?'':`<span class="tb-arr ${dir}">${dir==='up'?'↑':dir==='dn'?'↓':'·'}</span>`;
+
+          return `<div class="tb-row ${cls}" id="row-${cfg.key}-${i}">
+            <span class="tb-pos">${r.pos}</span>
+            <span class="tb-name">${r.name}</span>
+            ${ptsHtml}${arrHtml}
+          </div>`;
+        }).join('');
+
+        const weekPct=52;
+
+        block.innerHTML=`
+          <div class="tb-head-outer">
+            <div class="tb-layer ${cfg.cls}">${cfg.label}</div>
+            <div class="tb-sub">${cfg.sub}</div>
+          </div>
+          <div class="tb-rows">${rows}</div>
+          ${cfg.key==='ind' ? `<div class="week-strip">
+            <div class="ws-left">Week progress</div>
+            <div class="ws-bar"><div class="ws-fill" style="width:${weekPct}%"></div></div>
+            <div class="ws-right">Resets Friday</div>
+          </div>` : ''}
+        `;
+
+        card.appendChild(block);
+      });
+    }
+
+    buildTables();
+
+    const feedEl=document.getElementById('feedItems');
+    const rippleFlow=document.getElementById('rippleFlow');
+    let actIdx=0, derbyLeadVal=84700, derbyTrailVal=76800;
+
+    function addActivity(){
+      const a=activities[actIdx%activities.length];
+      actIdx++;
+
+      if(feedEl.children.length>=3) feedEl.removeChild(feedEl.firstChild);
+
+      const item=document.createElement('div');
+      item.className='feed-item';
+      item.innerHTML=`<div class="fi-av" style="background:${a.color}">${initials(a.name)}</div><div class="fi-body"><div class="fi-name">${a.name} <span style="font-weight:400;color:var(--muted);font-size:10px">(${a.area})</span></div><div class="fi-act">${a.sport}</div></div><div class="fi-pts">+${a.pts}</div>`;
+      feedEl.appendChild(item);
+
+      setTimeout(()=>fireRipple(a),700);
+    }
+
+    function fireRipple(a){
+      const indPts=a.pts;
+      const locPts=Math.round(a.pts*0.75);
+      const glbPts=Math.round(a.pts*0.12);
+
+      document.getElementById('rfIndPts').textContent='+'+indPts;
+      document.getElementById('rfLocPts').textContent='+'+locPts;
+      document.getElementById('rfGlbPts').textContent='+'+glbPts;
+      rippleFlow.classList.add('show');
+
+      const p1=document.getElementById('rfP1');
+      const p2=document.getElementById('rfP2');
+
+      p1.classList.remove('animate'); void p1.offsetWidth;
+      setTimeout(()=>p1.classList.add('animate'),100);
+
+      p2.classList.remove('animate'); void p2.offsetWidth;
+      setTimeout(()=>p2.classList.add('animate'),400);
+
+      bumpTablePts('ind',0,indPts);
+
+      if(a.area==='NR2'){
+        bumpTablePts('loc',0,locPts);
+        derbyLeadVal+=locPts;
+        updateDerby();
+      } else if(a.area==='NR3'){
+        bumpTablePts('loc',3,locPts);
+        derbyTrailVal+=locPts;
+        updateDerby();
+      }
+
+      bumpTablePts('glb',2,glbPts);
+    }
+
+    function bumpTablePts(table,rowIdx,delta){
+      const el=document.getElementById(`pts-${table}-${rowIdx}`);
+      if(!el||!el.dataset.base)return;
+
+      const base=parseInt(el.dataset.base.replace(/,/g,''))||0;
+      const nv=base+delta;
+      el.dataset.base=nv;
+      el.textContent=nv>9999?nv.toLocaleString():nv;
+
+      el.classList.remove('pts-flash'); void el.offsetWidth;
+      el.classList.add('pts-flash');
+
+      const row=document.getElementById(`row-${table}-${rowIdx}`);
+      if(row&&rowIdx<3){
+        row.classList.remove('moved-up'); void row.offsetWidth;
+        row.classList.add('moved-up');
+      }
+    }
+
+    function updateDerby(){
+      const leadEl=document.getElementById('derbyLeadPts');
+      const trailEl=document.getElementById('derbyTrailPts');
+      const gapEl=document.getElementById('derbyGap');
+      const barEl=document.getElementById('derbyBar');
+
+      if(leadEl) leadEl.textContent=derbyLeadVal.toLocaleString();
+      if(trailEl) trailEl.textContent=derbyTrailVal.toLocaleString();
+
+      const gap=derbyLeadVal-derbyTrailVal;
+      if(gapEl) gapEl.textContent=gap.toLocaleString()+' pts';
+
+      const total=derbyLeadVal+derbyTrailVal;
+      if(barEl) barEl.style.width=Math.round((derbyLeadVal/total)*100)+'%';
+    }
+
+    setInterval(()=>{
+      ['ind','loc','glb'].forEach(t=>{
+        tableState[t].forEach((_,i)=>{
+          if(Math.random()>.85){
+            bumpTablePts(t,i,Math.ceil(Math.random()*15)*(Math.random()<.3?-1:1));
+          }
+        });
+      });
+
+      if(Math.random()>.7){
+        derbyTrailVal+=Math.ceil(Math.random()*60);
+        updateDerby();
+      }
+    },3800);
+
+    function schedNext(){
+      setTimeout(()=>{
+        addActivity();
+        schedNext();
+      },3200+Math.random()*3000);
+    }
+
+    addActivity();
+    addActivity();
+    schedNext();
+
+    setInterval(()=>{
+      const el=document.getElementById('activeCount');
+      if(el){
+        const n=20+Math.ceil(Math.random()*12);
+        el.textContent=`${n} people active in NR2 right now`;
+      }
+    },7000);
+
+    let signups=312;
+
+    function updateProg(){
+      document.getElementById('progFill').style.width=Math.min((signups/500)*100,100)+'%';
+      document.getElementById('progN').textContent=signups;
+    }
+
+    setTimeout(updateProg,500);
+
+    setInterval(()=>{
+      if(signups<498&&Math.random()<.3){
+        signups++;
+        updateProg();
+      }
+    },6000);
+
+    const ticks=[
+      {city:'Norwich',a:'NR2',sc:'84,700',b:'NR3',col:'#FFD166'},
+      {city:'London',a:'E1',sc:'241k',b:'SW11',col:'#FF5C3A'},
+      {city:'New York',a:'BKLYN',sc:'238k',b:'Manhattan',col:'#D946EF'},
+      {city:'Manchester',a:'M1',sc:'182k',b:'M13',col:'#FF5C3A'},
+      {city:'Tokyo',a:'Shibuya',sc:'4.1M',b:'Shinjuku',col:'#D946EF'},
+      {city:'Berlin',a:'Mitte',sc:'174k',b:'Prenzlberg',col:'#FF5C3A'},
+    ];
+
+    const tickEl=document.getElementById('ticker');
+    [...ticks,...ticks].forEach(t=>{
+      const s=document.createElement('span');
+      s.className='tick-i';
+      s.innerHTML=`<span style="color:${t.col};font-weight:700">${t.city}</span><span style="color:rgba(255,255,255,.2);margin:0 4px">·</span><span style="color:#FFD166">${t.a}</span><span style="color:rgba(255,255,255,.25);font-size:10px;margin:0 4px">${t.sc}</span><span style="color:#FFD166">${t.b}</span>`;
+      tickEl.appendChild(s);
+    });
+
+    function heartClick(){
+      const btn=document.getElementById('heartBtn');
+      btn.style.filter='grayscale(0)';
+      btn.style.opacity='1';
+      btn.style.transform='scale(1.3)';
+      btn.style.animation='none';
+
+      setTimeout(()=>{
+        document.getElementById('stHeart').style.display='none';
+        const st=document.getElementById('stEmail');
+        st.style.display='flex';
+        document.getElementById('emailIn').focus();
+      },320);
+    }
+
+    function submitEmail(){
+      const email=document.getElementById('emailIn').value;
+      if(!email||!email.includes('@'))return;
+
+      const FORM_ID='YOUR_FORM_ID_HERE';
+      const ENTRY='entry.YOUR_ENTRY_ID_HERE';
+      new Image().src=`https://docs.google.com/forms/d/e/${FORM_ID}/formResponse?${ENTRY}=${encodeURIComponent(email)}&submit=Submit`;
+
+      document.getElementById('stEmail').style.display='none';
+      document.getElementById('stDone').style.display='flex';
+
+      signups=Math.min(signups+1,499);
+      updateProg();
+    }
+
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Enter'&&document.getElementById('stEmail').style.display!=='none'){
+        submitEmail();
+      }
+    });
+
+    const SPRITE_COLS=8;
+    const SPRITE_ROWS=5;
+
+    function spritePos(col,row){
+      const x=SPRITE_COLS===1?0:(col/(SPRITE_COLS-1))*100;
+      const y=SPRITE_ROWS===1?0:(row/(SPRITE_ROWS-1))*100;
+      return {x:`${x}%`,y:`${y}%`};
+    }
+
+    const worldSprites=[
+      {x:7,y:18,col:0,row:0,w:14,h:22,o:.07,dur:5.2},
+      {x:14,y:31,col:2,row:0,w:18,h:18,o:.10,dur:4.7},
+      {x:10,y:57,col:0,row:3,w:15,h:23,o:.08,dur:4.9},
+
+      {x:38,y:19,col:3,row:1,w:14,h:22,o:.05,dur:5.0},
+      {x:44,y:34,col:4,row:1,w:14,h:22,o:.06,dur:4.4},
+      {x:35,y:73,col:1,row:4,w:15,h:23,o:.06,dur:4.6},
+
+      {x:73,y:19,col:6,row:0,w:14,h:22,o:.06,dur:5.3},
+      {x:89,y:37,col:7,row:1,w:13,h:22,o:.05,dur:4.8},
+      {x:79,y:64,col:5,row:3,w:16,h:24,o:.07,dur:4.1},
+      {x:93,y:79,col:7,row:4,w:14,h:23,o:.04,dur:5.1},
+
+      {x:22,y:91,col:3,row:2,w:14,h:22,o:.04,dur:5.4},
+      {x:61,y:92,col:4,row:4,w:14,h:22,o:.04,dur:5.0}
+    ];
+
+    function renderWorldSprites(){
+      const layer=document.getElementById('worldLayer');
+      if(!layer) return;
+      layer.innerHTML='';
+
+      worldSprites.forEach(s=>{
+        const el=document.createElement('div');
+        const pos=spritePos(s.col,s.row);
+
+        el.className='mini-sprite';
+        el.style.left=s.x+'%';
+        el.style.top=s.y+'%';
+        el.style.setProperty('--w',(s.w||14)+'px');
+        el.style.setProperty('--h',(s.h||22)+'px');
+        el.style.setProperty('--o',s.o??.08);
+        el.style.setProperty('--dur',(s.dur||4.5)+'s');
+        el.style.setProperty('--bgx',pos.x);
+        el.style.setProperty('--bgy',pos.y);
+
+        layer.appendChild(el);
+      });
+    }
+
+    renderWorldSprites();
+    window.addEventListener('resize',renderWorldSprites);
+  </script>
 </body>
 </html>
