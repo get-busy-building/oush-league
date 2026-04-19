@@ -4,37 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Oush League · Norwich</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --orange:#FF5C3A;
-  --magenta:#D946EF;
-  --bg:#F9F7F5;
-  --ink:#1A1209;
-  --muted:#7A6450;
-  --border:#E2D9CE;
+  --orange:#FF5C3A;--orange2:#FF8060;--orange-bg:rgba(255,92,58,0.08);
+  --yellow:#FFD166;--magenta:#D946EF;--teal:#0D9488;--amber:#D97706;
+  --green:#059669;--green-bg:rgba(5,150,105,0.08);
+  --blue:#2563EB;
+  --bg:#F9F7F5;--bg2:#F2EFE9;--card:#FFFFFF;
+  --ink:#1A1209;--ink2:#44321A;--muted:#7A6450;--faint:#B8A48C;
+  --border:#E2D9CE;--rule:#EDE8E0;
 }
+html,body{width:100%;min-height:100vh;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;color:var(--ink);overflow-x:hidden}
+.page{max-width:1200px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative}
 
-body{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  background:var(--bg);
-  color:var(--ink);
-}
-
-.page{
-  max-width:1200px;
-  margin:0 auto;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  position:relative;
-}
-
-/* ── WORLD LAYER ── */
+/* world layer */
 .world-layer{
   position:absolute;
   inset:0;
@@ -50,129 +35,107 @@ body{
 
 .mini-sprite{
   position:absolute;
-  transform:translate(-50%,-50%);
-  pointer-events:none;
-  opacity:var(--o,.14);
   width:var(--w,14px);
   height:var(--h,22px);
-
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  opacity:var(--o,.12);
   background-image:url("sprites.png");
   background-repeat:no-repeat;
   background-size:800% 500%;
-  background-position:var(--bgx) var(--bgy);
-
+  background-position:var(--bgx,0%) var(--bgy,0%);
   image-rendering:pixelated;
-  animation:bob var(--dur,4s) ease-in-out infinite;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.22));
+  animation:miniBob var(--dur,4.4s) ease-in-out infinite;
 }
 
-@keyframes bob{
-  0%,100%{transform:translate(-50%,-50%)}
+@keyframes miniBob{
+  0%,100%{transform:translate(-50%,-50%) translateY(0)}
   50%{transform:translate(-50%,-50%) translateY(-2px)}
 }
 
-/* ── SIMPLE LAYOUT (kept minimal for clarity) ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 36px}
+.logo{font-family:'Press Start 2P',monospace;font-size:11px;color:var(--orange)}
+.logo span{color:var(--magenta)}
+.week-pill{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:5px 14px}
+.week-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+.week-txt{font-size:11px;font-weight:600;color:var(--ink2)}
+.week-txt em{color:var(--orange);font-style:normal;font-weight:800}
+.main{display:grid;grid-template-columns:1fr 440px;gap:32px;padding:0 36px 48px;flex:1;align-items:start}
 
-.topbar{
-  padding:20px;
-  font-family:'Press Start 2P';
-  font-size:12px;
+/* ── HERO ── */
+.hero{display:flex;flex-direction:column;gap:20px}
+.sport-tag{display:inline-flex;align-items:center;gap:8px;background:var(--orange-bg);border:1px solid rgba(255,92,58,.2);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--orange);letter-spacing:.06em;text-transform:uppercase;width:fit-content}
+.big-h{font-family:'Nunito',sans-serif;font-size:clamp(26px,3.6vw,44px);font-weight:900;line-height:1.15;letter-spacing:-.02em;color:var(--ink)}
+.big-h em{color:var(--orange);font-style:normal}
+.big-h .city{color:var(--magenta)}
+.narr{display:flex;flex-direction:column;gap:4px}
+.narr-line{font-size:clamp(14px,1.5vw,17px);color:var(--ink2);line-height:1.75}
+.narr-line strong{color:var(--ink);font-weight:700}
+.narr-change{font-family:'Nunito',sans-serif;font-size:clamp(13px,1.4vw,16px);font-weight:800;color:var(--orange);margin-top:6px}
+.descriptor{font-size:13px;color:var(--muted);line-height:1.85;border-left:3px solid var(--orange);padding-left:16px;max-width:500px}
+.cta{background:var(--card);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.06);padding:24px 20px;display:flex;flex-direction:column;gap:14px}
+.st-heart{display:flex;flex-direction:column;align-items:center;gap:12px}
+.heart-label{font-size:12px;color:var(--muted);text-align:center;line-height:1.8;font-weight:500}
+.heart-btn{background:none;border:none;cursor:pointer;font-size:52px;line-height:1;filter:grayscale(1);opacity:.4;transition:all .2s;animation:hbob 3s ease-in-out infinite;display:block}
+@keyframes hbob{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.heart-btn:hover{filter:grayscale(0);opacity:1;transform:scale(1.15)!important;animation:none}
+.heart-hint{font-size:12px;color:var(--faint);text-align:center}
+.st-email{display:none;flex-direction:column;gap:11px;animation:fup .3s ease forwards}
+@keyframes fup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.found-box{background:var(--orange-bg);border:1.5px solid rgba(255,92,58,.25);border-radius:8px;padding:14px;text-align:center}
+.found-tag{font-size:10px;font-weight:700;color:var(--orange);margin-bottom:7px;letter-spacing:.06em;text-transform:uppercase}
+.found-body{font-size:12px;color:var(--ink2);line-height:1.7}
+.found-body strong{color:var(--ink);font-weight:700}
+.email-in{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .2s}
+.email-in:focus{border-color:var(--orange)}
+.email-in::placeholder{color:var(--faint)}
+.sub-btn{width:100%;background:var(--orange);border:none;border-radius:8px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:white;cursor:pointer;transition:background .15s,transform .08s;box-shadow:0 4px 0 #c8402a}
+.sub-btn:hover{background:#e84a2a}
+.sub-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #c8402a}
+.priv{font-size:11px;color:var(--faint);text-align:center}
+.st-done{display:none;flex-direction:column;align-items:center;gap:10px;text-align:center;animation:fup .3s ease forwards}
+.done-icon{font-size:48px}
+.done-h{font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--orange)}
+.done-s{font-size:13px;color:var(--muted);line-height:1.7}
+.prog-row{display:flex;align-items:center;gap:10px;border-top:1px solid var(--rule);padding-top:12px}
+.prog-label{font-size:10px;color:var(--muted);font-weight:600;white-space:nowrap;line-height:1.6;text-transform:uppercase;letter-spacing:.05em}
+.prog-wrap{flex:1;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange2));width:0%;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);border-radius:4px}
+.prog-count{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap}
+.prog-count em{color:var(--orange);font-style:normal}
+
+/* ── RIGHT PANEL ── */
+.right-panel{display:flex;flex-direction:column;gap:12px}
+
+/* ── ACTIVITY FEED ── */
+.feed-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+.feed-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--rule)}
+.feed-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.live-badge{display:flex;align-items:center;gap:5px;background:var(--green-bg);border-radius:10px;padding:3px 9px}
+.live-dot2{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.8s ease-in-out infinite}
+.live-lbl{font-size:10px;font-weight:700;color:var(--green);letter-spacing:.05em}
+.feed-items{min-height:80px;padding:6px 0}
+.feed-item{display:flex;align-items:center;gap:10px;padding:7px 14px;animation:slideIn .35s ease forwards}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.fi-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:white;flex-shrink:0}
+.fi-body{flex:1}
+.fi-name{font-weight:700;color:var(--ink);font-size:12px}
+.fi-act{color:var(--muted);font-size:11px;margin-top:1px}
+.fi-pts{font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;color:var(--green);white-space:nowrap}
+
+/* ── RIPPLE FLOW ── */
+.ripple-card{
+  background:var(--card);border:1.5px solid var(--border);border-radius:12px;
+  padding:14px 16px;overflow:hidden;
+  min-height:56px;
 }
-
-.main{
-  padding:40px;
+.ripple-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.ripple-flow{display:flex;align-items:center;gap:0;opacity:0;transition:opacity .4s}
+.ripple-flow.show{opacity:1}
+.rf-node{
+  flex:1;background:var(--bg);border-radius:8px;padding:8px 10px;text-align:center;
+  position:relative;
 }
-
-h1{
-  font-family:'Nunito';
-  font-size:42px;
-  font-weight:900;
-}
-
-.ticker{
-  margin-top:auto;
-  padding:12px;
-  background:black;
-  color:white;
-  font-size:12px;
-}
-
-</style>
-</head>
-
-<body>
-<div class="page">
-
-<div class="world-layer" id="worldLayer"></div>
-
-<div class="topbar">
-OUSH LEAGUE
-</div>
-
-<div class="main">
-<h1>A new kind of sport.</h1>
-</div>
-
-<div class="ticker">
-Live leagues coming soon...
-</div>
-
-</div>
-
-<script>
-
-// sprite grid
-const COLS = 8;
-const ROWS = 5;
-
-// convert grid → background position
-function pos(col,row){
-  return {
-    x: (col/(COLS-1))*100 + '%',
-    y: (row/(ROWS-1))*100 + '%'
-  };
-}
-
-// subtle placements
-const sprites = [
-
-  {x:8,y:20,col:0,row:0,o:.12},
-  {x:15,y:40,col:2,row:0,o:.16},
-  {x:10,y:70,col:0,row:3,o:.13},
-
-  {x:40,y:25,col:4,row:1,o:.10},
-  {x:35,y:75,col:1,row:4,o:.11},
-
-  {x:75,y:20,col:6,row:0,o:.10},
-  {x:90,y:40,col:7,row:1,o:.09},
-  {x:80,y:65,col:5,row:3,o:.11},
-
-  {x:92,y:85,col:7,row:4,o:.08},
-
-  {x:25,y:92,col:3,row:2,o:.08},
-  {x:60,y:94,col:4,row:4,o:.08}
-];
-
-function render(){
-  const layer = document.getElementById('worldLayer');
-  layer.innerHTML='';
-
-  sprites.forEach(s=>{
-    const el=document.createElement('div');
-    const p=pos(s.col,s.row);
-
-    el.className='mini-sprite';
-    el.style.left=s.x+'%';
-    el.style.top=s.y+'%';
-    el.style.setProperty('--bgx',p.x);
-    el.style.setProperty('--bgy',p.y);
-    el.style.setProperty('--o',s.o);
-
-    layer.appendChild(el);
-  });
-}
-
-render();
-
-</script>
-</body>
-</html>
+.rf-layer{font-size:9px;font-weight
