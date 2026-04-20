@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Oush League · Norwich</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
 
@@ -34,27 +34,33 @@
 
       --border:#E2D9CE;
       --rule:#EDE8E0;
+      --shadow:0 8px 24px rgba(24, 18, 9, .05);
     }
 
     html,body{
       width:100%;
-      min-height:100vh;
+      min-height:100%;
       background:var(--bg);
       font-family:'Plus Jakarta Sans',sans-serif;
       color:var(--ink);
       overflow-x:hidden;
     }
 
+    body{
+      min-height:100vh;
+    }
+
     .page{
-      max-width:1200px;
+      max-width:1280px;
       margin:0 auto;
       min-height:100vh;
       display:flex;
       flex-direction:column;
       position:relative;
+      padding:18px 28px 26px;
     }
 
-    /* world layer */
+    /* background sprite layer */
     .world-layer{
       position:absolute;
       inset:0;
@@ -63,18 +69,13 @@
       overflow:hidden;
     }
 
-    .topbar,.main,.ticker{
-      position:relative;
-      z-index:1;
-    }
-
     .mini-sprite{
       position:absolute;
       width:var(--w,14px);
       height:var(--h,22px);
       transform:translate(-50%,-50%);
       pointer-events:none;
-      opacity:var(--o,.06);
+      opacity:var(--o,.05);
       background-image:url("sprites.png");
       background-repeat:no-repeat;
       background-size:800% 500%;
@@ -89,69 +90,35 @@
       50%{transform:translate(-50%,-50%) translateY(-2px)}
     }
 
+    .topbar,
+    .hero-wrap,
+    .modules-wrap{
+      position:relative;
+      z-index:1;
+    }
+
     .topbar{
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      padding:20px 36px;
+      justify-content:center;
+      padding:4px 0 8px;
     }
 
     .logo{
       font-family:'Press Start 2P',monospace;
       font-size:11px;
       color:var(--orange);
+      letter-spacing:0;
     }
 
     .logo span{color:var(--magenta)}
 
-    .week-pill{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:20px;
-      padding:6px 14px;
-    }
-
-    .week-dot{
-      width:7px;height:7px;border-radius:50%;
-      background:var(--orange);
-      animation:pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse{
-      0%,100%{opacity:1;transform:scale(1)}
-      50%{opacity:.5;transform:scale(.75)}
-    }
-
-    .week-txt{
-      font-size:11px;
-      font-weight:600;
-      color:var(--ink2);
-    }
-
-    .week-txt em{
-      color:var(--orange);
-      font-style:normal;
-      font-weight:800;
-    }
-
-    .main{
-      display:grid;
-      grid-template-columns:1.02fr .98fr;
-      gap:34px;
-      padding:8px 36px 48px;
-      flex:1;
-      align-items:start;
-    }
-
-    /* left */
-    .hero{
+    .hero-wrap{
       display:flex;
       flex-direction:column;
-      gap:20px;
-      padding-top:8px;
+      align-items:center;
+      text-align:center;
+      padding:8px 0 16px;
     }
 
     .sport-tag{
@@ -167,32 +134,33 @@
       color:var(--orange);
       letter-spacing:.06em;
       text-transform:uppercase;
-      width:fit-content;
+      margin-bottom:18px;
     }
 
     .big-h{
       font-family:'Nunito',sans-serif;
-      font-size:clamp(34px,4.7vw,62px);
+      font-size:clamp(40px,5.8vw,74px);
       font-weight:900;
-      line-height:1.02;
-      letter-spacing:-.035em;
+      line-height:.98;
+      letter-spacing:-.045em;
       color:var(--ink);
-      max-width:680px;
+      max-width:900px;
     }
 
     .launch-line{
       font-family:'Nunito',sans-serif;
-      font-size:clamp(16px,1.7vw,21px);
+      font-size:clamp(18px,2vw,26px);
       font-weight:800;
       color:var(--magenta);
-      margin-top:-6px;
+      margin-top:14px;
     }
 
     .subhead{
-      font-size:clamp(16px,1.55vw,21px);
-      line-height:1.6;
+      margin-top:20px;
+      font-size:clamp(20px,2vw,31px);
+      line-height:1.4;
       color:var(--ink2);
-      max-width:650px;
+      max-width:920px;
       font-weight:600;
     }
 
@@ -202,72 +170,38 @@
     }
 
     .descriptor{
-      font-size:15px;
+      margin-top:16px;
+      font-size:clamp(15px,1.3vw,19px);
       color:var(--muted);
-      line-height:1.85;
-      border-left:3px solid var(--orange);
-      padding-left:16px;
-      max-width:640px;
+      line-height:1.8;
+      max-width:860px;
     }
 
-    .cta{
-      background:var(--card);
-      border:1.5px solid var(--border);
-      border-radius:14px;
-      box-shadow:0 2px 16px rgba(0,0,0,.05);
-      padding:24px 20px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      max-width:570px;
-    }
-
-    .cta-kicker{
-      font-size:10px;
-      font-weight:800;
-      color:var(--orange);
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-
-    .cta-title{
-      font-family:'Nunito',sans-serif;
-      font-size:24px;
-      font-weight:900;
-      color:var(--ink);
-      line-height:1.1;
-    }
-
-    .cta-copy{
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.75;
-    }
-
-    .st-heart{
+    /* lightweight signup */
+    .signup-inline{
+      margin-top:20px;
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:12px;
-      padding-top:4px;
+      gap:10px;
+      min-height:110px;
     }
 
     .heart-label{
-      font-size:12px;
+      font-size:13px;
       color:var(--muted);
+      font-weight:600;
       text-align:center;
-      line-height:1.8;
-      font-weight:500;
     }
 
     .heart-btn{
       background:none;
       border:none;
       cursor:pointer;
-      font-size:52px;
+      font-size:48px;
       line-height:1;
       filter:grayscale(1);
-      opacity:.4;
+      opacity:.42;
       transition:all .2s;
       animation:hbob 3s ease-in-out infinite;
       display:block;
@@ -281,7 +215,7 @@
     .heart-btn:hover{
       filter:grayscale(0);
       opacity:1;
-      transform:scale(1.15)!important;
+      transform:scale(1.12)!important;
       animation:none;
     }
 
@@ -291,11 +225,12 @@
       text-align:center;
     }
 
-    .st-email{
+    .signup-expand{
       display:none;
-      flex-direction:column;
-      gap:11px;
-      animation:fup .3s ease forwards;
+      width:100%;
+      max-width:620px;
+      margin-top:4px;
+      animation:fup .25s ease forwards;
     }
 
     @keyframes fup{
@@ -303,56 +238,48 @@
       to{opacity:1;transform:translateY(0)}
     }
 
-    .found-box{
-      background:var(--orange-bg);
-      border:1.5px solid rgba(255,92,58,.25);
-      border-radius:8px;
-      padding:14px;
-      text-align:center;
-    }
-
-    .found-tag{
-      font-size:10px;
-      font-weight:700;
-      color:var(--orange);
-      margin-bottom:7px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-
-    .found-body{
-      font-size:12px;
-      color:var(--ink2);
+    .signup-copy{
+      font-size:14px;
+      color:var(--muted);
       line-height:1.7;
+      text-align:center;
+      margin-bottom:12px;
     }
 
-    .found-body strong{
-      color:var(--ink);
-      font-weight:700;
+    .signup-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
     }
 
     .email-in{
-      width:100%;
-      background:var(--bg);
+      flex:1;
+      min-width:0;
+      background:rgba(255,255,255,.72);
       border:1.5px solid var(--border);
-      border-radius:8px;
-      padding:12px 14px;
-      font-size:13px;
+      border-radius:999px;
+      padding:13px 16px;
+      font-size:14px;
       color:var(--ink);
       font-family:'Plus Jakarta Sans',sans-serif;
       outline:none;
-      transition:border-color .2s;
+      transition:border-color .2s, background .2s;
+      max-width:380px;
     }
 
-    .email-in:focus{border-color:var(--orange)}
+    .email-in:focus{
+      border-color:var(--orange);
+      background:#fff;
+    }
+
     .email-in::placeholder{color:var(--faint)}
 
     .sub-btn{
-      width:100%;
       background:var(--orange);
       border:none;
-      border-radius:8px;
-      padding:13px;
+      border-radius:999px;
+      padding:13px 18px;
       font-family:'Nunito',sans-serif;
       font-size:14px;
       font-weight:800;
@@ -360,30 +287,31 @@
       cursor:pointer;
       transition:background .15s,transform .08s;
       box-shadow:0 4px 0 #c8402a;
+      white-space:nowrap;
     }
 
     .sub-btn:hover{background:#e84a2a}
     .sub-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #c8402a}
 
-    .priv{
+    .signup-meta{
+      margin-top:10px;
       font-size:11px;
       color:var(--faint);
       text-align:center;
     }
 
-    .st-done{
+    .signup-done{
       display:none;
       flex-direction:column;
       align-items:center;
-      gap:10px;
-      text-align:center;
-      animation:fup .3s ease forwards;
+      gap:6px;
+      margin-top:6px;
+      animation:fup .25s ease forwards;
     }
 
-    .done-icon{font-size:48px}
     .done-h{
       font-family:'Nunito',sans-serif;
-      font-size:20px;
+      font-size:18px;
       font-weight:900;
       color:var(--orange);
     }
@@ -391,104 +319,93 @@
     .done-s{
       font-size:13px;
       color:var(--muted);
-      line-height:1.7;
+      line-height:1.6;
+      text-align:center;
+      max-width:540px;
     }
 
-    .prog-row{
+    .spots-row{
+      margin-top:14px;
       display:flex;
       align-items:center;
+      justify-content:center;
       gap:10px;
-      border-top:1px solid var(--rule);
-      padding-top:12px;
     }
 
-    .prog-label{
+    .spots-label{
       font-size:10px;
       color:var(--muted);
-      font-weight:600;
-      white-space:nowrap;
-      line-height:1.6;
+      font-weight:700;
       text-transform:uppercase;
-      letter-spacing:.05em;
+      letter-spacing:.06em;
     }
 
-    .prog-wrap{
-      flex:1;
+    .spots-wrap{
+      width:220px;
       height:8px;
       background:var(--bg2);
-      border-radius:4px;
+      border-radius:999px;
       overflow:hidden;
     }
 
-    .prog-fill{
+    .spots-fill{
       height:100%;
       background:linear-gradient(90deg,var(--orange),var(--orange2));
       width:0%;
-      transition:width 1.2s cubic-bezier(.34,1.2,.64,1);
-      border-radius:4px;
+      transition:width 1s ease;
+      border-radius:999px;
     }
 
-    .prog-count{
+    .spots-count{
       font-family:'Nunito',sans-serif;
       font-size:13px;
-      font-weight:800;
+      font-weight:900;
       color:var(--ink);
-      white-space:nowrap;
     }
 
-    .prog-count em{
+    .spots-count em{
       color:var(--orange);
       font-style:normal;
     }
 
-    /* right side */
-    .right-panel{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
+    /* horizontal modules */
+    .modules-wrap{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1fr 1.05fr 1.05fr 1.15fr;
+      gap:12px;
+      align-items:stretch;
     }
 
-    .system-card,
-    .derby-card{
-      background:var(--card);
+    .panel{
+      background:rgba(255,255,255,.78);
+      backdrop-filter:blur(4px);
       border:1.5px solid var(--border);
-      border-radius:16px;
-      overflow:hidden;
-      box-shadow:0 2px 16px rgba(0,0,0,.04);
-    }
-
-    .system-inner{
-      padding:16px;
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:14px;
+      min-height:270px;
       display:flex;
       flex-direction:column;
-      gap:14px;
-    }
-
-    .module{
-      background:linear-gradient(180deg,#fff, #fbfaf8);
-      border:1px solid var(--rule);
-      border-radius:14px;
-      padding:14px;
-      position:relative;
       overflow:hidden;
     }
 
-    .module-title{
+    .panel-title{
       font-size:10px;
       font-weight:800;
       color:var(--muted);
       text-transform:uppercase;
       letter-spacing:.08em;
-      margin-bottom:12px;
+      margin-bottom:10px;
+      text-align:center;
     }
 
     /* sports reel */
     .sports-reel{
       position:relative;
-      height:118px;
+      flex:1;
       border-radius:14px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,248,244,.96));
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,248,244,.96));
       overflow:hidden;
       border:1px solid rgba(0,0,0,.04);
     }
@@ -496,7 +413,7 @@
     .sports-fade-top,
     .sports-fade-bottom{
       position:absolute;
-      left:0;right:0;height:22px;z-index:2;pointer-events:none;
+      left:0;right:0;height:24px;z-index:2;pointer-events:none;
     }
 
     .sports-fade-top{
@@ -511,10 +428,10 @@
 
     .sports-center-glow{
       position:absolute;
-      left:14px;
-      right:14px;
+      left:12px;
+      right:12px;
       top:50%;
-      height:42px;
+      height:44px;
       transform:translateY(-50%);
       border-radius:12px;
       background:rgba(255,255,255,.95);
@@ -525,72 +442,71 @@
 
     .sports-track{
       position:absolute;
-      left:12px;
-      right:12px;
+      left:10px;
+      right:10px;
       top:50%;
       transform:translateY(-50%);
       display:flex;
       flex-direction:column;
       gap:10px;
       z-index:3;
-      animation:sportsSpin 10s ease-in-out infinite;
+      animation:sportsSpin 22s ease-in-out infinite;
     }
 
     @keyframes sportsSpin{
-      0%,16%{transform:translateY(-50%) translateY(0)}
-      20%,36%{transform:translateY(-50%) translateY(-52px)}
-      40%,56%{transform:translateY(-50%) translateY(-104px)}
-      60%,76%{transform:translateY(-50%) translateY(-156px)}
-      80%,96%{transform:translateY(-50%) translateY(-208px)}
+      0%,7%{transform:translateY(-50%) translateY(0)}
+      10%,17%{transform:translateY(-50%) translateY(-54px)}
+      20%,27%{transform:translateY(-50%) translateY(-108px)}
+      30%,37%{transform:translateY(-50%) translateY(-162px)}
+      40%,47%{transform:translateY(-50%) translateY(-216px)}
+      50%,57%{transform:translateY(-50%) translateY(-270px)}
+      60%,67%{transform:translateY(-50%) translateY(-324px)}
+      70%,77%{transform:translateY(-50%) translateY(-378px)}
+      80%,87%{transform:translateY(-50%) translateY(-432px)}
+      90%,97%{transform:translateY(-50%) translateY(-486px)}
       100%{transform:translateY(-50%) translateY(0)}
     }
 
     .sport-item{
-      height:42px;
+      height:44px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding:0 14px;
+      padding:0 12px;
       border-radius:12px;
       font-weight:700;
       color:var(--ink2);
     }
 
     .sport-item .icon{
-      font-size:20px;
+      font-size:18px;
       line-height:1;
     }
 
     .sport-item .label{
       flex:1;
       text-align:left;
-      padding-left:12px;
-      font-size:14px;
+      padding-left:10px;
+      font-size:13px;
     }
 
     .sport-item .mini-points{
-      font-size:12px;
+      font-size:11px;
       font-weight:800;
       color:var(--muted);
     }
 
-    /* shared score */
-    .score-shell{
-      position:relative;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:12px;
-    }
-
+    /* score panel */
     .multiplier-strip{
       display:flex;
       flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:2px;
+      gap:6px;
+      justify-content:center;
+      margin-bottom:10px;
     }
 
     .mult-pill{
-      padding:6px 10px;
+      padding:6px 9px;
       border-radius:999px;
       font-size:10px;
       font-weight:800;
@@ -599,6 +515,7 @@
       background:#fff;
       color:var(--ink2);
       box-shadow:0 2px 8px rgba(0,0,0,.04);
+      white-space:nowrap;
     }
 
     .mult-pill.orange{background:var(--orange-bg); color:var(--orange)}
@@ -609,17 +526,11 @@
       background:linear-gradient(135deg, rgba(255,92,58,.06), rgba(255,255,255,1));
       border:1px solid rgba(255,92,58,.14);
       border-radius:14px;
-      padding:16px;
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:16px;
-      align-items:end;
-    }
-
-    .score-meta{
+      padding:14px;
       display:flex;
       flex-direction:column;
-      gap:6px;
+      gap:12px;
+      flex:1;
     }
 
     .score-kicker{
@@ -628,112 +539,98 @@
       letter-spacing:.08em;
       text-transform:uppercase;
       color:var(--muted);
+      text-align:center;
     }
 
     .score-value{
       font-family:'Nunito',sans-serif;
-      font-size:38px;
+      font-size:42px;
       line-height:1;
       font-weight:900;
       color:var(--ink);
       letter-spacing:-.03em;
+      text-align:center;
     }
 
     .score-sub{
       font-size:12px;
       color:var(--muted);
       line-height:1.6;
+      text-align:center;
     }
 
-    .score-breakdown{
+    .score-list{
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
+      margin-top:2px;
     }
 
-    .sb-row{
+    .score-line{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:10px;
-      font-size:11px;
+      gap:12px;
+      font-size:12px;
       color:var(--ink2);
     }
 
-    .sb-lab{
+    .score-line-left{
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:10px;
       min-width:0;
     }
 
-    .sb-dot{
-      width:8px;height:8px;border-radius:50%;
+    .score-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
       flex-shrink:0;
     }
 
-    .sb-dot.a{background:var(--orange)}
-    .sb-dot.b{background:var(--blue)}
-    .sb-dot.c{background:var(--green)}
-    .sb-dot.d{background:var(--magenta)}
+    .score-dot.a{background:var(--orange)}
+    .score-dot.b{background:#4B82F0}
+    .score-dot.c{background:var(--green)}
+    .score-dot.d{background:var(--magenta)}
 
-    .sb-num{
+    .score-line-right{
       font-family:'Nunito',sans-serif;
       font-weight:900;
+      font-size:14px;
       color:var(--ink);
+      white-space:nowrap;
     }
 
-    /* league stack */
-    .league-stack{
-      position:relative;
-      min-height:208px;
-      padding-top:4px;
+    /* connected leagues */
+    .league-static{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex:1;
     }
 
     .league-card{
-      position:absolute;
-      left:0;
-      right:0;
-      border-radius:14px;
       background:#fff;
       border:1px solid rgba(0,0,0,.06);
-      box-shadow:0 10px 24px rgba(0,0,0,.06);
-      padding:14px;
-      overflow:hidden;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.05);
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      animation:leagueCycle 9s ease-in-out infinite;
+      transform-origin:center;
     }
 
-    .league-card::after{
-      content:"";
-      position:absolute;
-      inset:auto 0 0 0;
-      height:38px;
-      background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.95));
-      pointer-events:none;
-    }
+    .league-card.ind{animation-delay:0s}
+    .league-card.post{animation-delay:3s}
+    .league-card.city{animation-delay:6s}
 
-    .league-card.l1{
-      top:0;
-      z-index:3;
-      transform:translateX(0) scale(1);
-      border-color:rgba(255,92,58,.18);
-    }
-
-    .league-card.l2{
-      top:44px;
-      left:14px;
-      right:14px;
-      z-index:2;
-      transform:scale(.97);
-      opacity:.92;
-    }
-
-    .league-card.l3{
-      top:86px;
-      left:28px;
-      right:28px;
-      z-index:1;
-      transform:scale(.94);
-      opacity:.82;
+    @keyframes leagueCycle{
+      0%,20%{opacity:.55; transform:scale(.96) translateY(0)}
+      28%,52%{opacity:1; transform:scale(1) translateY(-2px)}
+      60%,100%{opacity:.55; transform:scale(.96) translateY(0)}
     }
 
     .league-top{
@@ -741,7 +638,6 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      margin-bottom:12px;
     }
 
     .league-name{
@@ -752,7 +648,7 @@
 
     .league-rank{
       font-family:'Nunito',sans-serif;
-      font-size:12px;
+      font-size:11px;
       font-weight:900;
       color:var(--orange);
       background:var(--orange-bg);
@@ -765,7 +661,7 @@
       display:flex;
       align-items:center;
       gap:8px;
-      padding:7px 0;
+      padding:6px 0;
       border-top:1px solid var(--rule);
       font-size:11px;
       color:var(--ink2);
@@ -784,6 +680,9 @@
     .lg-team{
       flex:1;
       font-weight:700;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .lg-pts{
@@ -799,13 +698,12 @@
     }
 
     /* derby */
-    .derby-head{
+    .derby-head-lite{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding:12px 16px;
-      background:linear-gradient(135deg,rgba(255,92,58,.06),rgba(59,130,246,.05));
-      border-bottom:1px solid var(--rule);
+      gap:10px;
+      margin-bottom:10px;
     }
 
     .derby-tag{
@@ -828,32 +726,27 @@
       font-size:10px;
       color:var(--muted);
       font-weight:600;
-    }
-
-    .derby-body{
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
+      white-space:nowrap;
     }
 
     .derby-scoreline{
       display:grid;
       grid-template-columns:1fr auto 1fr;
       align-items:center;
-      gap:10px;
+      gap:8px;
+      margin-bottom:10px;
     }
 
     .side{
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:4px;
+      gap:3px;
     }
 
     .side-name{
       font-family:'Nunito',sans-serif;
-      font-size:24px;
+      font-size:22px;
       line-height:1;
       font-weight:900;
     }
@@ -863,7 +756,7 @@
 
     .side-pts{
       font-family:'Nunito',sans-serif;
-      font-size:15px;
+      font-size:14px;
       font-weight:900;
       color:var(--ink);
     }
@@ -889,6 +782,7 @@
       background:linear-gradient(90deg, rgba(255,92,58,.12) 0%, rgba(255,92,58,.12) 50%, rgba(59,130,246,.12) 50%, rgba(59,130,246,.12) 100%);
       overflow:hidden;
       border:1px solid rgba(0,0,0,.04);
+      margin-bottom:10px;
     }
 
     .tug-center{
@@ -907,7 +801,7 @@
       position:absolute;
       top:0;
       bottom:0;
-      transition:all .9s ease;
+      transition:all .45s ease;
     }
 
     .tug-orange{
@@ -927,15 +821,15 @@
     .tug-knob{
       position:absolute;
       top:50%;
-      width:26px;
-      height:26px;
+      width:28px;
+      height:28px;
       border-radius:50%;
       background:#fff;
       border:3px solid var(--ink);
       transform:translate(-50%,-50%);
       z-index:4;
       box-shadow:0 4px 10px rgba(0,0,0,.10);
-      transition:left .9s ease;
+      transition:left .45s ease;
     }
 
     .tug-knob::after{
@@ -952,7 +846,8 @@
       font-size:12px;
       color:var(--muted);
       font-weight:600;
-      line-height:1.55;
+      line-height:1.45;
+      margin-bottom:10px;
     }
 
     .derby-gap strong{
@@ -964,13 +859,14 @@
     .derby-feed{
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:10px;
+      gap:8px;
+      margin-top:auto;
     }
 
     .feed-side{
       border-radius:12px;
-      padding:10px;
-      min-height:76px;
+      padding:9px;
+      min-height:82px;
       background:var(--bg2);
     }
 
@@ -1022,58 +918,39 @@
       white-space:nowrap;
     }
 
-    .ticker{
-      background:var(--ink);
-      padding:10px 0;
-      overflow:hidden;
-      white-space:nowrap;
-      margin-top:auto;
+    @media(max-width:1180px){
+      .page{padding:18px 20px 22px}
+      .modules-wrap{
+        grid-template-columns:1fr 1fr;
+      }
+      .panel{
+        min-height:250px;
+      }
     }
 
-    .tick-inner{
-      display:inline-flex;
-      gap:32px;
-      animation:tick 34s linear infinite;
-    }
-
-    @keyframes tick{
-      from{transform:translateX(0)}
-      to{transform:translateX(-50%)}
-    }
-
-    .tick-i{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      font-size:11px;
-      font-weight:600;
-    }
-
-    @media(max-width:950px){
-      .main{
+    @media(max-width:760px){
+      .big-h{font-size:42px}
+      .subhead{font-size:19px}
+      .descriptor{font-size:14px}
+      .signup-row{
+        flex-direction:column;
+      }
+      .email-in{
+        max-width:none;
+        width:100%;
+      }
+      .sub-btn{
+        width:100%;
+      }
+      .modules-wrap{
         grid-template-columns:1fr;
       }
-    }
-
-    @media(max-width:700px){
-      .topbar{padding:18px 20px}
-      .main{padding:6px 20px 40px}
-      .week-pill{display:none}
-
-      .score-card{
+      .panel{
+        min-height:unset;
+      }
+      .derby-feed{
         grid-template-columns:1fr;
       }
-
-      .league-card.l2{
-        left:10px;
-        right:10px;
-      }
-
-      .league-card.l3{
-        left:20px;
-        right:20px;
-      }
-
       .mini-sprite:nth-child(n+7){display:none}
     }
   </style>
@@ -1084,291 +961,234 @@
 
     <div class="topbar">
       <div class="logo">OUSH <span>LEAGUE</span></div>
-      <div class="week-pill">
-        <div class="week-dot"></div>
-        <div class="week-txt">Week 14 · <em>3 days</em> until reset</div>
-      </div>
     </div>
 
-    <div class="main">
-      <div class="hero">
-        <div class="sport-tag">★ A new kind of sport</div>
+    <div class="hero-wrap">
+      <div class="sport-tag">★ A new kind of sport</div>
 
-        <h1 class="big-h">A new kind of sport.</h1>
-        <div class="launch-line">Coming to Norwich</div>
+      <h1 class="big-h">A new kind of sport.</h1>
+      <div class="launch-line">Coming to Norwich</div>
 
-        <div class="subhead">
-          <strong>You run, lift, swim, train, or play — now there’s something to win.</strong>
-        </div>
+      <div class="subhead">
+        <strong>You run, lift, swim, train, or play — now there’s something to win.</strong>
+      </div>
 
-        <p class="descriptor">
-          All sports. One weekly competition. What you do counts for you, your area, and your city.
-        </p>
+      <p class="descriptor">
+        All sports. One weekly competition. What you do counts for you, your area, and your city.
+      </p>
 
-        <div class="cta">
-          <div class="cta-kicker">First wave · Norwich</div>
-          <div class="cta-title">Join the first 500 in Norwich</div>
-          <div class="cta-copy">
-            Be first to hear when Oush League arrives, and help shape the first weekly competition.
+      <div class="signup-inline">
+        <div class="heart-label">If this excites you — tap the heart</div>
+        <button class="heart-btn" id="heartBtn" onclick="heartClick()">❤️</button>
+        <div class="heart-hint">be one of the first 500 to join Norwich</div>
+
+        <div class="signup-expand" id="signupExpand">
+          <div class="signup-copy">
+            Be one of the first 500 to join Norwich, get early access, and follow the build from day one.
           </div>
 
-          <div class="st-heart" id="stHeart">
-            <div class="heart-label">If this excites you —</div>
-            <button class="heart-btn" id="heartBtn" onclick="heartClick()">❤️</button>
-            <div class="heart-hint">tap the heart to claim your spot</div>
-          </div>
-
-          <div class="st-email" id="stEmail">
-            <div class="found-box">
-              <div class="found-tag">Founding squad · Norwich</div>
-              <div class="found-body">
-                Be one of the first 500 people to join Norwich.<br />
-                <strong>Get early access and follow the build from day one.</strong>
-              </div>
-            </div>
+          <div class="signup-row">
             <input class="email-in" type="email" id="emailIn" placeholder="your@email.com" autocomplete="email" />
-            <button class="sub-btn" onclick="submitEmail()">I’m in — let’s go →</button>
-            <div class="priv">No spam. Just launch updates. Unsubscribe any time.</div>
+            <button class="sub-btn" onclick="submitEmail()">I’m in</button>
           </div>
 
-          <div class="st-done" id="stDone">
-            <div class="done-icon">🏆</div>
-            <div class="done-h">You’re in, Norwich.</div>
-            <div class="done-s">
-              Welcome to the founding squad. You’ll be first to hear when the first weekly competition begins.
-            </div>
-          </div>
-
-          <div class="prog-row">
-            <div class="prog-label">Founding<br />spots</div>
-            <div class="prog-wrap"><div class="prog-fill" id="progFill"></div></div>
-            <div class="prog-count"><em id="progN">312</em> / 500</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="right-panel">
-        <div class="system-card">
-          <div class="system-inner">
-
-            <div class="module">
-              <div class="module-title">Sports in</div>
-              <div class="sports-reel">
-                <div class="sports-fade-top"></div>
-                <div class="sports-fade-bottom"></div>
-                <div class="sports-center-glow"></div>
-
-                <div class="sports-track">
-                  <div class="sport-item">
-                    <div class="icon">🏃</div>
-                    <div class="label">Run</div>
-                    <div class="mini-points">+240</div>
-                  </div>
-                  <div class="sport-item">
-                    <div class="icon">🏋️</div>
-                    <div class="label">Lift</div>
-                    <div class="mini-points">+180</div>
-                  </div>
-                  <div class="sport-item">
-                    <div class="icon">🏊</div>
-                    <div class="label">Swim</div>
-                    <div class="mini-points">+310</div>
-                  </div>
-                  <div class="sport-item">
-                    <div class="icon">🚴</div>
-                    <div class="label">Cycle</div>
-                    <div class="mini-points">+210</div>
-                  </div>
-                  <div class="sport-item">
-                    <div class="icon">⚽</div>
-                    <div class="label">Play</div>
-                    <div class="mini-points">+190</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="module">
-              <div class="module-title">One shared score</div>
-
-              <div class="score-shell">
-                <div class="multiplier-strip">
-                  <div class="mult-pill orange">Variety ×1.2</div>
-                  <div class="mult-pill blue">Social +40</div>
-                  <div class="mult-pill green">Derby boost +15%</div>
-                </div>
-
-                <div class="score-card">
-                  <div class="score-meta">
-                    <div class="score-kicker">This week</div>
-                    <div class="score-value" id="sharedScore">1,284 pts</div>
-                    <div class="score-sub">
-                      One score powered by everything you do across the week.
-                    </div>
-                  </div>
-
-                  <div class="score-breakdown">
-                    <div class="sb-row">
-                      <div class="sb-lab"><span class="sb-dot a"></span><span>Activity</span></div>
-                      <div class="sb-num" id="scoreA">930</div>
-                    </div>
-                    <div class="sb-row">
-                      <div class="sb-lab"><span class="sb-dot b"></span><span>Variety</span></div>
-                      <div class="sb-num" id="scoreB">154</div>
-                    </div>
-                    <div class="sb-row">
-                      <div class="sb-lab"><span class="sb-dot c"></span><span>Social</span></div>
-                      <div class="sb-num" id="scoreC">40</div>
-                    </div>
-                    <div class="sb-row">
-                      <div class="sb-lab"><span class="sb-dot d"></span><span>Derby</span></div>
-                      <div class="sb-num" id="scoreD">160</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="module">
-              <div class="module-title">Connected leagues</div>
-
-              <div class="league-stack">
-                <div class="league-card l1">
-                  <div class="league-top">
-                    <div class="league-name">Individual League</div>
-                    <div class="league-rank" id="rankYou">#14 this week</div>
-                  </div>
-
-                  <div class="league-row">
-                    <div class="lg-pos">12</div>
-                    <div class="lg-team">Maya T</div>
-                    <div class="lg-pts">1,422</div>
-                  </div>
-                  <div class="league-row">
-                    <div class="lg-pos">13</div>
-                    <div class="lg-team">Luke H</div>
-                    <div class="lg-pts">1,366</div>
-                  </div>
-                  <div class="league-row lg-you">
-                    <div class="lg-pos">14</div>
-                    <div class="lg-team">You</div>
-                    <div class="lg-pts" id="ptsYou">1,284</div>
-                  </div>
-                  <div class="league-row">
-                    <div class="lg-pos">15</div>
-                    <div class="lg-team">Jade R</div>
-                    <div class="lg-pts">1,240</div>
-                  </div>
-                </div>
-
-                <div class="league-card l2">
-                  <div class="league-top">
-                    <div class="league-name">Postcode League · NR2</div>
-                    <div class="league-rank" id="rankPostcode">#1 this week</div>
-                  </div>
-
-                  <div class="league-row lg-you">
-                    <div class="lg-pos">1</div>
-                    <div class="lg-team">NR2</div>
-                    <div class="lg-pts" id="ptsPostcode">84,700</div>
-                  </div>
-                  <div class="league-row">
-                    <div class="lg-pos">2</div>
-                    <div class="lg-team">NR1</div>
-                    <div class="lg-pts">82,100</div>
-                  </div>
-                  <div class="league-row">
-                    <div class="lg-pos">3</div>
-                    <div class="lg-team">NR4</div>
-                    <div class="lg-pts">79,400</div>
-                  </div>
-                </div>
-
-                <div class="league-card l3">
-                  <div class="league-top">
-                    <div class="league-name">City League</div>
-                    <div class="league-rank" id="rankCity">#3 this week</div>
-                  </div>
-
-                  <div class="league-row">
-                    <div class="lg-pos">1</div>
-                    <div class="lg-team">London</div>
-                    <div class="lg-pts">241k</div>
-                  </div>
-                  <div class="league-row">
-                    <div class="lg-pos">2</div>
-                    <div class="lg-team">New York</div>
-                    <div class="lg-pts">238k</div>
-                  </div>
-                  <div class="league-row lg-you">
-                    <div class="lg-pos">3</div>
-                    <div class="lg-team">Norwich</div>
-                    <div class="lg-pts" id="ptsCity">189k</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
+          <div class="signup-meta">No spam. Just launch updates. Unsubscribe any time.</div>
         </div>
 
-        <div class="derby-card">
-          <div class="derby-head">
-            <div class="derby-tag">Postcode Derby · Week 14</div>
-            <div class="derby-ends">Ends Friday 6pm</div>
-          </div>
+        <div class="signup-done" id="signupDone">
+          <div class="done-h">You’re in, Norwich.</div>
+          <div class="done-s">Welcome to the founding squad. You’ll be first to hear when the first weekly competition begins.</div>
+        </div>
 
-          <div class="derby-body">
-            <div class="derby-scoreline">
-              <div class="side orange">
-                <div class="side-name">NR2</div>
-                <div class="side-pts" id="derbyLeadPts">84,700</div>
-                <div class="side-lbl">Leading</div>
-              </div>
-
-              <div class="vs-mark">vs</div>
-
-              <div class="side blue">
-                <div class="side-name">NR3</div>
-                <div class="side-pts" id="derbyTrailPts">76,800</div>
-                <div class="side-lbl">Chasing</div>
-              </div>
-            </div>
-
-            <div class="tug-wrap">
-              <div class="tug-center"></div>
-              <div class="tug-orange" id="tugOrange" style="width:56%"></div>
-              <div class="tug-blue" id="tugBlue" style="width:44%"></div>
-              <div class="tug-knob" id="tugKnob" style="left:56%"></div>
-            </div>
-
-            <div class="derby-gap">
-              NR2 leads by <strong id="derbyGap">7,900 pts</strong> · <span id="daysLeft">3 days left</span>
-            </div>
-
-            <div class="derby-feed">
-              <div class="feed-side orange">
-                <div class="feed-side-title">NR2 activity</div>
-                <div class="mini-log" id="nr2Log"></div>
-              </div>
-
-              <div class="feed-side blue">
-                <div class="feed-side-title">NR3 activity</div>
-                <div class="mini-log" id="nr3Log"></div>
-              </div>
-            </div>
-          </div>
+        <div class="spots-row">
+          <div class="spots-label">Founding spots</div>
+          <div class="spots-wrap"><div class="spots-fill" id="progFill"></div></div>
+          <div class="spots-count"><em id="progN">312</em> / 500</div>
         </div>
       </div>
     </div>
 
-    <div class="ticker">
-      <div class="tick-inner" id="ticker"></div>
+    <div class="modules-wrap">
+      <div class="panel">
+        <div class="panel-title">Sports in</div>
+        <div class="sports-reel">
+          <div class="sports-fade-top"></div>
+          <div class="sports-fade-bottom"></div>
+          <div class="sports-center-glow"></div>
+
+          <div class="sports-track">
+            <div class="sport-item"><div class="icon">🏃</div><div class="label">Run</div><div class="mini-points">+240</div></div>
+            <div class="sport-item"><div class="icon">🏋️</div><div class="label">Lift</div><div class="mini-points">+180</div></div>
+            <div class="sport-item"><div class="icon">🏊</div><div class="label">Swim</div><div class="mini-points">+310</div></div>
+            <div class="sport-item"><div class="icon">🚴</div><div class="label">Cycle</div><div class="mini-points">+210</div></div>
+            <div class="sport-item"><div class="icon">⚽</div><div class="label">Football</div><div class="mini-points">+190</div></div>
+            <div class="sport-item"><div class="icon">🎾</div><div class="label">Tennis</div><div class="mini-points">+165</div></div>
+            <div class="sport-item"><div class="icon">🏐</div><div class="label">Volleyball</div><div class="mini-points">+145</div></div>
+            <div class="sport-item"><div class="icon">🏏</div><div class="label">Cricket</div><div class="mini-points">+175</div></div>
+            <div class="sport-item"><div class="icon">🥊</div><div class="label">Boxing</div><div class="mini-points">+155</div></div>
+            <div class="sport-item"><div class="icon">🧘</div><div class="label">Yoga</div><div class="mini-points">+120</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">One shared score</div>
+
+        <div class="multiplier-strip">
+          <div class="mult-pill orange">Variety ×1.2</div>
+          <div class="mult-pill blue">Social +40</div>
+          <div class="mult-pill green">Derby boost +15%</div>
+        </div>
+
+        <div class="score-card">
+          <div class="score-kicker">This week</div>
+          <div class="score-value" id="sharedScore">1,607 pts</div>
+          <div class="score-sub">
+            One score powered by everything you do across the week.
+          </div>
+
+          <div class="score-list">
+            <div class="score-line">
+              <div class="score-line-left"><span class="score-dot a"></span><span>Activity</span></div>
+              <div class="score-line-right" id="scoreA">1180</div>
+            </div>
+            <div class="score-line">
+              <div class="score-line-left"><span class="score-dot b"></span><span>Variety</span></div>
+              <div class="score-line-right" id="scoreB">190</div>
+            </div>
+            <div class="score-line">
+              <div class="score-line-left"><span class="score-dot c"></span><span>Social</span></div>
+              <div class="score-line-right" id="scoreC">47</div>
+            </div>
+            <div class="score-line">
+              <div class="score-line-left"><span class="score-dot d"></span><span>Derby</span></div>
+              <div class="score-line-right" id="scoreD">190</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Connected leagues</div>
+
+        <div class="league-static">
+          <div class="league-card ind">
+            <div class="league-top">
+              <div class="league-name">Individual League</div>
+              <div class="league-rank">#14 this week</div>
+            </div>
+            <div class="league-row">
+              <div class="lg-pos">12</div>
+              <div class="lg-team">Maya T</div>
+              <div class="lg-pts">1,744</div>
+            </div>
+            <div class="league-row">
+              <div class="lg-pos">13</div>
+              <div class="lg-team">Luke H</div>
+              <div class="lg-pts">1,682</div>
+            </div>
+            <div class="league-row lg-you">
+              <div class="lg-pos">14</div>
+              <div class="lg-team">You</div>
+              <div class="lg-pts" id="ptsYou">1,607</div>
+            </div>
+          </div>
+
+          <div class="league-card post">
+            <div class="league-top">
+              <div class="league-name">Postcode League · NR2</div>
+              <div class="league-rank">#1 this week</div>
+            </div>
+            <div class="league-row lg-you">
+              <div class="lg-pos">1</div>
+              <div class="lg-team">NR2</div>
+              <div class="lg-pts" id="ptsPostcode">84,700</div>
+            </div>
+            <div class="league-row">
+              <div class="lg-pos">2</div>
+              <div class="lg-team">NR1</div>
+              <div class="lg-pts">82,100</div>
+            </div>
+            <div class="league-row">
+              <div class="lg-pos">3</div>
+              <div class="lg-team">NR4</div>
+              <div class="lg-pts">79,400</div>
+            </div>
+          </div>
+
+          <div class="league-card city">
+            <div class="league-top">
+              <div class="league-name">City League</div>
+              <div class="league-rank">#3 this week</div>
+            </div>
+            <div class="league-row">
+              <div class="lg-pos">1</div>
+              <div class="lg-team">London</div>
+              <div class="lg-pts">241k</div>
+            </div>
+            <div class="league-row">
+              <div class="lg-pos">2</div>
+              <div class="lg-team">New York</div>
+              <div class="lg-pts">238k</div>
+            </div>
+            <div class="league-row lg-you">
+              <div class="lg-pos">3</div>
+              <div class="lg-team">Norwich</div>
+              <div class="lg-pts" id="ptsCity">189k</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="derby-head-lite">
+          <div class="derby-tag">Postcode head-to-head</div>
+          <div class="derby-ends">Ends Friday 6pm</div>
+        </div>
+
+        <div class="derby-scoreline">
+          <div class="side orange">
+            <div class="side-name">NR2</div>
+            <div class="side-pts" id="derbyLeadPts">84,700</div>
+            <div class="side-lbl">Leading</div>
+          </div>
+
+          <div class="vs-mark">vs</div>
+
+          <div class="side blue">
+            <div class="side-name">NR3</div>
+            <div class="side-pts" id="derbyTrailPts">76,800</div>
+            <div class="side-lbl">Chasing</div>
+          </div>
+        </div>
+
+        <div class="tug-wrap">
+          <div class="tug-center"></div>
+          <div class="tug-orange" id="tugOrange" style="width:60%"></div>
+          <div class="tug-blue" id="tugBlue" style="width:40%"></div>
+          <div class="tug-knob" id="tugKnob" style="left:60%"></div>
+        </div>
+
+        <div class="derby-gap">
+          NR2 leads by <strong id="derbyGap">7,900 pts</strong> · <span id="daysLeft">3 days left</span>
+        </div>
+
+        <div class="derby-feed">
+          <div class="feed-side orange">
+            <div class="feed-side-title">NR2 activity</div>
+            <div class="mini-log" id="nr2Log"></div>
+          </div>
+
+          <div class="feed-side blue">
+            <div class="feed-side-title">NR3 activity</div>
+            <div class="mini-log" id="nr3Log"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    /* signup progress */
     let signups = 312;
 
     function updateProg(){
@@ -1385,20 +1205,17 @@
       }
     }, 6000);
 
-    /* signup interaction */
     function heartClick(){
       const btn = document.getElementById('heartBtn');
       btn.style.filter = 'grayscale(0)';
       btn.style.opacity = '1';
-      btn.style.transform = 'scale(1.3)';
+      btn.style.transform = 'scale(1.2)';
       btn.style.animation = 'none';
 
       setTimeout(() => {
-        document.getElementById('stHeart').style.display = 'none';
-        const st = document.getElementById('stEmail');
-        st.style.display = 'flex';
+        document.getElementById('signupExpand').style.display = 'block';
         document.getElementById('emailIn').focus();
-      }, 320);
+      }, 180);
     }
 
     function submitEmail(){
@@ -1409,23 +1226,24 @@
       const ENTRY = 'entry.YOUR_ENTRY_ID_HERE';
       new Image().src = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse?${ENTRY}=${encodeURIComponent(email)}&submit=Submit`;
 
-      document.getElementById('stEmail').style.display = 'none';
-      document.getElementById('stDone').style.display = 'flex';
+      document.getElementById('signupExpand').style.display = 'none';
+      document.getElementById('signupDone').style.display = 'flex';
+
       signups = Math.min(signups + 1, 499);
       updateProg();
     }
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && document.getElementById('stEmail').style.display !== 'none') {
+      const expand = document.getElementById('signupExpand');
+      if (e.key === 'Enter' && expand.style.display !== 'none') {
         submitEmail();
       }
     });
 
-    /* score card */
-    let scoreA = 930;
-    let scoreB = 154;
-    let scoreC = 40;
-    let scoreD = 160;
+    let scoreA = 1180;
+    let scoreB = 190;
+    let scoreC = 47;
+    let scoreD = 190;
 
     function renderSharedScore(){
       const total = scoreA + scoreB + scoreC + scoreD;
@@ -1438,16 +1256,15 @@
     }
 
     setInterval(() => {
-      scoreA += Math.ceil(Math.random() * 18);
-      if (Math.random() > 0.55) scoreB += Math.ceil(Math.random() * 6);
-      if (Math.random() > 0.75) scoreC += Math.ceil(Math.random() * 3);
-      if (Math.random() > 0.60) scoreD += Math.ceil(Math.random() * 8);
+      scoreA += Math.ceil(Math.random() * 20);
+      if (Math.random() > 0.45) scoreB += Math.ceil(Math.random() * 7);
+      if (Math.random() > 0.72) scoreC += Math.ceil(Math.random() * 3);
+      if (Math.random() > 0.52) scoreD += Math.ceil(Math.random() * 9);
       renderSharedScore();
-    }, 3600);
+    }, 3400);
 
     renderSharedScore();
 
-    /* derby */
     let derbyLeadVal = 84700;
     let derbyTrailVal = 76800;
 
@@ -1456,15 +1273,17 @@
       { name:'Jade', sport:'cycled 12km', pts:186 },
       { name:'Beth', sport:'walked 8km', pts:88 },
       { name:'Tom', sport:'lifted 45min', pts:98 },
-      { name:'Kai', sport:'HIIT 30min', pts:112 }
+      { name:'Kai', sport:'HIIT 30min', pts:112 },
+      { name:'Ava', sport:'boxing', pts:136 }
     ];
 
     const nr3Activities = [
       { name:'Priya', sport:'yoga 60min', pts:76 },
       { name:'Leo', sport:'tennis 60min', pts:158 },
-      { name:'Ava', sport:'swam 20 laps', pts:120 },
+      { name:'Rory', sport:'ran 7.1km', pts:149 },
       { name:'Ben', sport:'played football', pts:132 },
-      { name:'Rory', sport:'ran 7.1km', pts:149 }
+      { name:'Nina', sport:'swam 20 laps', pts:120 },
+      { name:'Ollie', sport:'cycle commute', pts:104 }
     ];
 
     let nr2Idx = 0;
@@ -1493,8 +1312,10 @@
       const gap = derbyLeadVal - derbyTrailVal;
       if (gapEl) gapEl.textContent = gap.toLocaleString() + ' pts';
 
-      const total = derbyLeadVal + derbyTrailVal;
-      const orangePct = (derbyLeadVal / total) * 100;
+      const diff = derbyLeadVal - derbyTrailVal;
+      const maxSwing = 18;
+      const normalized = Math.max(-maxSwing, Math.min(maxSwing, diff / 500));
+      const orangePct = 50 + normalized;
       const bluePct = 100 - orangePct;
 
       document.getElementById('tugOrange').style.width = orangePct + '%';
@@ -1502,6 +1323,7 @@
       document.getElementById('tugKnob').style.left = orangePct + '%';
 
       document.getElementById('ptsPostcode').textContent = derbyLeadVal.toLocaleString();
+      document.getElementById('ptsCity').textContent = '189k';
     }
 
     function derbyTick(){
@@ -1510,39 +1332,21 @@
       derbyLeadVal += a2.pts;
       addMiniLog('nr2', a2);
 
-      if (Math.random() > 0.25) {
-        const a3 = nr3Activities[nr3Idx % nr3Activities.length];
-        nr3Idx++;
-        derbyTrailVal += a3.pts;
-        addMiniLog('nr3', a3);
-      }
+      const a3 = nr3Activities[nr3Idx % nr3Activities.length];
+      nr3Idx++;
+      derbyTrailVal += a3.pts;
+      addMiniLog('nr3', a3);
+
+      if (Math.random() > 0.6) derbyTrailVal += Math.ceil(Math.random() * 220);
+      if (Math.random() > 0.7) derbyLeadVal += Math.ceil(Math.random() * 260);
 
       updateDerby();
     }
 
     derbyTick();
     derbyTick();
-    setInterval(derbyTick, 3400);
+    setInterval(derbyTick, 3000);
 
-    /* ticker */
-    const ticks = [
-      {city:'Norwich', a:'NR2', sc:'84,700', b:'NR3', col:'#FFD166'},
-      {city:'London', a:'E1', sc:'241k', b:'SW11', col:'#FF5C3A'},
-      {city:'New York', a:'BKLYN', sc:'238k', b:'Manhattan', col:'#D946EF'},
-      {city:'Manchester', a:'M1', sc:'182k', b:'M13', col:'#FF5C3A'},
-      {city:'Tokyo', a:'Shibuya', sc:'4.1M', b:'Shinjuku', col:'#D946EF'},
-      {city:'Berlin', a:'Mitte', sc:'174k', b:'Prenzlberg', col:'#FF5C3A'}
-    ];
-
-    const tickEl = document.getElementById('ticker');
-    [...ticks, ...ticks].forEach(t => {
-      const s = document.createElement('span');
-      s.className = 'tick-i';
-      s.innerHTML = `<span style="color:${t.col};font-weight:700">${t.city}</span><span style="color:rgba(255,255,255,.2);margin:0 4px">·</span><span style="color:#FFD166">${t.a}</span><span style="color:rgba(255,255,255,.25);font-size:10px;margin:0 4px">${t.sc}</span><span style="color:#FFD166">${t.b}</span>`;
-      tickEl.appendChild(s);
-    });
-
-    /* world sprites */
     const SPRITE_COLS = 8;
     const SPRITE_ROWS = 5;
 
@@ -1553,20 +1357,20 @@
     }
 
     const worldSprites = [
-      { x: 8,  y: 20, col: 0, row: 0, w: 14, h: 22, o: .06, dur: 5.1 },
-      { x: 15, y: 34, col: 2, row: 0, w: 18, h: 18, o: .09, dur: 4.8 },
-      { x: 10, y: 58, col: 0, row: 3, w: 15, h: 23, o: .07, dur: 4.9 },
+      { x: 9,  y: 22, col: 0, row: 0, w: 14, h: 22, o: .05, dur: 5.1 },
+      { x: 16, y: 36, col: 2, row: 0, w: 18, h: 18, o: .08, dur: 4.8 },
+      { x: 12, y: 72, col: 0, row: 3, w: 15, h: 23, o: .06, dur: 4.9 },
 
-      { x: 40, y: 24, col: 4, row: 1, w: 14, h: 22, o: .05, dur: 4.7 },
-      { x: 35, y: 78, col: 1, row: 4, w: 15, h: 23, o: .05, dur: 4.5 },
+      { x: 38, y: 24, col: 4, row: 1, w: 14, h: 22, o: .04, dur: 4.7 },
+      { x: 44, y: 70, col: 1, row: 4, w: 15, h: 23, o: .04, dur: 4.5 },
 
-      { x: 74, y: 19, col: 6, row: 0, w: 14, h: 22, o: .05, dur: 5.2 },
-      { x: 89, y: 38, col: 7, row: 1, w: 13, h: 22, o: .04, dur: 4.8 },
-      { x: 79, y: 66, col: 5, row: 3, w: 16, h: 24, o: .06, dur: 4.1 },
-      { x: 93, y: 81, col: 7, row: 4, w: 14, h: 23, o: .04, dur: 5.1 },
+      { x: 68, y: 22, col: 6, row: 0, w: 14, h: 22, o: .04, dur: 5.2 },
+      { x: 82, y: 36, col: 7, row: 1, w: 13, h: 22, o: .03, dur: 4.8 },
+      { x: 88, y: 74, col: 5, row: 3, w: 16, h: 24, o: .05, dur: 4.1 },
+      { x: 95, y: 84, col: 7, row: 4, w: 14, h: 23, o: .03, dur: 5.1 },
 
-      { x: 22, y: 91, col: 3, row: 2, w: 14, h: 22, o: .04, dur: 5.3 },
-      { x: 60, y: 92, col: 4, row: 4, w: 14, h: 22, o: .04, dur: 5.0 }
+      { x: 28, y: 92, col: 3, row: 2, w: 14, h: 22, o: .03, dur: 5.3 },
+      { x: 58, y: 93, col: 4, row: 4, w: 14, h: 22, o: .03, dur: 5.0 }
     ];
 
     function renderWorldSprites(){
@@ -1583,7 +1387,7 @@
         el.style.top = s.y + '%';
         el.style.setProperty('--w', (s.w || 14) + 'px');
         el.style.setProperty('--h', (s.h || 22) + 'px');
-        el.style.setProperty('--o', s.o ?? .06);
+        el.style.setProperty('--o', s.o ?? .05);
         el.style.setProperty('--dur', (s.dur || 4.8) + 's');
         el.style.setProperty('--bgx', pos.x);
         el.style.setProperty('--bgy', pos.y);
