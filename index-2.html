@@ -1,1240 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oush League · Norwich</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-
-    :root{
-      --orange:#FF5C3A;
-      --orange2:#FF8060;
-      --orange-bg:rgba(255,92,58,0.08);
-      --blue:#3B82F6;
-      --blue2:#60A5FA;
-      --blue-bg:rgba(59,130,246,0.10);
-      --magenta:#D946EF;
-      --green:#059669;
-      --green-bg:rgba(5,150,105,0.08);
-      --bg:#F9F7F5;
-      --bg2:#F2EFE9;
-      --card:#FFFFFF;
-      --ink:#1A1209;
-      --ink2:#44321A;
-      --muted:#7A6450;
-      --faint:#B8A48C;
-      --border:#E2D9CE;
-      --rule:#EDE8E0;
-      --shadow:0 8px 24px rgba(24,18,9,.05);
-    }
-
-    html,body{
-      width:100%;
-      min-height:100%;
-      background:var(--bg);
-      font-family:'Plus Jakarta Sans',sans-serif;
-      color:var(--ink);
-      overflow-x:hidden;
-    }
-
-    body{min-height:100vh}
-
-    .page{
-      max-width:1280px;
-      margin:0 auto;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      position:relative;
-      padding:16px 24px 20px;
-    }
-
-    .world-layer{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index:0;
-      overflow:hidden;
-    }
-
-    .mini-sprite{
-      position:absolute;
-      width:var(--w,14px);
-      height:var(--h,22px);
-      transform:translate(-50%,-50%);
-      pointer-events:none;
-      opacity:var(--o,.05);
-      background-image:url("sprites.png");
-      background-repeat:no-repeat;
-      background-size:800% 500%;
-      background-position:var(--bgx,0%) var(--bgy,0%);
-      image-rendering:pixelated;
-      filter:drop-shadow(0 1px 0 rgba(255,255,255,.18));
-      animation:miniBob var(--dur,4.8s) ease-in-out infinite;
-    }
-
-    @keyframes miniBob{
-      0%,100%{transform:translate(-50%,-50%) translateY(0)}
-      50%{transform:translate(-50%,-50%) translateY(-2px)}
-    }
-
-    .topbar,.hero-wrap,.modules-wrap{
-      position:relative;
-      z-index:1;
-    }
-
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:2px 0 8px;
-    }
-
-    .logo{
-      font-family:'Press Start 2P',monospace;
-      font-size:11px;
-      color:var(--orange);
-    }
-
-    .logo span{color:var(--magenta)}
-
-    .hero-wrap{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      text-align:center;
-      padding:2px 0 10px;
-    }
-
-    .big-h{
-      font-family:'Nunito',sans-serif;
-      font-size:clamp(40px,5vw,70px);
-      font-weight:900;
-      line-height:.98;
-      letter-spacing:-.045em;
-      color:var(--ink);
-      max-width:900px;
-    }
-
-    .launch-line{
-      font-family:'Nunito',sans-serif;
-      font-size:clamp(15px,1.5vw,20px);
-      font-weight:800;
-      color:var(--magenta);
-      margin-top:8px;
-    }
-
-    .subhead{
-      margin-top:14px;
-      font-size:clamp(20px,1.9vw,30px);
-      line-height:1.3;
-      color:var(--ink2);
-      max-width:1040px;
-      font-weight:600;
-    }
-
-    .subhead strong{
-      color:var(--ink);
-      font-weight:800;
-    }
-
-    .descriptor{
-      margin-top:12px;
-      font-size:clamp(14px,1.15vw,18px);
-      color:var(--muted);
-      line-height:1.65;
-      max-width:880px;
-    }
-
-    .signup-inline{
-      margin-top:14px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:6px;
-      min-height:86px;
-    }
-
-    .heart-label{
-      font-size:12px;
-      color:var(--muted);
-      font-weight:600;
-      text-align:center;
-    }
-
-    .heart-btn{
-      background:none;
-      border:none;
-      cursor:pointer;
-      font-size:42px;
-      line-height:1;
-      filter:grayscale(1);
-      opacity:.42;
-      transition:all .2s;
-      animation:hbob 3s ease-in-out infinite;
-      display:block;
-    }
-
-    @keyframes hbob{
-      0%,100%{transform:scale(1)}
-      50%{transform:scale(1.08)}
-    }
-
-    .heart-btn:hover{
-      filter:grayscale(0);
-      opacity:1;
-      transform:scale(1.1)!important;
-      animation:none;
-    }
-
-    .heart-hint{
-      font-size:11px;
-      color:var(--faint);
-      text-align:center;
-    }
-
-    .signup-expand{
-      display:none;
-      width:100%;
-      max-width:560px;
-      margin-top:4px;
-      animation:fup .25s ease forwards;
-    }
-
-    @keyframes fup{
-      from{opacity:0;transform:translateY(8px)}
-      to{opacity:1;transform:translateY(0)}
-    }
-
-    .signup-copy{
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.55;
-      text-align:center;
-      margin-bottom:10px;
-    }
-
-    .signup-row{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .email-in{
-      flex:1;
-      min-width:0;
-      background:rgba(255,255,255,.72);
-      border:1.5px solid var(--border);
-      border-radius:999px;
-      padding:12px 15px;
-      font-size:13px;
-      color:var(--ink);
-      font-family:'Plus Jakarta Sans',sans-serif;
-      outline:none;
-      transition:border-color .2s,background .2s;
-      max-width:360px;
-    }
-
-    .email-in:focus{
-      border-color:var(--orange);
-      background:#fff;
-    }
-
-    .email-in::placeholder{color:var(--faint)}
-
-    .sub-btn{
-      background:var(--orange);
-      border:none;
-      border-radius:999px;
-      padding:12px 16px;
-      font-family:'Nunito',sans-serif;
-      font-size:13px;
-      font-weight:800;
-      color:white;
-      cursor:pointer;
-      transition:background .15s,transform .08s;
-      box-shadow:0 4px 0 #c8402a;
-      white-space:nowrap;
-    }
-
-    .sub-btn:hover{background:#e84a2a}
-    .sub-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #c8402a}
-
-    .signup-meta{
-      margin-top:8px;
-      font-size:11px;
-      color:var(--faint);
-      text-align:center;
-    }
-
-    .signup-done{
-      display:none;
-      flex-direction:column;
-      align-items:center;
-      gap:5px;
-      margin-top:4px;
-      animation:fup .25s ease forwards;
-    }
-
-    .done-h{
-      font-family:'Nunito',sans-serif;
-      font-size:17px;
-      font-weight:900;
-      color:var(--orange);
-    }
-
-    .done-s{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.5;
-      text-align:center;
-      max-width:520px;
-    }
-
-    .modules-wrap{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns:.92fr 1fr 1fr 1.08fr;
-      gap:10px;
-      align-items:stretch;
-    }
-
-    .panel{
-      background:rgba(255,255,255,.78);
-      backdrop-filter:blur(4px);
-      border:1.5px solid var(--border);
-      border-radius:18px;
-      box-shadow:var(--shadow);
-      padding:12px;
-      min-height:210px;
-      display:flex;
-      flex-direction:column;
-      overflow:hidden;
-    }
-
-    .panel-title{
-      font-size:10px;
-      font-weight:800;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      margin-bottom:8px;
-      text-align:center;
-    }
-
-    /* sports reel */
-    .sports-reel{
-      position:relative;
-      flex:1;
-      min-height:148px;
-      border-radius:14px;
-      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,248,244,.96));
-      overflow:hidden;
-      border:1px solid rgba(0,0,0,.04);
-    }
-
-    .sports-fade-top,
-    .sports-fade-bottom{
-      position:absolute;
-      left:0;right:0;height:20px;z-index:2;pointer-events:none;
-    }
-
-    .sports-fade-top{
-      top:0;
-      background:linear-gradient(180deg, rgba(249,247,245,1), rgba(249,247,245,0));
-    }
-
-    .sports-fade-bottom{
-      bottom:0;
-      background:linear-gradient(0deg, rgba(249,247,245,1), rgba(249,247,245,0));
-    }
-
-    .sports-center-glow{
-      position:absolute;
-      left:10px;
-      right:10px;
-      top:50%;
-      height:40px;
-      transform:translateY(-50%);
-      border-radius:12px;
-      background:rgba(255,255,255,.95);
-      border:1px solid rgba(0,0,0,.04);
-      box-shadow:0 8px 20px rgba(0,0,0,.05);
-      z-index:1;
-    }
-
-    .sports-track{
-      position:absolute;
-      left:10px;
-      right:10px;
-      top:50%;
-      transform:translateY(-50%);
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      z-index:3;
-      animation:sportsSpin 22s ease-in-out infinite;
-    }
-
-    @keyframes sportsSpin{
-      0%,7%{transform:translateY(-50%) translateY(0)}
-      10%,17%{transform:translateY(-50%) translateY(-48px)}
-      20%,27%{transform:translateY(-50%) translateY(-96px)}
-      30%,37%{transform:translateY(-50%) translateY(-144px)}
-      40%,47%{transform:translateY(-50%) translateY(-192px)}
-      50%,57%{transform:translateY(-50%) translateY(-240px)}
-      60%,67%{transform:translateY(-50%) translateY(-288px)}
-      70%,77%{transform:translateY(-50%) translateY(-336px)}
-      80%,87%{transform:translateY(-50%) translateY(-384px)}
-      90%,97%{transform:translateY(-50%) translateY(-432px)}
-      100%{transform:translateY(-50%) translateY(0)}
-    }
-
-    .sport-item{
-      height:40px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 12px;
-      border-radius:12px;
-      font-weight:700;
-      color:var(--ink2);
-    }
-
-    .sport-item .icon{
-      font-size:17px;
-      line-height:1;
-    }
-
-    .sport-item .label{
-      flex:1;
-      text-align:left;
-      padding-left:10px;
-      font-size:13px;
-    }
-
-    .sport-item .mini-points{
-      font-size:11px;
-      font-weight:800;
-      color:var(--muted);
-    }
-
-    /* score */
-    .multiplier-strip{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      justify-content:center;
-      margin-bottom:8px;
-    }
-
-    .mult-pill{
-      padding:5px 8px;
-      border-radius:999px;
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.04em;
-      border:1px solid rgba(0,0,0,.05);
-      background:#fff;
-      color:var(--ink2);
-      box-shadow:0 2px 8px rgba(0,0,0,.04);
-      white-space:nowrap;
-    }
-
-    .mult-pill.orange{background:var(--orange-bg); color:var(--orange)}
-    .mult-pill.blue{background:var(--blue-bg); color:var(--blue)}
-    .mult-pill.green{background:var(--green-bg); color:var(--green)}
-
-    .score-card{
-      background:linear-gradient(135deg, rgba(255,92,58,.06), rgba(255,255,255,1));
-      border:1px solid rgba(255,92,58,.14);
-      border-radius:14px;
-      padding:14px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      flex:1;
-      justify-content:center;
-    }
-
-    .score-kicker{
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:var(--muted);
-      text-align:center;
-    }
-
-    .score-value{
-      font-family:'Nunito',sans-serif;
-      font-size:40px;
-      line-height:1;
-      font-weight:900;
-      color:var(--ink);
-      letter-spacing:-.03em;
-      text-align:center;
-    }
-
-    .score-sub{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.45;
-      text-align:center;
-    }
-
-    /* league deck */
-    .league-stage{
-      position:relative;
-      flex:1;
-      min-height:150px;
-    }
-
-    .league-deck{
-      position:relative;
-      width:100%;
-      height:100%;
-    }
-
-    .league-card{
-      position:absolute;
-      inset:0;
-      background:#fff;
-      border:1px solid rgba(0,0,0,.06);
-      border-radius:14px;
-      box-shadow:0 10px 24px rgba(0,0,0,.06);
-      padding:12px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      transform-origin:center center;
-    }
-
-    .league-card.ind{
-      animation:deckFront1 9s ease-in-out infinite;
-    }
-
-    .league-card.post{
-      animation:deckFront2 9s ease-in-out infinite;
-    }
-
-    .league-card.city{
-      animation:deckFront3 9s ease-in-out infinite;
-    }
-
-    @keyframes deckFront1{
-      0%,27%{transform:translateY(0) scale(1);opacity:1;z-index:3}
-      33%,60%{transform:translateY(8px) scale(.965);opacity:.62;z-index:2}
-      66%,100%{transform:translateY(16px) scale(.93);opacity:.34;z-index:1}
-    }
-
-    @keyframes deckFront2{
-      0%,27%{transform:translateY(16px) scale(.93);opacity:.34;z-index:1}
-      33%,60%{transform:translateY(0) scale(1);opacity:1;z-index:3}
-      66%,100%{transform:translateY(8px) scale(.965);opacity:.62;z-index:2}
-    }
-
-    @keyframes deckFront3{
-      0%,27%{transform:translateY(8px) scale(.965);opacity:.62;z-index:2}
-      33%,60%{transform:translateY(16px) scale(.93);opacity:.34;z-index:1}
-      66%,100%{transform:translateY(0) scale(1);opacity:1;z-index:3}
-    }
-
-    .league-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-
-    .league-name{
-      font-size:12px;
-      font-weight:800;
-      color:var(--ink);
-    }
-
-    .league-rank{
-      font-family:'Nunito',sans-serif;
-      font-size:11px;
-      font-weight:900;
-      color:var(--orange);
-      background:var(--orange-bg);
-      padding:5px 8px;
-      border-radius:999px;
-      white-space:nowrap;
-    }
-
-    .league-row{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 0;
-      border-top:1px solid var(--rule);
-      font-size:11px;
-      color:var(--ink2);
-    }
-
-    .league-row:first-of-type{border-top:none}
-
-    .lg-pos{
-      width:18px;
-      text-align:center;
-      color:var(--faint);
-      font-weight:800;
-      flex-shrink:0;
-    }
-
-    .lg-team{
-      flex:1;
-      font-weight:700;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .lg-pts{
-      font-family:'Nunito',sans-serif;
-      font-weight:900;
-      color:var(--ink);
-      white-space:nowrap;
-    }
-
-    .lg-you .lg-team,
-    .lg-you .lg-pts{
-      color:var(--orange);
-    }
-
-    /* derby */
-    .derby-head-lite{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:8px;
-    }
-
-    .derby-tag{
-      font-size:10px;
-      font-weight:800;
-      color:var(--orange);
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
-
-    .derby-tag::before{
-      content:'⚔';
-      font-size:12px;
-    }
-
-    .derby-ends{
-      font-size:10px;
-      color:var(--muted);
-      font-weight:600;
-      white-space:nowrap;
-    }
-
-    .derby-scoreline{
-      display:grid;
-      grid-template-columns:1fr auto 1fr;
-      align-items:center;
-      gap:8px;
-      margin-bottom:8px;
-    }
-
-    .side{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:2px;
-    }
-
-    .side-name{
-      font-family:'Nunito',sans-serif;
-      font-size:20px;
-      line-height:1;
-      font-weight:900;
-    }
-
-    .side.orange .side-name{color:var(--orange)}
-    .side.blue .side-name{color:var(--blue)}
-
-    .side-pts{
-      font-family:'Nunito',sans-serif;
-      font-size:13px;
-      font-weight:900;
-      color:var(--ink);
-    }
-
-    .side-lbl{
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-
-    .vs-mark{
-      font-size:11px;
-      font-weight:700;
-      color:var(--faint);
-    }
-
-    .tug-wrap{
-      position:relative;
-      height:20px;
-      border-radius:999px;
-      background:linear-gradient(90deg, rgba(255,92,58,.12) 0%, rgba(255,92,58,.12) 50%, rgba(59,130,246,.12) 50%, rgba(59,130,246,.12) 100%);
-      overflow:hidden;
-      border:1px solid rgba(0,0,0,.04);
-      margin-bottom:8px;
-    }
-
-    .tug-center{
-      position:absolute;
-      left:50%;
-      top:0;
-      bottom:0;
-      width:2px;
-      background:rgba(0,0,0,.08);
-      transform:translateX(-50%);
-      z-index:3;
-    }
-
-    .tug-orange,
-    .tug-blue{
-      position:absolute;
-      top:0;
-      bottom:0;
-      transition:all .45s ease;
-    }
-
-    .tug-orange{
-      left:0;
-      background:linear-gradient(90deg,var(--orange),var(--orange2));
-      border-radius:999px 0 0 999px;
-      box-shadow:inset -4px 0 10px rgba(255,255,255,.22);
-    }
-
-    .tug-blue{
-      right:0;
-      background:linear-gradient(90deg,var(--blue2),var(--blue));
-      border-radius:0 999px 999px 0;
-      box-shadow:inset 4px 0 10px rgba(255,255,255,.18);
-    }
-
-    .tug-knob{
-      position:absolute;
-      top:50%;
-      width:26px;
-      height:26px;
-      border-radius:50%;
-      background:#fff;
-      border:3px solid var(--ink);
-      transform:translate(-50%,-50%);
-      z-index:4;
-      box-shadow:0 4px 10px rgba(0,0,0,.10);
-      transition:left .45s ease;
-    }
-
-    .tug-knob::after{
-      content:"";
-      position:absolute;
-      inset:5px;
-      border-radius:50%;
-      background:linear-gradient(90deg,var(--orange),var(--blue));
-      opacity:.85;
-    }
-
-    .derby-gap{
-      text-align:center;
-      font-size:12px;
-      color:var(--muted);
-      font-weight:600;
-      line-height:1.35;
-      margin-bottom:8px;
-    }
-
-    .derby-gap strong{
-      color:var(--orange);
-      font-family:'Nunito',sans-serif;
-      font-weight:900;
-    }
-
-    .derby-feed{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-      margin-top:auto;
-    }
-
-    .feed-side{
-      border-radius:12px;
-      padding:8px;
-      min-height:72px;
-      background:var(--bg2);
-    }
-
-    .feed-side.orange{
-      background:rgba(255,92,58,.07);
-      border:1px solid rgba(255,92,58,.12);
-    }
-
-    .feed-side.blue{
-      background:rgba(59,130,246,.08);
-      border:1px solid rgba(59,130,246,.13);
-    }
-
-    .feed-side-title{
-      font-size:10px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.07em;
-      margin-bottom:6px;
-    }
-
-    .feed-side.orange .feed-side-title{color:var(--orange)}
-    .feed-side.blue .feed-side-title{color:var(--blue)}
-
-    .mini-log{
-      display:flex;
-      flex-direction:column;
-      gap:5px;
-    }
-
-    .mini-log-item{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      font-size:11px;
-      color:var(--ink2);
-    }
-
-    .mini-log-item .name{
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .mini-log-item .pts{
-      font-family:'Nunito',sans-serif;
-      font-weight:900;
-      white-space:nowrap;
-    }
-
-    @media(max-width:1180px){
-      .page{padding:16px 18px 18px}
-      .modules-wrap{grid-template-columns:1fr 1fr}
-    }
-
-    @media(max-width:760px){
-      .big-h{font-size:42px}
-      .subhead{font-size:19px}
-      .descriptor{font-size:14px}
-      .signup-row{flex-direction:column}
-      .email-in{max-width:none;width:100%}
-      .sub-btn{width:100%}
-      .modules-wrap{grid-template-columns:1fr}
-      .derby-feed{grid-template-columns:1fr}
-      .mini-sprite:nth-child(n+7){display:none}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oush League · Norwich</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --orange:#FF5C3A;
+  --blue:#3B82F6;
+  --green:#059669;
+  --magenta:#D946EF;
+
+  --bg:#F9F7F5;
+  --card:#FFFFFF;
+  --border:#E6DED3;
+
+  --ink:#1A1209;
+  --muted:#7A6450;
+}
+
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+
+/* ── LAYOUT ── */
+.page{
+  max-width:1200px;
+  margin:0 auto;
+  padding:40px 24px 30px;
+}
+
+/* ── HERO ── */
+.hero{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.logo{
+  font-family:'Press Start 2P';
+  font-size:11px;
+  margin-bottom:18px;
+}
+
+.logo span{color:var(--magenta)}
+
+h1{
+  font-family:'Nunito';
+  font-size:56px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.city{
+  font-size:18px;
+  color:var(--magenta);
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+.sub{
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:10px;
+}
+
+.desc{
+  color:var(--muted);
+  margin-bottom:18px;
+}
+
+/* HEART CTA */
+.cta{
+  margin-top:10px;
+}
+
+.heart{
+  font-size:36px;
+  opacity:.4;
+  cursor:pointer;
+  transition:.2s;
+}
+.heart:hover{opacity:1;transform:scale(1.1)}
+
+.small{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+/* ── GRID ── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+/* ── CARDS ── */
+.card{
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+  height:230px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+/* ── SPORTS REEL ── */
+.sports{
+  overflow:hidden;
+}
+
+.sports-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  animation:scroll 8s linear infinite;
+}
+
+@keyframes scroll{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-50%)}
+}
+
+.sport{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+}
+
+/* ── SCORE ── */
+.score{
+  text-align:center;
+}
+
+.pills{
+  display:flex;
+  gap:6px;
+  justify-content:center;
+  margin-bottom:10px;
+}
+
+.pill{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#eee;
+}
+
+.score-num{
+  font-size:36px;
+  font-weight:900;
+  font-family:'Nunito';
+}
+
+/* ── LEAGUES ── */
+.leagues{
+  position:relative;
+  overflow:hidden;
+}
+
+.league-card{
+  position:absolute;
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  background:#f3eee8;
+  font-size:13px;
+  transition:.4s;
+}
+
+.l1{top:0;z-index:3}
+.l2{top:18px;opacity:.6;transform:scale(.95)}
+.l3{top:36px;opacity:.3;transform:scale(.9)}
+
+/* ── DERBY ── */
+.derby{
+  text-align:center;
+}
+
+.teams{
+  display:flex;
+  justify-content:space-between;
+  font-weight:800;
+}
+
+.bar{
+  height:10px;
+  border-radius:6px;
+  margin:14px 0;
+  background:linear-gradient(90deg,var(--orange) 60%,var(--blue) 40%);
+  animation:push 3s ease-in-out infinite alternate;
+}
+
+@keyframes push{
+  from{background:linear-gradient(90deg,var(--orange) 70%,var(--blue) 30%)}
+  to{background:linear-gradient(90deg,var(--orange) 45%,var(--blue) 55%)}
+}
+
+.note{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr 1fr}
+}
+</style>
 </head>
+
 <body>
-  <div class="page">
-    <div class="world-layer" id="worldLayer" aria-hidden="true"></div>
 
-    <div class="topbar">
-      <div class="logo">OUSH <span>LEAGUE</span></div>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="logo">OUSH <span>LEAGUE</span></div>
+
+    <h1>A new kind of sport.</h1>
+    <div class="city">Coming to Norwich</div>
+
+    <div class="sub">
+      You run, lift, swim, train, or play — now there’s something to win.
     </div>
 
-    <div class="hero-wrap">
-      <h1 class="big-h">A new kind of sport.</h1>
-      <div class="launch-line">Coming to Norwich</div>
-
-      <div class="subhead">
-        <strong>You run, lift, swim, train, or play — now there’s something to win.</strong>
-      </div>
-
-      <p class="descriptor">
-        All sports. One weekly competition. What you do counts for you, your area, and your city.
-      </p>
-
-      <div class="signup-inline">
-        <div class="heart-label">If this excites you — tap the heart</div>
-        <button class="heart-btn" id="heartBtn" onclick="heartClick()">❤️</button>
-        <div class="heart-hint">be one of the first 500 to join Norwich</div>
-
-        <div class="signup-expand" id="signupExpand">
-          <div class="signup-copy">
-            Be one of the first 500 to join Norwich, get early access, and follow the build from day one.
-          </div>
-
-          <div class="signup-row">
-            <input class="email-in" type="email" id="emailIn" placeholder="your@email.com" autocomplete="email" />
-            <button class="sub-btn" onclick="submitEmail()">I’m in</button>
-          </div>
-
-          <div class="signup-meta">No spam. Just launch updates. Unsubscribe any time.</div>
-        </div>
-
-        <div class="signup-done" id="signupDone">
-          <div class="done-h">You’re in, Norwich.</div>
-          <div class="done-s">Welcome to the founding squad. You’ll be first to hear when the first weekly competition begins.</div>
-        </div>
-      </div>
+    <div class="desc">
+      All sports. One weekly competition. What you do counts for you, your area, and your city.
     </div>
 
-    <div class="modules-wrap">
-      <div class="panel">
-        <div class="panel-title">Sports in</div>
-        <div class="sports-reel">
-          <div class="sports-fade-top"></div>
-          <div class="sports-fade-bottom"></div>
-          <div class="sports-center-glow"></div>
-
-          <div class="sports-track">
-            <div class="sport-item"><div class="icon">🏃</div><div class="label">Run</div><div class="mini-points">+240</div></div>
-            <div class="sport-item"><div class="icon">🏋️</div><div class="label">Lift</div><div class="mini-points">+180</div></div>
-            <div class="sport-item"><div class="icon">🏊</div><div class="label">Swim</div><div class="mini-points">+310</div></div>
-            <div class="sport-item"><div class="icon">🚴</div><div class="label">Cycle</div><div class="mini-points">+210</div></div>
-            <div class="sport-item"><div class="icon">⚽</div><div class="label">Football</div><div class="mini-points">+190</div></div>
-            <div class="sport-item"><div class="icon">🎾</div><div class="label">Tennis</div><div class="mini-points">+165</div></div>
-            <div class="sport-item"><div class="icon">🏐</div><div class="label">Volleyball</div><div class="mini-points">+145</div></div>
-            <div class="sport-item"><div class="icon">🏏</div><div class="label">Cricket</div><div class="mini-points">+175</div></div>
-            <div class="sport-item"><div class="icon">🥊</div><div class="label">Boxing</div><div class="mini-points">+155</div></div>
-            <div class="sport-item"><div class="icon">🧘</div><div class="label">Yoga</div><div class="mini-points">+120</div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-title">One shared score</div>
-
-        <div class="multiplier-strip">
-          <div class="mult-pill orange">Variety ×1.2</div>
-          <div class="mult-pill blue">Social +40</div>
-          <div class="mult-pill green">Derby boost +15%</div>
-        </div>
-
-        <div class="score-card">
-          <div class="score-kicker">This week</div>
-          <div class="score-value" id="sharedScore">1,607 pts</div>
-          <div class="score-sub">Your weekly competition score.</div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panel-title">Connected leagues</div>
-
-        <div class="league-stage">
-          <div class="league-deck">
-            <div class="league-card ind">
-              <div class="league-top">
-                <div class="league-name">Individual League</div>
-                <div class="league-rank">#14 this week</div>
-              </div>
-              <div class="league-row">
-                <div class="lg-pos">12</div>
-                <div class="lg-team">Maya T</div>
-                <div class="lg-pts">1,744</div>
-              </div>
-              <div class="league-row">
-                <div class="lg-pos">13</div>
-                <div class="lg-team">Luke H</div>
-                <div class="lg-pts">1,682</div>
-              </div>
-              <div class="league-row lg-you">
-                <div class="lg-pos">14</div>
-                <div class="lg-team">You</div>
-                <div class="lg-pts" id="ptsYou">1,607</div>
-              </div>
-            </div>
-
-            <div class="league-card post">
-              <div class="league-top">
-                <div class="league-name">Postcode League · NR2</div>
-                <div class="league-rank">#1 this week</div>
-              </div>
-              <div class="league-row lg-you">
-                <div class="lg-pos">1</div>
-                <div class="lg-team">NR2</div>
-                <div class="lg-pts" id="ptsPostcode">84,700</div>
-              </div>
-              <div class="league-row">
-                <div class="lg-pos">2</div>
-                <div class="lg-team">NR1</div>
-                <div class="lg-pts">82,100</div>
-              </div>
-              <div class="league-row">
-                <div class="lg-pos">3</div>
-                <div class="lg-team">NR4</div>
-                <div class="lg-pts">79,400</div>
-              </div>
-            </div>
-
-            <div class="league-card city">
-              <div class="league-top">
-                <div class="league-name">City League</div>
-                <div class="league-rank">#3 this week</div>
-              </div>
-              <div class="league-row">
-                <div class="lg-pos">1</div>
-                <div class="lg-team">London</div>
-                <div class="lg-pts">241k</div>
-              </div>
-              <div class="league-row">
-                <div class="lg-pos">2</div>
-                <div class="lg-team">New York</div>
-                <div class="lg-pts">238k</div>
-              </div>
-              <div class="league-row lg-you">
-                <div class="lg-pos">3</div>
-                <div class="lg-team">Norwich</div>
-                <div class="lg-pts" id="ptsCity">189k</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="derby-head-lite">
-          <div class="derby-tag">Postcode head-to-head</div>
-          <div class="derby-ends">Ends Friday 6pm</div>
-        </div>
-
-        <div class="derby-scoreline">
-          <div class="side orange">
-            <div class="side-name">NR2</div>
-            <div class="side-pts" id="derbyLeadPts">84,700</div>
-            <div class="side-lbl">Leading</div>
-          </div>
-
-          <div class="vs-mark">vs</div>
-
-          <div class="side blue">
-            <div class="side-name">NR3</div>
-            <div class="side-pts" id="derbyTrailPts">76,800</div>
-            <div class="side-lbl">Chasing</div>
-          </div>
-        </div>
-
-        <div class="tug-wrap">
-          <div class="tug-center"></div>
-          <div class="tug-orange" id="tugOrange" style="width:60%"></div>
-          <div class="tug-blue" id="tugBlue" style="width:40%"></div>
-          <div class="tug-knob" id="tugKnob" style="left:60%"></div>
-        </div>
-
-        <div class="derby-gap">
-          NR2 leads by <strong id="derbyGap">7,900 pts</strong> · <span id="daysLeft">3 days left</span>
-        </div>
-
-        <div class="derby-feed">
-          <div class="feed-side orange">
-            <div class="feed-side-title">NR2 activity</div>
-            <div class="mini-log" id="nr2Log"></div>
-          </div>
-
-          <div class="feed-side blue">
-            <div class="feed-side-title">NR3 activity</div>
-            <div class="mini-log" id="nr3Log"></div>
-          </div>
-        </div>
-      </div>
+    <div class="cta">
+      <div>If this excites you — tap the heart</div>
+      <div class="heart">❤️</div>
+      <div class="small">be one of the first 500 to join Norwich</div>
     </div>
   </div>
 
-  <script>
-    function heartClick(){
-      const btn = document.getElementById('heartBtn');
-      btn.style.filter = 'grayscale(0)';
-      btn.style.opacity = '1';
-      btn.style.transform = 'scale(1.2)';
-      btn.style.animation = 'none';
+  <!-- GRID -->
+  <div class="grid">
 
-      setTimeout(() => {
-        document.getElementById('signupExpand').style.display = 'block';
-        document.getElementById('emailIn').focus();
-      }, 180);
-    }
+    <!-- SPORTS -->
+    <div class="card sports">
+      <div><strong>Sports in</strong></div>
+      <div class="sports-list">
+        <div class="sport">Run <span>+120</span></div>
+        <div class="sport">Lift <span>+90</span></div>
+        <div class="sport">Swim <span>+110</span></div>
+        <div class="sport">Cycle <span>+180</span></div>
+        <div class="sport">Football <span>+150</span></div>
+        <div class="sport">Tennis <span>+140</span></div>
 
-    function submitEmail(){
-      const email = document.getElementById('emailIn').value;
-      if (!email || !email.includes('@')) return;
+        <!-- duplicate for loop -->
+        <div class="sport">Run <span>+120</span></div>
+        <div class="sport">Lift <span>+90</span></div>
+        <div class="sport">Swim <span>+110</span></div>
+      </div>
+    </div>
 
-      const FORM_ID = 'YOUR_FORM_ID_HERE';
-      const ENTRY = 'entry.YOUR_ENTRY_ID_HERE';
-      new Image().src = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse?${ENTRY}=${encodeURIComponent(email)}&submit=Submit`;
+    <!-- SCORE -->
+    <div class="card score">
+      <div><strong>One shared score</strong></div>
 
-      document.getElementById('signupExpand').style.display = 'none';
-      document.getElementById('signupDone').style.display = 'flex';
-    }
+      <div class="pills">
+        <div class="pill">Variety ×1.2</div>
+        <div class="pill">Social +40</div>
+        <div class="pill">Derby +15%</div>
+      </div>
 
-    document.addEventListener('keydown', e => {
-      const expand = document.getElementById('signupExpand');
-      if (e.key === 'Enter' && expand.style.display !== 'none') {
-        submitEmail();
-      }
-    });
+      <div class="score-num">1,742 pts</div>
 
-    let scoreA = 1180;
-    let scoreB = 190;
-    let scoreC = 47;
-    let scoreD = 190;
+      <div class="note">Your weekly competition score</div>
+    </div>
 
-    function renderSharedScore(){
-      const total = scoreA + scoreB + scoreC + scoreD;
-      document.getElementById('sharedScore').textContent = total.toLocaleString() + ' pts';
-      document.getElementById('ptsYou').textContent = total.toLocaleString();
-    }
+    <!-- LEAGUES -->
+    <div class="card leagues">
+      <div><strong>Connected leagues</strong></div>
 
-    setInterval(() => {
-      scoreA += Math.ceil(Math.random() * 20);
-      if (Math.random() > 0.45) scoreB += Math.ceil(Math.random() * 7);
-      if (Math.random() > 0.72) scoreC += Math.ceil(Math.random() * 3);
-      if (Math.random() > 0.52) scoreD += Math.ceil(Math.random() * 9);
-      renderSharedScore();
-    }, 3400);
+      <div class="league-card l1">
+        Individual → #14 this week
+      </div>
 
-    renderSharedScore();
+      <div class="league-card l2">
+        NR2 → #1 this week
+      </div>
 
-    let derbyLeadVal = 84700;
-    let derbyTrailVal = 76800;
+      <div class="league-card l3">
+        Norwich → #3 this week
+      </div>
+    </div>
 
-    const nr2Activities = [
-      { name:'Sarah', sport:'ran 5.2km', pts:142 },
-      { name:'Jade', sport:'cycled 12km', pts:186 },
-      { name:'Beth', sport:'walked 8km', pts:88 },
-      { name:'Tom', sport:'lifted 45min', pts:98 },
-      { name:'Kai', sport:'HIIT 30min', pts:112 },
-      { name:'Ava', sport:'boxing', pts:136 }
-    ];
+    <!-- DERBY -->
+    <div class="card derby">
+      <div><strong>Postcode head-to-head</strong></div>
 
-    const nr3Activities = [
-      { name:'Priya', sport:'yoga 60min', pts:76 },
-      { name:'Leo', sport:'tennis 60min', pts:158 },
-      { name:'Rory', sport:'ran 7.1km', pts:149 },
-      { name:'Ben', sport:'played football', pts:132 },
-      { name:'Nina', sport:'swam 20 laps', pts:120 },
-      { name:'Ollie', sport:'cycle commute', pts:104 }
-    ];
+      <div class="teams">
+        <span style="color:var(--orange)">NR2</span>
+        <span style="color:var(--blue)">NR3</span>
+      </div>
 
-    let nr2Idx = 0;
-    let nr3Idx = 0;
+      <div class="bar"></div>
 
-    function addMiniLog(side, item){
-      const target = document.getElementById(side === 'nr2' ? 'nr2Log' : 'nr3Log');
-      const row = document.createElement('div');
-      row.className = 'mini-log-item';
-      row.innerHTML = `<span class="name">${item.name} · ${item.sport}</span><span class="pts">+${item.pts}</span>`;
-      target.prepend(row);
+      <div class="note">
+        NR2 leads · 3 days left
+      </div>
+    </div>
 
-      while (target.children.length > 3) {
-        target.removeChild(target.lastChild);
-      }
-    }
+  </div>
 
-    function updateDerby(){
-      const leadEl = document.getElementById('derbyLeadPts');
-      const trailEl = document.getElementById('derbyTrailPts');
-      const gapEl = document.getElementById('derbyGap');
+</div>
 
-      if (leadEl) leadEl.textContent = derbyLeadVal.toLocaleString();
-      if (trailEl) trailEl.textContent = derbyTrailVal.toLocaleString();
-
-      const gap = derbyLeadVal - derbyTrailVal;
-      if (gapEl) gapEl.textContent = gap.toLocaleString() + ' pts';
-
-      const diff = derbyLeadVal - derbyTrailVal;
-      const maxSwing = 18;
-      const normalized = Math.max(-maxSwing, Math.min(maxSwing, diff / 500));
-      const orangePct = 50 + normalized;
-      const bluePct = 100 - orangePct;
-
-      document.getElementById('tugOrange').style.width = orangePct + '%';
-      document.getElementById('tugBlue').style.width = bluePct + '%';
-      document.getElementById('tugKnob').style.left = orangePct + '%';
-
-      document.getElementById('ptsPostcode').textContent = derbyLeadVal.toLocaleString();
-    }
-
-    function derbyTick(){
-      const a2 = nr2Activities[nr2Idx % nr2Activities.length];
-      nr2Idx++;
-      derbyLeadVal += a2.pts;
-      addMiniLog('nr2', a2);
-
-      const a3 = nr3Activities[nr3Idx % nr3Activities.length];
-      nr3Idx++;
-      derbyTrailVal += a3.pts;
-      addMiniLog('nr3', a3);
-
-      if (Math.random() > 0.6) derbyTrailVal += Math.ceil(Math.random() * 220);
-      if (Math.random() > 0.7) derbyLeadVal += Math.ceil(Math.random() * 260);
-
-      updateDerby();
-    }
-
-    derbyTick();
-    derbyTick();
-    setInterval(derbyTick, 3000);
-
-    const SPRITE_COLS = 8;
-    const SPRITE_ROWS = 5;
-
-    function spritePos(col, row){
-      const x = SPRITE_COLS === 1 ? 0 : (col / (SPRITE_COLS - 1)) * 100;
-      const y = SPRITE_ROWS === 1 ? 0 : (row / (SPRITE_ROWS - 1)) * 100;
-      return { x: `${x}%`, y: `${y}%` };
-    }
-
-    const worldSprites = [
-      { x: 9,  y: 22, col: 0, row: 0, w: 14, h: 22, o: .05, dur: 5.1 },
-      { x: 16, y: 36, col: 2, row: 0, w: 18, h: 18, o: .08, dur: 4.8 },
-      { x: 12, y: 72, col: 0, row: 3, w: 15, h: 23, o: .06, dur: 4.9 },
-      { x: 38, y: 24, col: 4, row: 1, w: 14, h: 22, o: .04, dur: 4.7 },
-      { x: 44, y: 70, col: 1, row: 4, w: 15, h: 23, o: .04, dur: 4.5 },
-      { x: 68, y: 22, col: 6, row: 0, w: 14, h: 22, o: .04, dur: 5.2 },
-      { x: 82, y: 36, col: 7, row: 1, w: 13, h: 22, o: .03, dur: 4.8 },
-      { x: 88, y: 74, col: 5, row: 3, w: 16, h: 24, o: .05, dur: 4.1 },
-      { x: 95, y: 84, col: 7, row: 4, w: 14, h: 23, o: .03, dur: 5.1 },
-      { x: 28, y: 92, col: 3, row: 2, w: 14, h: 22, o: .03, dur: 5.3 },
-      { x: 58, y: 93, col: 4, row: 4, w: 14, h: 22, o: .03, dur: 5.0 }
-    ];
-
-    function renderWorldSprites(){
-      const layer = document.getElementById('worldLayer');
-      if (!layer) return;
-      layer.innerHTML = '';
-
-      worldSprites.forEach(s => {
-        const el = document.createElement('div');
-        const pos = spritePos(s.col, s.row);
-
-        el.className = 'mini-sprite';
-        el.style.left = s.x + '%';
-        el.style.top = s.y + '%';
-        el.style.setProperty('--w', (s.w || 14) + 'px');
-        el.style.setProperty('--h', (s.h || 22) + 'px');
-        el.style.setProperty('--o', s.o ?? .05);
-        el.style.setProperty('--dur', (s.dur || 4.8) + 's');
-        el.style.setProperty('--bgx', pos.x);
-        el.style.setProperty('--bgy', pos.y);
-
-        layer.appendChild(el);
-      });
-    }
-
-    renderWorldSprites();
-    window.addEventListener('resize', renderWorldSprites);
-  </script>
 </body>
 </html>
