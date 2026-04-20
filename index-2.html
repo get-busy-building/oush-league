@@ -12,18 +12,26 @@
       --orange:#FF5C3A;
       --orange2:#FF8060;
       --orange-bg:rgba(255,92,58,0.08);
+      --orange-soft:rgba(255,92,58,0.14);
+
+      --blue:#3B82F6;
+      --blue2:#60A5FA;
+      --blue-bg:rgba(59,130,246,0.10);
+
       --yellow:#FFD166;
       --magenta:#D946EF;
-      --teal:#0D9488;
       --green:#059669;
       --green-bg:rgba(5,150,105,0.08);
+
       --bg:#F9F7F5;
       --bg2:#F2EFE9;
       --card:#FFFFFF;
+
       --ink:#1A1209;
       --ink2:#44321A;
       --muted:#7A6450;
       --faint:#B8A48C;
+
       --border:#E2D9CE;
       --rule:#EDE8E0;
     }
@@ -46,7 +54,7 @@
       position:relative;
     }
 
-    /* subtle world layer */
+    /* world layer */
     .world-layer{
       position:absolute;
       inset:0;
@@ -66,7 +74,7 @@
       height:var(--h,22px);
       transform:translate(-50%,-50%);
       pointer-events:none;
-      opacity:var(--o,.07);
+      opacity:var(--o,.06);
       background-image:url("sprites.png");
       background-repeat:no-repeat;
       background-size:800% 500%;
@@ -107,9 +115,7 @@
     }
 
     .week-dot{
-      width:7px;
-      height:7px;
-      border-radius:50%;
+      width:7px;height:7px;border-radius:50%;
       background:var(--orange);
       animation:pulse 2s ease-in-out infinite;
     }
@@ -133,7 +139,7 @@
 
     .main{
       display:grid;
-      grid-template-columns:1.05fr .95fr;
+      grid-template-columns:1.02fr .98fr;
       gap:34px;
       padding:8px 36px 48px;
       flex:1;
@@ -179,7 +185,6 @@
       font-size:clamp(16px,1.7vw,21px);
       font-weight:800;
       color:var(--magenta);
-      opacity:.9;
       margin-top:-6px;
     }
 
@@ -187,7 +192,7 @@
       font-size:clamp(16px,1.55vw,21px);
       line-height:1.6;
       color:var(--ink2);
-      max-width:640px;
+      max-width:650px;
       font-weight:600;
     }
 
@@ -202,19 +207,19 @@
       line-height:1.85;
       border-left:3px solid var(--orange);
       padding-left:16px;
-      max-width:620px;
+      max-width:640px;
     }
 
     .cta{
       background:var(--card);
       border:1.5px solid var(--border);
       border-radius:14px;
-      box-shadow:0 2px 16px rgba(0,0,0,.06);
+      box-shadow:0 2px 16px rgba(0,0,0,.05);
       padding:24px 20px;
       display:flex;
       flex-direction:column;
       gap:14px;
-      max-width:560px;
+      max-width:570px;
     }
 
     .cta-kicker{
@@ -436,103 +441,370 @@
       font-style:normal;
     }
 
-    /* right */
+    /* right side */
     .right-panel{
       display:flex;
       flex-direction:column;
       gap:14px;
     }
 
-    .flow-card,
+    .system-card,
     .derby-card{
       background:var(--card);
       border:1.5px solid var(--border);
-      border-radius:14px;
+      border-radius:16px;
       overflow:hidden;
       box-shadow:0 2px 16px rgba(0,0,0,.04);
     }
 
-    .flow-inner{
-      padding:18px 18px 20px;
+    .system-inner{
+      padding:16px;
       display:flex;
       flex-direction:column;
-      align-items:center;
-      text-align:center;
       gap:14px;
     }
 
-    .flow-title{
-      font-size:11px;
+    .module{
+      background:linear-gradient(180deg,#fff, #fbfaf8);
+      border:1px solid var(--rule);
+      border-radius:14px;
+      padding:14px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .module-title{
+      font-size:10px;
       font-weight:800;
       color:var(--muted);
       text-transform:uppercase;
       letter-spacing:.08em;
+      margin-bottom:12px;
     }
 
-    .flow-row.sports{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:12px;
-      font-size:28px;
-      line-height:1;
+    /* sports reel */
+    .sports-reel{
+      position:relative;
+      height:118px;
+      border-radius:14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.96), rgba(250,248,244,.96));
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.04);
     }
 
-    .flow-arrow{
-      font-size:18px;
-      color:var(--faint);
-      line-height:1;
+    .sports-fade-top,
+    .sports-fade-bottom{
+      position:absolute;
+      left:0;right:0;height:22px;z-index:2;pointer-events:none;
     }
 
-    .flow-core{
-      font-family:'Nunito',sans-serif;
-      font-weight:900;
-      font-size:15px;
-      letter-spacing:.02em;
-      padding:10px 16px;
-      border-radius:999px;
-      background:var(--orange-bg);
-      color:var(--orange);
-      border:1px solid rgba(255,92,58,.18);
+    .sports-fade-top{
+      top:0;
+      background:linear-gradient(180deg, rgba(249,247,245,1), rgba(249,247,245,0));
     }
 
-    .flow-stack{
+    .sports-fade-bottom{
+      bottom:0;
+      background:linear-gradient(0deg, rgba(249,247,245,1), rgba(249,247,245,0));
+    }
+
+    .sports-center-glow{
+      position:absolute;
+      left:14px;
+      right:14px;
+      top:50%;
+      height:42px;
+      transform:translateY(-50%);
+      border-radius:12px;
+      background:rgba(255,255,255,.95);
+      border:1px solid rgba(0,0,0,.04);
+      box-shadow:0 8px 20px rgba(0,0,0,.05);
+      z-index:1;
+    }
+
+    .sports-track{
+      position:absolute;
+      left:12px;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
       display:flex;
       flex-direction:column;
       gap:10px;
-      width:100%;
-      max-width:300px;
+      z-index:3;
+      animation:sportsSpin 10s ease-in-out infinite;
     }
 
-    .flow-node{
-      background:var(--bg2);
-      padding:12px 14px;
-      border-radius:10px;
-      font-size:13px;
-      font-weight:800;
+    @keyframes sportsSpin{
+      0%,16%{transform:translateY(-50%) translateY(0)}
+      20%,36%{transform:translateY(-50%) translateY(-52px)}
+      40%,56%{transform:translateY(-50%) translateY(-104px)}
+      60%,76%{transform:translateY(-50%) translateY(-156px)}
+      80%,96%{transform:translateY(-50%) translateY(-208px)}
+      100%{transform:translateY(-50%) translateY(0)}
+    }
+
+    .sport-item{
+      height:42px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 14px;
+      border-radius:12px;
+      font-weight:700;
       color:var(--ink2);
+    }
+
+    .sport-item .icon{
+      font-size:20px;
+      line-height:1;
+    }
+
+    .sport-item .label{
+      flex:1;
+      text-align:left;
+      padding-left:12px;
+      font-size:14px;
+    }
+
+    .sport-item .mini-points{
+      font-size:12px;
+      font-weight:800;
+      color:var(--muted);
+    }
+
+    /* shared score */
+    .score-shell{
       position:relative;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
     }
 
-    .flow-node.you{
-      background:var(--orange-bg);
-      color:var(--orange);
-      border:1px solid rgba(255,92,58,.18);
+    .multiplier-strip{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:2px;
     }
 
-    .flow-caption{
+    .mult-pill{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.04em;
+      border:1px solid rgba(0,0,0,.05);
+      background:#fff;
+      color:var(--ink2);
+      box-shadow:0 2px 8px rgba(0,0,0,.04);
+    }
+
+    .mult-pill.orange{background:var(--orange-bg); color:var(--orange)}
+    .mult-pill.blue{background:var(--blue-bg); color:var(--blue)}
+    .mult-pill.green{background:var(--green-bg); color:var(--green)}
+
+    .score-card{
+      background:linear-gradient(135deg, rgba(255,92,58,.06), rgba(255,255,255,1));
+      border:1px solid rgba(255,92,58,.14);
+      border-radius:14px;
+      padding:16px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:16px;
+      align-items:end;
+    }
+
+    .score-meta{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .score-kicker{
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    .score-value{
+      font-family:'Nunito',sans-serif;
+      font-size:38px;
+      line-height:1;
+      font-weight:900;
+      color:var(--ink);
+      letter-spacing:-.03em;
+    }
+
+    .score-sub{
       font-size:12px;
       color:var(--muted);
-      line-height:1.7;
-      max-width:340px;
+      line-height:1.6;
     }
 
+    .score-breakdown{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .sb-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:11px;
+      color:var(--ink2);
+    }
+
+    .sb-lab{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+    }
+
+    .sb-dot{
+      width:8px;height:8px;border-radius:50%;
+      flex-shrink:0;
+    }
+
+    .sb-dot.a{background:var(--orange)}
+    .sb-dot.b{background:var(--blue)}
+    .sb-dot.c{background:var(--green)}
+    .sb-dot.d{background:var(--magenta)}
+
+    .sb-num{
+      font-family:'Nunito',sans-serif;
+      font-weight:900;
+      color:var(--ink);
+    }
+
+    /* league stack */
+    .league-stack{
+      position:relative;
+      min-height:208px;
+      padding-top:4px;
+    }
+
+    .league-card{
+      position:absolute;
+      left:0;
+      right:0;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow:0 10px 24px rgba(0,0,0,.06);
+      padding:14px;
+      overflow:hidden;
+    }
+
+    .league-card::after{
+      content:"";
+      position:absolute;
+      inset:auto 0 0 0;
+      height:38px;
+      background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.95));
+      pointer-events:none;
+    }
+
+    .league-card.l1{
+      top:0;
+      z-index:3;
+      transform:translateX(0) scale(1);
+      border-color:rgba(255,92,58,.18);
+    }
+
+    .league-card.l2{
+      top:44px;
+      left:14px;
+      right:14px;
+      z-index:2;
+      transform:scale(.97);
+      opacity:.92;
+    }
+
+    .league-card.l3{
+      top:86px;
+      left:28px;
+      right:28px;
+      z-index:1;
+      transform:scale(.94);
+      opacity:.82;
+    }
+
+    .league-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    .league-name{
+      font-size:12px;
+      font-weight:800;
+      color:var(--ink);
+    }
+
+    .league-rank{
+      font-family:'Nunito',sans-serif;
+      font-size:12px;
+      font-weight:900;
+      color:var(--orange);
+      background:var(--orange-bg);
+      padding:5px 8px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+
+    .league-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 0;
+      border-top:1px solid var(--rule);
+      font-size:11px;
+      color:var(--ink2);
+    }
+
+    .league-row:first-of-type{border-top:none}
+
+    .lg-pos{
+      width:18px;
+      text-align:center;
+      color:var(--faint);
+      font-weight:800;
+      flex-shrink:0;
+    }
+
+    .lg-team{
+      flex:1;
+      font-weight:700;
+    }
+
+    .lg-pts{
+      font-family:'Nunito',sans-serif;
+      font-weight:900;
+      color:var(--ink);
+      white-space:nowrap;
+    }
+
+    .lg-you .lg-team,
+    .lg-you .lg-pts{
+      color:var(--orange);
+    }
+
+    /* derby */
     .derby-head{
       display:flex;
       align-items:center;
       justify-content:space-between;
       padding:12px 16px;
-      background:linear-gradient(135deg,rgba(255,92,58,.06),rgba(217,119,6,.04));
+      background:linear-gradient(135deg,rgba(255,92,58,.06),rgba(59,130,246,.05));
       border-bottom:1px solid var(--rule);
     }
 
@@ -558,70 +830,121 @@
       font-weight:600;
     }
 
-    .derby-body{padding:18px}
-
-    .derby-teams{
+    .derby-body{
+      padding:18px;
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:14px;
-      gap:12px;
+      flex-direction:column;
+      gap:14px;
     }
 
-    .dt{
+    .derby-scoreline{
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
+      align-items:center;
+      gap:10px;
+    }
+
+    .side{
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:5px;
-      flex:1;
+      gap:4px;
     }
 
-    .dt-name{
+    .side-name{
       font-family:'Nunito',sans-serif;
       font-size:24px;
-      font-weight:900;
       line-height:1;
+      font-weight:900;
     }
 
-    .dt-name.lead{color:var(--orange)}
-    .dt-name.trail{color:var(--ink2)}
+    .side.orange .side-name{color:var(--orange)}
+    .side.blue .side-name{color:var(--blue)}
 
-    .dt-label{
-      font-size:10px;
-      color:var(--muted);
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.05em;
-    }
-
-    .dt-pts{
+    .side-pts{
       font-family:'Nunito',sans-serif;
-      font-size:14px;
+      font-size:15px;
+      font-weight:900;
+      color:var(--ink);
+    }
+
+    .side-lbl{
+      font-size:10px;
       font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
       color:var(--muted);
     }
 
-    .derby-vs{
+    .vs-mark{
       font-size:11px;
       font-weight:700;
       color:var(--faint);
-      padding:0 6px;
     }
 
-    .derby-bar-wrap{
+    .tug-wrap{
       position:relative;
-      height:14px;
-      background:rgba(44,61,80,.06);
+      height:22px;
       border-radius:999px;
+      background:linear-gradient(90deg, rgba(255,92,58,.12) 0%, rgba(255,92,58,.12) 50%, rgba(59,130,246,.12) 50%, rgba(59,130,246,.12) 100%);
       overflow:hidden;
-      margin-bottom:12px;
+      border:1px solid rgba(0,0,0,.04);
     }
 
-    .derby-bar-lead{
-      height:100%;
+    .tug-center{
+      position:absolute;
+      left:50%;
+      top:0;
+      bottom:0;
+      width:2px;
+      background:rgba(0,0,0,.08);
+      transform:translateX(-50%);
+      z-index:3;
+    }
+
+    .tug-orange,
+    .tug-blue{
+      position:absolute;
+      top:0;
+      bottom:0;
+      transition:all .9s ease;
+    }
+
+    .tug-orange{
+      left:0;
       background:linear-gradient(90deg,var(--orange),var(--orange2));
-      border-radius:999px;
-      transition:width 1s ease;
+      border-radius:999px 0 0 999px;
+      box-shadow:inset -4px 0 10px rgba(255,255,255,.22);
+    }
+
+    .tug-blue{
+      right:0;
+      background:linear-gradient(90deg,var(--blue2),var(--blue));
+      border-radius:0 999px 999px 0;
+      box-shadow:inset 4px 0 10px rgba(255,255,255,.18);
+    }
+
+    .tug-knob{
+      position:absolute;
+      top:50%;
+      width:26px;
+      height:26px;
+      border-radius:50%;
+      background:#fff;
+      border:3px solid var(--ink);
+      transform:translate(-50%,-50%);
+      z-index:4;
+      box-shadow:0 4px 10px rgba(0,0,0,.10);
+      transition:left .9s ease;
+    }
+
+    .tug-knob::after{
+      content:"";
+      position:absolute;
+      inset:5px;
+      border-radius:50%;
+      background:linear-gradient(90deg,var(--orange),var(--blue));
+      opacity:.85;
     }
 
     .derby-gap{
@@ -629,8 +952,7 @@
       font-size:12px;
       color:var(--muted);
       font-weight:600;
-      margin-bottom:12px;
-      line-height:1.5;
+      line-height:1.55;
     }
 
     .derby-gap strong{
@@ -639,28 +961,65 @@
       font-weight:900;
     }
 
-    .derby-active{
+    .derby-feed{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .feed-side{
+      border-radius:12px;
+      padding:10px;
+      min-height:76px;
+      background:var(--bg2);
+    }
+
+    .feed-side.orange{
+      background:rgba(255,92,58,.07);
+      border:1px solid rgba(255,92,58,.12);
+    }
+
+    .feed-side.blue{
+      background:rgba(59,130,246,.08);
+      border:1px solid rgba(59,130,246,.13);
+    }
+
+    .feed-side-title{
+      font-size:10px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.07em;
+      margin-bottom:8px;
+    }
+
+    .feed-side.orange .feed-side-title{color:var(--orange)}
+    .feed-side.blue .feed-side-title{color:var(--blue)}
+
+    .mini-log{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .mini-log-item{
       display:flex;
       align-items:center;
-      justify-content:center;
-      gap:6px;
-      background:var(--green-bg);
-      border-radius:8px;
-      padding:8px 10px;
-    }
-
-    .da-dot{
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background:var(--green);
-      animation:pulse 1.8s ease-in-out infinite;
-    }
-
-    .da-txt{
+      justify-content:space-between;
+      gap:8px;
       font-size:11px;
-      color:var(--green);
-      font-weight:700;
+      color:var(--ink2);
+    }
+
+    .mini-log-item .name{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .mini-log-item .pts{
+      font-family:'Nunito',sans-serif;
+      font-weight:900;
+      white-space:nowrap;
     }
 
     .ticker{
@@ -690,44 +1049,32 @@
       font-weight:600;
     }
 
-    @media(max-width:900px){
+    @media(max-width:950px){
       .main{
         grid-template-columns:1fr;
-      }
-
-      .right-panel{
-        order:2;
-      }
-
-      .hero{
-        order:1;
-      }
-
-      .big-h{
-        max-width:unset;
       }
     }
 
     @media(max-width:700px){
-      .topbar{
-        padding:18px 20px;
+      .topbar{padding:18px 20px}
+      .main{padding:6px 20px 40px}
+      .week-pill{display:none}
+
+      .score-card{
+        grid-template-columns:1fr;
       }
 
-      .main{
-        padding:6px 20px 40px;
+      .league-card.l2{
+        left:10px;
+        right:10px;
       }
 
-      .week-pill{
-        display:none;
+      .league-card.l3{
+        left:20px;
+        right:20px;
       }
 
-      .flow-row.sports{
-        font-size:24px;
-      }
-
-      .mini-sprite:nth-child(n+7){
-        display:none;
-      }
+      .mini-sprite:nth-child(n+7){display:none}
     }
   </style>
 </head>
@@ -748,21 +1095,21 @@
         <div class="sport-tag">★ A new kind of sport</div>
 
         <h1 class="big-h">A new kind of sport.</h1>
-        <div class="launch-line">Launching first in Norwich</div>
+        <div class="launch-line">Coming to Norwich</div>
 
         <div class="subhead">
           <strong>You run, lift, swim, train, or play — now there’s something to win.</strong>
         </div>
 
         <p class="descriptor">
-          All sports. One competition. Your effort counts for you, your area, and your city.
+          All sports. One weekly competition. What you do counts for you, your area, and your city.
         </p>
 
         <div class="cta">
           <div class="cta-kicker">First wave · Norwich</div>
           <div class="cta-title">Join the first 500 in Norwich</div>
           <div class="cta-copy">
-            Be first to hear when Oush League launches, and help shape the first season.
+            Be first to hear when Oush League arrives, and help shape the first weekly competition.
           </div>
 
           <div class="st-heart" id="stHeart">
@@ -788,7 +1135,7 @@
             <div class="done-icon">🏆</div>
             <div class="done-h">You’re in, Norwich.</div>
             <div class="done-s">
-              Welcome to the founding squad. You’ll be first to hear when the competition begins.
+              Welcome to the founding squad. You’ll be first to hear when the first weekly competition begins.
             </div>
           </div>
 
@@ -801,33 +1148,167 @@
       </div>
 
       <div class="right-panel">
-        <div class="flow-card">
-          <div class="flow-inner">
-            <div class="flow-title">How it works</div>
+        <div class="system-card">
+          <div class="system-inner">
 
-            <div class="flow-row sports" aria-hidden="true">
-              <span>🏃</span>
-              <span>🏋️</span>
-              <span>🏊</span>
-              <span>🚴</span>
-              <span>⚽</span>
+            <div class="module">
+              <div class="module-title">Sports in</div>
+              <div class="sports-reel">
+                <div class="sports-fade-top"></div>
+                <div class="sports-fade-bottom"></div>
+                <div class="sports-center-glow"></div>
+
+                <div class="sports-track">
+                  <div class="sport-item">
+                    <div class="icon">🏃</div>
+                    <div class="label">Run</div>
+                    <div class="mini-points">+240</div>
+                  </div>
+                  <div class="sport-item">
+                    <div class="icon">🏋️</div>
+                    <div class="label">Lift</div>
+                    <div class="mini-points">+180</div>
+                  </div>
+                  <div class="sport-item">
+                    <div class="icon">🏊</div>
+                    <div class="label">Swim</div>
+                    <div class="mini-points">+310</div>
+                  </div>
+                  <div class="sport-item">
+                    <div class="icon">🚴</div>
+                    <div class="label">Cycle</div>
+                    <div class="mini-points">+210</div>
+                  </div>
+                  <div class="sport-item">
+                    <div class="icon">⚽</div>
+                    <div class="label">Play</div>
+                    <div class="mini-points">+190</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="flow-arrow">↓</div>
+            <div class="module">
+              <div class="module-title">One shared score</div>
 
-            <div class="flow-core">ONE SHARED SCORE</div>
+              <div class="score-shell">
+                <div class="multiplier-strip">
+                  <div class="mult-pill orange">Variety ×1.2</div>
+                  <div class="mult-pill blue">Social +40</div>
+                  <div class="mult-pill green">Derby boost +15%</div>
+                </div>
 
-            <div class="flow-arrow">↓</div>
+                <div class="score-card">
+                  <div class="score-meta">
+                    <div class="score-kicker">This week</div>
+                    <div class="score-value" id="sharedScore">1,284 pts</div>
+                    <div class="score-sub">
+                      One score powered by everything you do across the week.
+                    </div>
+                  </div>
 
-            <div class="flow-stack">
-              <div class="flow-node you">YOU</div>
-              <div class="flow-node">NR2</div>
-              <div class="flow-node">NORWICH</div>
+                  <div class="score-breakdown">
+                    <div class="sb-row">
+                      <div class="sb-lab"><span class="sb-dot a"></span><span>Activity</span></div>
+                      <div class="sb-num" id="scoreA">930</div>
+                    </div>
+                    <div class="sb-row">
+                      <div class="sb-lab"><span class="sb-dot b"></span><span>Variety</span></div>
+                      <div class="sb-num" id="scoreB">154</div>
+                    </div>
+                    <div class="sb-row">
+                      <div class="sb-lab"><span class="sb-dot c"></span><span>Social</span></div>
+                      <div class="sb-num" id="scoreC">40</div>
+                    </div>
+                    <div class="sb-row">
+                      <div class="sb-lab"><span class="sb-dot d"></span><span>Derby</span></div>
+                      <div class="sb-num" id="scoreD">160</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="flow-caption">
-              One session doesn’t just move your score. It helps your postcode and your city climb too.
+            <div class="module">
+              <div class="module-title">Connected leagues</div>
+
+              <div class="league-stack">
+                <div class="league-card l1">
+                  <div class="league-top">
+                    <div class="league-name">Individual League</div>
+                    <div class="league-rank" id="rankYou">#14 this week</div>
+                  </div>
+
+                  <div class="league-row">
+                    <div class="lg-pos">12</div>
+                    <div class="lg-team">Maya T</div>
+                    <div class="lg-pts">1,422</div>
+                  </div>
+                  <div class="league-row">
+                    <div class="lg-pos">13</div>
+                    <div class="lg-team">Luke H</div>
+                    <div class="lg-pts">1,366</div>
+                  </div>
+                  <div class="league-row lg-you">
+                    <div class="lg-pos">14</div>
+                    <div class="lg-team">You</div>
+                    <div class="lg-pts" id="ptsYou">1,284</div>
+                  </div>
+                  <div class="league-row">
+                    <div class="lg-pos">15</div>
+                    <div class="lg-team">Jade R</div>
+                    <div class="lg-pts">1,240</div>
+                  </div>
+                </div>
+
+                <div class="league-card l2">
+                  <div class="league-top">
+                    <div class="league-name">Postcode League · NR2</div>
+                    <div class="league-rank" id="rankPostcode">#1 this week</div>
+                  </div>
+
+                  <div class="league-row lg-you">
+                    <div class="lg-pos">1</div>
+                    <div class="lg-team">NR2</div>
+                    <div class="lg-pts" id="ptsPostcode">84,700</div>
+                  </div>
+                  <div class="league-row">
+                    <div class="lg-pos">2</div>
+                    <div class="lg-team">NR1</div>
+                    <div class="lg-pts">82,100</div>
+                  </div>
+                  <div class="league-row">
+                    <div class="lg-pos">3</div>
+                    <div class="lg-team">NR4</div>
+                    <div class="lg-pts">79,400</div>
+                  </div>
+                </div>
+
+                <div class="league-card l3">
+                  <div class="league-top">
+                    <div class="league-name">City League</div>
+                    <div class="league-rank" id="rankCity">#3 this week</div>
+                  </div>
+
+                  <div class="league-row">
+                    <div class="lg-pos">1</div>
+                    <div class="lg-team">London</div>
+                    <div class="lg-pts">241k</div>
+                  </div>
+                  <div class="league-row">
+                    <div class="lg-pos">2</div>
+                    <div class="lg-team">New York</div>
+                    <div class="lg-pts">238k</div>
+                  </div>
+                  <div class="league-row lg-you">
+                    <div class="lg-pos">3</div>
+                    <div class="lg-team">Norwich</div>
+                    <div class="lg-pts" id="ptsCity">189k</div>
+                  </div>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -838,33 +1319,43 @@
           </div>
 
           <div class="derby-body">
-            <div class="derby-teams">
-              <div class="dt">
-                <div class="dt-name lead">NR2</div>
-                <div class="dt-pts" id="derbyLeadPts">84,700</div>
-                <div class="dt-label">Leading</div>
+            <div class="derby-scoreline">
+              <div class="side orange">
+                <div class="side-name">NR2</div>
+                <div class="side-pts" id="derbyLeadPts">84,700</div>
+                <div class="side-lbl">Leading</div>
               </div>
 
-              <div class="derby-vs">vs</div>
+              <div class="vs-mark">vs</div>
 
-              <div class="dt">
-                <div class="dt-name trail">NR3</div>
-                <div class="dt-pts" id="derbyTrailPts">76,800</div>
-                <div class="dt-label">Chasing</div>
+              <div class="side blue">
+                <div class="side-name">NR3</div>
+                <div class="side-pts" id="derbyTrailPts">76,800</div>
+                <div class="side-lbl">Chasing</div>
               </div>
             </div>
 
-            <div class="derby-bar-wrap">
-              <div class="derby-bar-lead" id="derbyBar" style="width:52%"></div>
+            <div class="tug-wrap">
+              <div class="tug-center"></div>
+              <div class="tug-orange" id="tugOrange" style="width:56%"></div>
+              <div class="tug-blue" id="tugBlue" style="width:44%"></div>
+              <div class="tug-knob" id="tugKnob" style="left:56%"></div>
             </div>
 
             <div class="derby-gap">
               NR2 leads by <strong id="derbyGap">7,900 pts</strong> · <span id="daysLeft">3 days left</span>
             </div>
 
-            <div class="derby-active">
-              <div class="da-dot"></div>
-              <div class="da-txt" id="activeCount">23 people active in NR2 right now</div>
+            <div class="derby-feed">
+              <div class="feed-side orange">
+                <div class="feed-side-title">NR2 activity</div>
+                <div class="mini-log" id="nr2Log"></div>
+              </div>
+
+              <div class="feed-side blue">
+                <div class="feed-side-title">NR3 activity</div>
+                <div class="mini-log" id="nr3Log"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -877,7 +1368,7 @@
   </div>
 
   <script>
-    /* progress */
+    /* signup progress */
     let signups = 312;
 
     function updateProg(){
@@ -894,7 +1385,7 @@
       }
     }, 6000);
 
-    /* heart/signup */
+    /* signup interaction */
     function heartClick(){
       const btn = document.getElementById('heartBtn');
       btn.style.filter = 'grayscale(0)';
@@ -930,15 +1421,71 @@
       }
     });
 
+    /* score card */
+    let scoreA = 930;
+    let scoreB = 154;
+    let scoreC = 40;
+    let scoreD = 160;
+
+    function renderSharedScore(){
+      const total = scoreA + scoreB + scoreC + scoreD;
+      document.getElementById('scoreA').textContent = scoreA;
+      document.getElementById('scoreB').textContent = scoreB;
+      document.getElementById('scoreC').textContent = scoreC;
+      document.getElementById('scoreD').textContent = scoreD;
+      document.getElementById('sharedScore').textContent = total.toLocaleString() + ' pts';
+      document.getElementById('ptsYou').textContent = total.toLocaleString();
+    }
+
+    setInterval(() => {
+      scoreA += Math.ceil(Math.random() * 18);
+      if (Math.random() > 0.55) scoreB += Math.ceil(Math.random() * 6);
+      if (Math.random() > 0.75) scoreC += Math.ceil(Math.random() * 3);
+      if (Math.random() > 0.60) scoreD += Math.ceil(Math.random() * 8);
+      renderSharedScore();
+    }, 3600);
+
+    renderSharedScore();
+
     /* derby */
     let derbyLeadVal = 84700;
     let derbyTrailVal = 76800;
+
+    const nr2Activities = [
+      { name:'Sarah', sport:'ran 5.2km', pts:142 },
+      { name:'Jade', sport:'cycled 12km', pts:186 },
+      { name:'Beth', sport:'walked 8km', pts:88 },
+      { name:'Tom', sport:'lifted 45min', pts:98 },
+      { name:'Kai', sport:'HIIT 30min', pts:112 }
+    ];
+
+    const nr3Activities = [
+      { name:'Priya', sport:'yoga 60min', pts:76 },
+      { name:'Leo', sport:'tennis 60min', pts:158 },
+      { name:'Ava', sport:'swam 20 laps', pts:120 },
+      { name:'Ben', sport:'played football', pts:132 },
+      { name:'Rory', sport:'ran 7.1km', pts:149 }
+    ];
+
+    let nr2Idx = 0;
+    let nr3Idx = 0;
+
+    function addMiniLog(side, item){
+      const target = document.getElementById(side === 'nr2' ? 'nr2Log' : 'nr3Log');
+      const row = document.createElement('div');
+      row.className = 'mini-log-item';
+      row.innerHTML = `<span class="name">${item.name} · ${item.sport}</span><span class="pts">+${item.pts}</span>`;
+      target.prepend(row);
+
+      while (target.children.length > 3) {
+        target.removeChild(target.lastChild);
+      }
+    }
 
     function updateDerby(){
       const leadEl = document.getElementById('derbyLeadPts');
       const trailEl = document.getElementById('derbyTrailPts');
       const gapEl = document.getElementById('derbyGap');
-      const barEl = document.getElementById('derbyBar');
 
       if (leadEl) leadEl.textContent = derbyLeadVal.toLocaleString();
       if (trailEl) trailEl.textContent = derbyTrailVal.toLocaleString();
@@ -947,22 +1494,35 @@
       if (gapEl) gapEl.textContent = gap.toLocaleString() + ' pts';
 
       const total = derbyLeadVal + derbyTrailVal;
-      if (barEl) barEl.style.width = Math.round((derbyLeadVal / total) * 100) + '%';
+      const orangePct = (derbyLeadVal / total) * 100;
+      const bluePct = 100 - orangePct;
+
+      document.getElementById('tugOrange').style.width = orangePct + '%';
+      document.getElementById('tugBlue').style.width = bluePct + '%';
+      document.getElementById('tugKnob').style.left = orangePct + '%';
+
+      document.getElementById('ptsPostcode').textContent = derbyLeadVal.toLocaleString();
     }
 
-    setInterval(() => {
-      if (Math.random() > 0.55) derbyLeadVal += Math.ceil(Math.random() * 80);
-      if (Math.random() > 0.45) derbyTrailVal += Math.ceil(Math.random() * 95);
-      updateDerby();
-    }, 4200);
+    function derbyTick(){
+      const a2 = nr2Activities[nr2Idx % nr2Activities.length];
+      nr2Idx++;
+      derbyLeadVal += a2.pts;
+      addMiniLog('nr2', a2);
 
-    setInterval(() => {
-      const el = document.getElementById('activeCount');
-      if (el) {
-        const n = 20 + Math.ceil(Math.random() * 14);
-        el.textContent = `${n} people active in NR2 right now`;
+      if (Math.random() > 0.25) {
+        const a3 = nr3Activities[nr3Idx % nr3Activities.length];
+        nr3Idx++;
+        derbyTrailVal += a3.pts;
+        addMiniLog('nr3', a3);
       }
-    }, 7000);
+
+      updateDerby();
+    }
+
+    derbyTick();
+    derbyTick();
+    setInterval(derbyTick, 3400);
 
     /* ticker */
     const ticks = [
@@ -997,13 +1557,13 @@
       { x: 15, y: 34, col: 2, row: 0, w: 18, h: 18, o: .09, dur: 4.8 },
       { x: 10, y: 58, col: 0, row: 3, w: 15, h: 23, o: .07, dur: 4.9 },
 
-      { x: 39, y: 23, col: 4, row: 1, w: 14, h: 22, o: .05, dur: 4.7 },
-      { x: 35, y: 76, col: 1, row: 4, w: 15, h: 23, o: .05, dur: 4.5 },
+      { x: 40, y: 24, col: 4, row: 1, w: 14, h: 22, o: .05, dur: 4.7 },
+      { x: 35, y: 78, col: 1, row: 4, w: 15, h: 23, o: .05, dur: 4.5 },
 
-      { x: 73, y: 19, col: 6, row: 0, w: 14, h: 22, o: .05, dur: 5.2 },
-      { x: 88, y: 39, col: 7, row: 1, w: 13, h: 22, o: .04, dur: 4.8 },
-      { x: 79, y: 65, col: 5, row: 3, w: 16, h: 24, o: .06, dur: 4.1 },
-      { x: 93, y: 80, col: 7, row: 4, w: 14, h: 23, o: .04, dur: 5.1 },
+      { x: 74, y: 19, col: 6, row: 0, w: 14, h: 22, o: .05, dur: 5.2 },
+      { x: 89, y: 38, col: 7, row: 1, w: 13, h: 22, o: .04, dur: 4.8 },
+      { x: 79, y: 66, col: 5, row: 3, w: 16, h: 24, o: .06, dur: 4.1 },
+      { x: 93, y: 81, col: 7, row: 4, w: 14, h: 23, o: .04, dur: 5.1 },
 
       { x: 22, y: 91, col: 3, row: 2, w: 14, h: 22, o: .04, dur: 5.3 },
       { x: 60, y: 92, col: 4, row: 4, w: 14, h: 22, o: .04, dur: 5.0 }
