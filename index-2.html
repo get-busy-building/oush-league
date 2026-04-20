@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oush League · Norwich</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --orange:#FF5C3A;
+      --orange2:#FF8060;
+      --orange-bg:rgba(255,92,58,0.08);
+      --yellow:#FFD166;
+      --magenta:#D946EF;
+      --teal:#0D9488;
+      --green:#059669;
+      --green-bg:rgba(5,150,105,0.08);
+      --bg:#F9F7F5;
+      --bg2:#F2EFE9;
+      --card:#FFFFFF;
+      --ink:#1A1209;
+      --ink2:#44321A;
+      --muted:#7A6450;
+      --faint:#B8A48C;
+      --border:#E2D9CE;
+      --rule:#EDE8E0;
+    }
+
+    html,body{
+      width:100%;
+      min-height:100vh;
+      background:var(--bg);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      color:var(--ink);
+      overflow-x:hidden;
+    }
+
+    .page{
+      max-width:1200px;
+      margin:0 auto;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      position:relative;
+    }
+
+    /* subtle world layer */
+    .world-layer{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      overflow:hidden;
+    }
+
+    .topbar,.main,.ticker{
+      position:relative;
+      z-index:1;
+    }
+
+    .mini-sprite{
+      position:absolute;
+      width:var(--w,14px);
+      height:var(--h,22px);
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+      opacity:var(--o,.07);
+      background-image:url("sprites.png");
+      background-repeat:no-repeat;
+      background-size:800% 500%;
+      background-position:var(--bgx,0%) var(--bgy,0%);
+      image-rendering:pixelated;
+      filter:drop-shadow(0 1px 0 rgba(255,255,255,.18));
+      animation:miniBob var(--dur,4.8s) ease-in-out infinite;
+    }
+
+    @keyframes miniBob{
+      0%,100%{transform:translate(-50%,-50%) translateY(0)}
+      50%{transform:translate(-50%,-50%) translateY(-2px)}
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:20px 36px;
+    }
+
+    .logo{
+      font-family:'Press Start 2P',monospace;
+      font-size:11px;
+      color:var(--orange);
+    }
+
+    .logo span{color:var(--magenta)}
+
+    .week-pill{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:6px 14px;
+    }
+
+    .week-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--orange);
+      animation:pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse{
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.5;transform:scale(.75)}
+    }
+
+    .week-txt{
+      font-size:11px;
+      font-weight:600;
+      color:var(--ink2);
+    }
+
+    .week-txt em{
+      color:var(--orange);
+      font-style:normal;
+      font-weight:800;
+    }
+
+    .main{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:34px;
+      padding:8px 36px 48px;
+      flex:1;
+      align-items:start;
+    }
+
+    /* left */
+    .hero{
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+      padding-top:8px;
+    }
+
+    .sport-tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:var(--orange-bg);
+      border:1px solid rgba(255,92,58,.2);
+      border-radius:20px;
+      padding:5px 14px;
+      font-size:11px;
+      font-weight:700;
+      color:var(--orange);
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      width:fit-content;
+    }
+
+    .big-h{
+      font-family:'Nunito',sans-serif;
+      font-size:clamp(34px,4.7vw,62px);
+      font-weight:900;
+      line-height:1.02;
+      letter-spacing:-.035em;
+      color:var(--ink);
+      max-width:680px;
+    }
+
+    .launch-line{
+      font-family:'Nunito',sans-serif;
+      font-size:clamp(16px,1.7vw,21px);
+      font-weight:800;
+      color:var(--magenta);
+      opacity:.9;
+      margin-top:-6px;
+    }
+
+    .subhead{
+      font-size:clamp(16px,1.55vw,21px);
+      line-height:1.6;
+      color:var(--ink2);
+      max-width:640px;
+      font-weight:600;
+    }
+
+    .subhead strong{
+      color:var(--ink);
+      font-weight:800;
+    }
+
+    .descriptor{
+      font-size:15px;
+      color:var(--muted);
+      line-height:1.85;
+      border-left:3px solid var(--orange);
+      padding-left:16px;
+      max-width:620px;
+    }
+
+    .cta{
+      background:var(--card);
+      border:1.5px solid var(--border);
+      border-radius:14px;
+      box-shadow:0 2px 16px rgba(0,0,0,.06);
+      padding:24px 20px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      max-width:560px;
+    }
+
+    .cta-kicker{
+      font-size:10px;
+      font-weight:800;
+      color:var(--orange);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .cta-title{
+      font-family:'Nunito',sans-serif;
+      font-size:24px;
+      font-weight:900;
+      color:var(--ink);
+      line-height:1.1;
+    }
+
+    .cta-copy{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.75;
+    }
+
+    .st-heart{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+      padding-top:4px;
+    }
+
+    .heart-label{
+      font-size:12px;
+      color:var(--muted);
+      text-align:center;
+      line-height:1.8;
+      font-weight:500;
+    }
+
+    .heart-btn{
+      background:none;
+      border:none;
+      cursor:pointer;
+      font-size:52px;
+      line-height:1;
+      filter:grayscale(1);
+      opacity:.4;
+      transition:all .2s;
+      animation:hbob 3s ease-in-out infinite;
+      display:block;
+    }
+
+    @keyframes hbob{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.08)}
+    }
+
+    .heart-btn:hover{
+      filter:grayscale(0);
+      opacity:1;
+      transform:scale(1.15)!important;
+      animation:none;
+    }
+
+    .heart-hint{
+      font-size:12px;
+      color:var(--faint);
+      text-align:center;
+    }
+
+    .st-email{
+      display:none;
+      flex-direction:column;
+      gap:11px;
+      animation:fup .3s ease forwards;
+    }
+
+    @keyframes fup{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .found-box{
+      background:var(--orange-bg);
+      border:1.5px solid rgba(255,92,58,.25);
+      border-radius:8px;
+      padding:14px;
+      text-align:center;
+    }
+
+    .found-tag{
+      font-size:10px;
+      font-weight:700;
+      color:var(--orange);
+      margin-bottom:7px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .found-body{
+      font-size:12px;
+      color:var(--ink2);
+      line-height:1.7;
+    }
+
+    .found-body strong{
+      color:var(--ink);
+      font-weight:700;
+    }
+
+    .email-in{
+      width:100%;
+      background:var(--bg);
+      border:1.5px solid var(--border);
+      border-radius:8px;
+      padding:12px 14px;
+      font-size:13px;
+      color:var(--ink);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      outline:none;
+      transition:border-color .2s;
+    }
+
+    .email-in:focus{border-color:var(--orange)}
+    .email-in::placeholder{color:var(--faint)}
+
+    .sub-btn{
+      width:100%;
+      background:var(--orange);
+      border:none;
+      border-radius:8px;
+      padding:13px;
+      font-family:'Nunito',sans-serif;
+      font-size:14px;
+      font-weight:800;
+      color:white;
+      cursor:pointer;
+      transition:background .15s,transform .08s;
+      box-shadow:0 4px 0 #c8402a;
+    }
+
+    .sub-btn:hover{background:#e84a2a}
+    .sub-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #c8402a}
+
+    .priv{
+      font-size:11px;
+      color:var(--faint);
+      text-align:center;
+    }
+
+    .st-done{
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      text-align:center;
+      animation:fup .3s ease forwards;
+    }
+
+    .done-icon{font-size:48px}
+    .done-h{
+      font-family:'Nunito',sans-serif;
+      font-size:20px;
+      font-weight:900;
+      color:var(--orange);
+    }
+
+    .done-s{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .prog-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border-top:1px solid var(--rule);
+      padding-top:12px;
+    }
+
+    .prog-label{
+      font-size:10px;
+      color:var(--muted);
+      font-weight:600;
+      white-space:nowrap;
+      line-height:1.6;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+
+    .prog-wrap{
+      flex:1;
+      height:8px;
+      background:var(--bg2);
+      border-radius:4px;
+      overflow:hidden;
+    }
+
+    .prog-fill{
+      height:100%;
+      background:linear-gradient(90deg,var(--orange),var(--orange2));
+      width:0%;
+      transition:width 1.2s cubic-bezier(.34,1.2,.64,1);
+      border-radius:4px;
+    }
+
+    .prog-count{
+      font-family:'Nunito',sans-serif;
+      font-size:13px;
+      font-weight:800;
+      color:var(--ink);
+      white-space:nowrap;
+    }
+
+    .prog-count em{
+      color:var(--orange);
+      font-style:normal;
+    }
+
+    /* right */
+    .right-panel{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .flow-card,
+    .derby-card{
+      background:var(--card);
+      border:1.5px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:0 2px 16px rgba(0,0,0,.04);
+    }
+
+    .flow-inner{
+      padding:18px 18px 20px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap:14px;
+    }
+
+    .flow-title{
+      font-size:11px;
+      font-weight:800;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .flow-row.sports{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:12px;
+      font-size:28px;
+      line-height:1;
+    }
+
+    .flow-arrow{
+      font-size:18px;
+      color:var(--faint);
+      line-height:1;
+    }
+
+    .flow-core{
+      font-family:'Nunito',sans-serif;
+      font-weight:900;
+      font-size:15px;
+      letter-spacing:.02em;
+      padding:10px 16px;
+      border-radius:999px;
+      background:var(--orange-bg);
+      color:var(--orange);
+      border:1px solid rgba(255,92,58,.18);
+    }
+
+    .flow-stack{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      width:100%;
+      max-width:300px;
+    }
+
+    .flow-node{
+      background:var(--bg2);
+      padding:12px 14px;
+      border-radius:10px;
+      font-size:13px;
+      font-weight:800;
+      color:var(--ink2);
+      position:relative;
+    }
+
+    .flow-node.you{
+      background:var(--orange-bg);
+      color:var(--orange);
+      border:1px solid rgba(255,92,58,.18);
+    }
+
+    .flow-caption{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.7;
+      max-width:340px;
+    }
+
+    .derby-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 16px;
+      background:linear-gradient(135deg,rgba(255,92,58,.06),rgba(217,119,6,.04));
+      border-bottom:1px solid var(--rule);
+    }
+
+    .derby-tag{
+      font-size:10px;
+      font-weight:800;
+      color:var(--orange);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .derby-tag::before{
+      content:'⚔';
+      font-size:12px;
+    }
+
+    .derby-ends{
+      font-size:10px;
+      color:var(--muted);
+      font-weight:600;
+    }
+
+    .derby-body{padding:18px}
+
+    .derby-teams{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:14px;
+      gap:12px;
+    }
+
+    .dt{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:5px;
+      flex:1;
+    }
+
+    .dt-name{
+      font-family:'Nunito',sans-serif;
+      font-size:24px;
+      font-weight:900;
+      line-height:1;
+    }
+
+    .dt-name.lead{color:var(--orange)}
+    .dt-name.trail{color:var(--ink2)}
+
+    .dt-label{
+      font-size:10px;
+      color:var(--muted);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+
+    .dt-pts{
+      font-family:'Nunito',sans-serif;
+      font-size:14px;
+      font-weight:800;
+      color:var(--muted);
+    }
+
+    .derby-vs{
+      font-size:11px;
+      font-weight:700;
+      color:var(--faint);
+      padding:0 6px;
+    }
+
+    .derby-bar-wrap{
+      position:relative;
+      height:14px;
+      background:rgba(44,61,80,.06);
+      border-radius:999px;
+      overflow:hidden;
+      margin-bottom:12px;
+    }
+
+    .derby-bar-lead{
+      height:100%;
+      background:linear-gradient(90deg,var(--orange),var(--orange2));
+      border-radius:999px;
+      transition:width 1s ease;
+    }
+
+    .derby-gap{
+      text-align:center;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:600;
+      margin-bottom:12px;
+      line-height:1.5;
+    }
+
+    .derby-gap strong{
+      color:var(--orange);
+      font-family:'Nunito',sans-serif;
+      font-weight:900;
+    }
+
+    .derby-active{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      background:var(--green-bg);
+      border-radius:8px;
+      padding:8px 10px;
+    }
+
+    .da-dot{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:var(--green);
+      animation:pulse 1.8s ease-in-out infinite;
+    }
+
+    .da-txt{
+      font-size:11px;
+      color:var(--green);
+      font-weight:700;
+    }
+
+    .ticker{
+      background:var(--ink);
+      padding:10px 0;
+      overflow:hidden;
+      white-space:nowrap;
+      margin-top:auto;
+    }
+
+    .tick-inner{
+      display:inline-flex;
+      gap:32px;
+      animation:tick 34s linear infinite;
+    }
+
+    @keyframes tick{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+
+    .tick-i{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      font-weight:600;
+    }
+
+    @media(max-width:900px){
+      .main{
+        grid-template-columns:1fr;
+      }
+
+      .right-panel{
+        order:2;
+      }
+
+      .hero{
+        order:1;
+      }
+
+      .big-h{
+        max-width:unset;
+      }
+    }
+
+    @media(max-width:700px){
+      .topbar{
+        padding:18px 20px;
+      }
+
+      .main{
+        padding:6px 20px 40px;
+      }
+
+      .week-pill{
+        display:none;
+      }
+
+      .flow-row.sports{
+        font-size:24px;
+      }
+
+      .mini-sprite:nth-child(n+7){
+        display:none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="world-layer" id="worldLayer" aria-hidden="true"></div>
+
+    <div class="topbar">
+      <div class="logo">OUSH <span>LEAGUE</span></div>
+      <div class="week-pill">
+        <div class="week-dot"></div>
+        <div class="week-txt">Week 14 · <em>3 days</em> until reset</div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="hero">
+        <div class="sport-tag">★ A new kind of sport</div>
+
+        <h1 class="big-h">A new kind of sport.</h1>
+        <div class="launch-line">Launching first in Norwich</div>
+
+        <div class="subhead">
+          <strong>You run, lift, swim, train, or play — now there’s something to win.</strong>
+        </div>
+
+        <p class="descriptor">
+          All sports. One competition. Your effort counts for you, your area, and your city.
+        </p>
+
+        <div class="cta">
+          <div class="cta-kicker">First wave · Norwich</div>
+          <div class="cta-title">Join the first 500 in Norwich</div>
+          <div class="cta-copy">
+            Be first to hear when Oush League launches, and help shape the first season.
+          </div>
+
+          <div class="st-heart" id="stHeart">
+            <div class="heart-label">If this excites you —</div>
+            <button class="heart-btn" id="heartBtn" onclick="heartClick()">❤️</button>
+            <div class="heart-hint">tap the heart to claim your spot</div>
+          </div>
+
+          <div class="st-email" id="stEmail">
+            <div class="found-box">
+              <div class="found-tag">Founding squad · Norwich</div>
+              <div class="found-body">
+                Be one of the first 500 people to join Norwich.<br />
+                <strong>Get early access and follow the build from day one.</strong>
+              </div>
+            </div>
+            <input class="email-in" type="email" id="emailIn" placeholder="your@email.com" autocomplete="email" />
+            <button class="sub-btn" onclick="submitEmail()">I’m in — let’s go →</button>
+            <div class="priv">No spam. Just launch updates. Unsubscribe any time.</div>
+          </div>
+
+          <div class="st-done" id="stDone">
+            <div class="done-icon">🏆</div>
+            <div class="done-h">You’re in, Norwich.</div>
+            <div class="done-s">
+              Welcome to the founding squad. You’ll be first to hear when the competition begins.
+            </div>
+          </div>
+
+          <div class="prog-row">
+            <div class="prog-label">Founding<br />spots</div>
+            <div class="prog-wrap"><div class="prog-fill" id="progFill"></div></div>
+            <div class="prog-count"><em id="progN">312</em> / 500</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="flow-card">
+          <div class="flow-inner">
+            <div class="flow-title">How it works</div>
+
+            <div class="flow-row sports" aria-hidden="true">
+              <span>🏃</span>
+              <span>🏋️</span>
+              <span>🏊</span>
+              <span>🚴</span>
+              <span>⚽</span>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-core">ONE SHARED SCORE</div>
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-stack">
+              <div class="flow-node you">YOU</div>
+              <div class="flow-node">NR2</div>
+              <div class="flow-node">NORWICH</div>
+            </div>
+
+            <div class="flow-caption">
+              One session doesn’t just move your score. It helps your postcode and your city climb too.
+            </div>
+          </div>
+        </div>
+
+        <div class="derby-card">
+          <div class="derby-head">
+            <div class="derby-tag">Postcode Derby · Week 14</div>
+            <div class="derby-ends">Ends Friday 6pm</div>
+          </div>
+
+          <div class="derby-body">
+            <div class="derby-teams">
+              <div class="dt">
+                <div class="dt-name lead">NR2</div>
+                <div class="dt-pts" id="derbyLeadPts">84,700</div>
+                <div class="dt-label">Leading</div>
+              </div>
+
+              <div class="derby-vs">vs</div>
+
+              <div class="dt">
+                <div class="dt-name trail">NR3</div>
+                <div class="dt-pts" id="derbyTrailPts">76,800</div>
+                <div class="dt-label">Chasing</div>
+              </div>
+            </div>
+
+            <div class="derby-bar-wrap">
+              <div class="derby-bar-lead" id="derbyBar" style="width:52%"></div>
+            </div>
+
+            <div class="derby-gap">
+              NR2 leads by <strong id="derbyGap">7,900 pts</strong> · <span id="daysLeft">3 days left</span>
+            </div>
+
+            <div class="derby-active">
+              <div class="da-dot"></div>
+              <div class="da-txt" id="activeCount">23 people active in NR2 right now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticker">
+      <div class="tick-inner" id="ticker"></div>
+    </div>
+  </div>
+
+  <script>
+    /* progress */
+    let signups = 312;
+
+    function updateProg(){
+      document.getElementById('progFill').style.width = Math.min((signups / 500) * 100, 100) + '%';
+      document.getElementById('progN').textContent = signups;
+    }
+
+    setTimeout(updateProg, 300);
+
+    setInterval(() => {
+      if (signups < 498 && Math.random() < 0.3) {
+        signups++;
+        updateProg();
+      }
+    }, 6000);
+
+    /* heart/signup */
+    function heartClick(){
+      const btn = document.getElementById('heartBtn');
+      btn.style.filter = 'grayscale(0)';
+      btn.style.opacity = '1';
+      btn.style.transform = 'scale(1.3)';
+      btn.style.animation = 'none';
+
+      setTimeout(() => {
+        document.getElementById('stHeart').style.display = 'none';
+        const st = document.getElementById('stEmail');
+        st.style.display = 'flex';
+        document.getElementById('emailIn').focus();
+      }, 320);
+    }
+
+    function submitEmail(){
+      const email = document.getElementById('emailIn').value;
+      if (!email || !email.includes('@')) return;
+
+      const FORM_ID = 'YOUR_FORM_ID_HERE';
+      const ENTRY = 'entry.YOUR_ENTRY_ID_HERE';
+      new Image().src = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse?${ENTRY}=${encodeURIComponent(email)}&submit=Submit`;
+
+      document.getElementById('stEmail').style.display = 'none';
+      document.getElementById('stDone').style.display = 'flex';
+      signups = Math.min(signups + 1, 499);
+      updateProg();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && document.getElementById('stEmail').style.display !== 'none') {
+        submitEmail();
+      }
+    });
+
+    /* derby */
+    let derbyLeadVal = 84700;
+    let derbyTrailVal = 76800;
+
+    function updateDerby(){
+      const leadEl = document.getElementById('derbyLeadPts');
+      const trailEl = document.getElementById('derbyTrailPts');
+      const gapEl = document.getElementById('derbyGap');
+      const barEl = document.getElementById('derbyBar');
+
+      if (leadEl) leadEl.textContent = derbyLeadVal.toLocaleString();
+      if (trailEl) trailEl.textContent = derbyTrailVal.toLocaleString();
+
+      const gap = derbyLeadVal - derbyTrailVal;
+      if (gapEl) gapEl.textContent = gap.toLocaleString() + ' pts';
+
+      const total = derbyLeadVal + derbyTrailVal;
+      if (barEl) barEl.style.width = Math.round((derbyLeadVal / total) * 100) + '%';
+    }
+
+    setInterval(() => {
+      if (Math.random() > 0.55) derbyLeadVal += Math.ceil(Math.random() * 80);
+      if (Math.random() > 0.45) derbyTrailVal += Math.ceil(Math.random() * 95);
+      updateDerby();
+    }, 4200);
+
+    setInterval(() => {
+      const el = document.getElementById('activeCount');
+      if (el) {
+        const n = 20 + Math.ceil(Math.random() * 14);
+        el.textContent = `${n} people active in NR2 right now`;
+      }
+    }, 7000);
+
+    /* ticker */
+    const ticks = [
+      {city:'Norwich', a:'NR2', sc:'84,700', b:'NR3', col:'#FFD166'},
+      {city:'London', a:'E1', sc:'241k', b:'SW11', col:'#FF5C3A'},
+      {city:'New York', a:'BKLYN', sc:'238k', b:'Manhattan', col:'#D946EF'},
+      {city:'Manchester', a:'M1', sc:'182k', b:'M13', col:'#FF5C3A'},
+      {city:'Tokyo', a:'Shibuya', sc:'4.1M', b:'Shinjuku', col:'#D946EF'},
+      {city:'Berlin', a:'Mitte', sc:'174k', b:'Prenzlberg', col:'#FF5C3A'}
+    ];
+
+    const tickEl = document.getElementById('ticker');
+    [...ticks, ...ticks].forEach(t => {
+      const s = document.createElement('span');
+      s.className = 'tick-i';
+      s.innerHTML = `<span style="color:${t.col};font-weight:700">${t.city}</span><span style="color:rgba(255,255,255,.2);margin:0 4px">·</span><span style="color:#FFD166">${t.a}</span><span style="color:rgba(255,255,255,.25);font-size:10px;margin:0 4px">${t.sc}</span><span style="color:#FFD166">${t.b}</span>`;
+      tickEl.appendChild(s);
+    });
+
+    /* world sprites */
+    const SPRITE_COLS = 8;
+    const SPRITE_ROWS = 5;
+
+    function spritePos(col, row){
+      const x = SPRITE_COLS === 1 ? 0 : (col / (SPRITE_COLS - 1)) * 100;
+      const y = SPRITE_ROWS === 1 ? 0 : (row / (SPRITE_ROWS - 1)) * 100;
+      return { x: `${x}%`, y: `${y}%` };
+    }
+
+    const worldSprites = [
+      { x: 8,  y: 20, col: 0, row: 0, w: 14, h: 22, o: .06, dur: 5.1 },
+      { x: 15, y: 34, col: 2, row: 0, w: 18, h: 18, o: .09, dur: 4.8 },
+      { x: 10, y: 58, col: 0, row: 3, w: 15, h: 23, o: .07, dur: 4.9 },
+
+      { x: 39, y: 23, col: 4, row: 1, w: 14, h: 22, o: .05, dur: 4.7 },
+      { x: 35, y: 76, col: 1, row: 4, w: 15, h: 23, o: .05, dur: 4.5 },
+
+      { x: 73, y: 19, col: 6, row: 0, w: 14, h: 22, o: .05, dur: 5.2 },
+      { x: 88, y: 39, col: 7, row: 1, w: 13, h: 22, o: .04, dur: 4.8 },
+      { x: 79, y: 65, col: 5, row: 3, w: 16, h: 24, o: .06, dur: 4.1 },
+      { x: 93, y: 80, col: 7, row: 4, w: 14, h: 23, o: .04, dur: 5.1 },
+
+      { x: 22, y: 91, col: 3, row: 2, w: 14, h: 22, o: .04, dur: 5.3 },
+      { x: 60, y: 92, col: 4, row: 4, w: 14, h: 22, o: .04, dur: 5.0 }
+    ];
+
+    function renderWorldSprites(){
+      const layer = document.getElementById('worldLayer');
+      if (!layer) return;
+      layer.innerHTML = '';
+
+      worldSprites.forEach(s => {
+        const el = document.createElement('div');
+        const pos = spritePos(s.col, s.row);
+
+        el.className = 'mini-sprite';
+        el.style.left = s.x + '%';
+        el.style.top = s.y + '%';
+        el.style.setProperty('--w', (s.w || 14) + 'px');
+        el.style.setProperty('--h', (s.h || 22) + 'px');
+        el.style.setProperty('--o', s.o ?? .06);
+        el.style.setProperty('--dur', (s.dur || 4.8) + 's');
+        el.style.setProperty('--bgx', pos.x);
+        el.style.setProperty('--bgy', pos.y);
+
+        layer.appendChild(el);
+      });
+    }
+
+    renderWorldSprites();
+    window.addEventListener('resize', renderWorldSprites);
+  </script>
+</body>
+</html>
