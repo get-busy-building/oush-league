@@ -933,4 +933,308 @@
       <div class="panel">
         <div class="panel-title">Connected leagues</div>
 
-        <div
+        <div class="league-stage">
+          <div class="league-deck">
+            <div class="league-card ind">
+              <div class="league-top">
+                <div class="league-name">Individual League</div>
+                <div class="league-rank">#14 this week</div>
+              </div>
+              <div class="league-row">
+                <div class="lg-pos">12</div>
+                <div class="lg-team">Maya T</div>
+                <div class="lg-pts">1,744</div>
+              </div>
+              <div class="league-row">
+                <div class="lg-pos">13</div>
+                <div class="lg-team">Luke H</div>
+                <div class="lg-pts">1,682</div>
+              </div>
+              <div class="league-row lg-you">
+                <div class="lg-pos">14</div>
+                <div class="lg-team">You</div>
+                <div class="lg-pts" id="ptsYou">1,607</div>
+              </div>
+            </div>
+
+            <div class="league-card post">
+              <div class="league-top">
+                <div class="league-name">Postcode League · NR2</div>
+                <div class="league-rank">#1 this week</div>
+              </div>
+              <div class="league-row lg-you">
+                <div class="lg-pos">1</div>
+                <div class="lg-team">NR2</div>
+                <div class="lg-pts" id="ptsPostcode">84,700</div>
+              </div>
+              <div class="league-row">
+                <div class="lg-pos">2</div>
+                <div class="lg-team">NR1</div>
+                <div class="lg-pts">82,100</div>
+              </div>
+              <div class="league-row">
+                <div class="lg-pos">3</div>
+                <div class="lg-team">NR4</div>
+                <div class="lg-pts">79,400</div>
+              </div>
+            </div>
+
+            <div class="league-card city">
+              <div class="league-top">
+                <div class="league-name">City League</div>
+                <div class="league-rank">#3 this week</div>
+              </div>
+              <div class="league-row">
+                <div class="lg-pos">1</div>
+                <div class="lg-team">London</div>
+                <div class="lg-pts">241k</div>
+              </div>
+              <div class="league-row">
+                <div class="lg-pos">2</div>
+                <div class="lg-team">New York</div>
+                <div class="lg-pts">238k</div>
+              </div>
+              <div class="league-row lg-you">
+                <div class="lg-pos">3</div>
+                <div class="lg-team">Norwich</div>
+                <div class="lg-pts" id="ptsCity">189k</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="derby-head-lite">
+          <div class="derby-tag">Postcode head-to-head</div>
+          <div class="derby-ends">Ends Friday 6pm</div>
+        </div>
+
+        <div class="derby-scoreline">
+          <div class="side orange">
+            <div class="side-name">NR2</div>
+            <div class="side-pts" id="derbyLeadPts">84,700</div>
+            <div class="side-lbl">Leading</div>
+          </div>
+
+          <div class="vs-mark">vs</div>
+
+          <div class="side blue">
+            <div class="side-name">NR3</div>
+            <div class="side-pts" id="derbyTrailPts">76,800</div>
+            <div class="side-lbl">Chasing</div>
+          </div>
+        </div>
+
+        <div class="tug-wrap">
+          <div class="tug-center"></div>
+          <div class="tug-orange" id="tugOrange" style="width:60%"></div>
+          <div class="tug-blue" id="tugBlue" style="width:40%"></div>
+          <div class="tug-knob" id="tugKnob" style="left:60%"></div>
+        </div>
+
+        <div class="derby-gap">
+          NR2 leads by <strong id="derbyGap">7,900 pts</strong> · <span id="daysLeft">3 days left</span>
+        </div>
+
+        <div class="derby-feed">
+          <div class="feed-side orange">
+            <div class="feed-side-title">NR2 activity</div>
+            <div class="mini-log" id="nr2Log"></div>
+          </div>
+
+          <div class="feed-side blue">
+            <div class="feed-side-title">NR3 activity</div>
+            <div class="mini-log" id="nr3Log"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function heartClick(){
+      const btn = document.getElementById('heartBtn');
+      btn.style.filter = 'grayscale(0)';
+      btn.style.opacity = '1';
+      btn.style.transform = 'scale(1.2)';
+      btn.style.animation = 'none';
+
+      setTimeout(() => {
+        document.getElementById('signupExpand').style.display = 'block';
+        document.getElementById('emailIn').focus();
+      }, 180);
+    }
+
+    function submitEmail(){
+      const email = document.getElementById('emailIn').value;
+      if (!email || !email.includes('@')) return;
+
+      const FORM_ID = 'YOUR_FORM_ID_HERE';
+      const ENTRY = 'entry.YOUR_ENTRY_ID_HERE';
+      new Image().src = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse?${ENTRY}=${encodeURIComponent(email)}&submit=Submit`;
+
+      document.getElementById('signupExpand').style.display = 'none';
+      document.getElementById('signupDone').style.display = 'flex';
+    }
+
+    document.addEventListener('keydown', e => {
+      const expand = document.getElementById('signupExpand');
+      if (e.key === 'Enter' && expand.style.display !== 'none') {
+        submitEmail();
+      }
+    });
+
+    let scoreA = 1180;
+    let scoreB = 190;
+    let scoreC = 47;
+    let scoreD = 190;
+
+    function renderSharedScore(){
+      const total = scoreA + scoreB + scoreC + scoreD;
+      document.getElementById('sharedScore').textContent = total.toLocaleString() + ' pts';
+      document.getElementById('ptsYou').textContent = total.toLocaleString();
+    }
+
+    setInterval(() => {
+      scoreA += Math.ceil(Math.random() * 20);
+      if (Math.random() > 0.45) scoreB += Math.ceil(Math.random() * 7);
+      if (Math.random() > 0.72) scoreC += Math.ceil(Math.random() * 3);
+      if (Math.random() > 0.52) scoreD += Math.ceil(Math.random() * 9);
+      renderSharedScore();
+    }, 3400);
+
+    renderSharedScore();
+
+    let derbyLeadVal = 84700;
+    let derbyTrailVal = 76800;
+
+    const nr2Activities = [
+      { name:'Sarah', sport:'ran 5.2km', pts:142 },
+      { name:'Jade', sport:'cycled 12km', pts:186 },
+      { name:'Beth', sport:'walked 8km', pts:88 },
+      { name:'Tom', sport:'lifted 45min', pts:98 },
+      { name:'Kai', sport:'HIIT 30min', pts:112 },
+      { name:'Ava', sport:'boxing', pts:136 }
+    ];
+
+    const nr3Activities = [
+      { name:'Priya', sport:'yoga 60min', pts:76 },
+      { name:'Leo', sport:'tennis 60min', pts:158 },
+      { name:'Rory', sport:'ran 7.1km', pts:149 },
+      { name:'Ben', sport:'played football', pts:132 },
+      { name:'Nina', sport:'swam 20 laps', pts:120 },
+      { name:'Ollie', sport:'cycle commute', pts:104 }
+    ];
+
+    let nr2Idx = 0;
+    let nr3Idx = 0;
+
+    function addMiniLog(side, item){
+      const target = document.getElementById(side === 'nr2' ? 'nr2Log' : 'nr3Log');
+      const row = document.createElement('div');
+      row.className = 'mini-log-item';
+      row.innerHTML = `<span class="name">${item.name} · ${item.sport}</span><span class="pts">+${item.pts}</span>`;
+      target.prepend(row);
+
+      while (target.children.length > 3) {
+        target.removeChild(target.lastChild);
+      }
+    }
+
+    function updateDerby(){
+      const leadEl = document.getElementById('derbyLeadPts');
+      const trailEl = document.getElementById('derbyTrailPts');
+      const gapEl = document.getElementById('derbyGap');
+
+      if (leadEl) leadEl.textContent = derbyLeadVal.toLocaleString();
+      if (trailEl) trailEl.textContent = derbyTrailVal.toLocaleString();
+
+      const gap = derbyLeadVal - derbyTrailVal;
+      if (gapEl) gapEl.textContent = gap.toLocaleString() + ' pts';
+
+      const diff = derbyLeadVal - derbyTrailVal;
+      const maxSwing = 18;
+      const normalized = Math.max(-maxSwing, Math.min(maxSwing, diff / 500));
+      const orangePct = 50 + normalized;
+      const bluePct = 100 - orangePct;
+
+      document.getElementById('tugOrange').style.width = orangePct + '%';
+      document.getElementById('tugBlue').style.width = bluePct + '%';
+      document.getElementById('tugKnob').style.left = orangePct + '%';
+
+      document.getElementById('ptsPostcode').textContent = derbyLeadVal.toLocaleString();
+    }
+
+    function derbyTick(){
+      const a2 = nr2Activities[nr2Idx % nr2Activities.length];
+      nr2Idx++;
+      derbyLeadVal += a2.pts;
+      addMiniLog('nr2', a2);
+
+      const a3 = nr3Activities[nr3Idx % nr3Activities.length];
+      nr3Idx++;
+      derbyTrailVal += a3.pts;
+      addMiniLog('nr3', a3);
+
+      if (Math.random() > 0.6) derbyTrailVal += Math.ceil(Math.random() * 220);
+      if (Math.random() > 0.7) derbyLeadVal += Math.ceil(Math.random() * 260);
+
+      updateDerby();
+    }
+
+    derbyTick();
+    derbyTick();
+    setInterval(derbyTick, 3000);
+
+    const SPRITE_COLS = 8;
+    const SPRITE_ROWS = 5;
+
+    function spritePos(col, row){
+      const x = SPRITE_COLS === 1 ? 0 : (col / (SPRITE_COLS - 1)) * 100;
+      const y = SPRITE_ROWS === 1 ? 0 : (row / (SPRITE_ROWS - 1)) * 100;
+      return { x: `${x}%`, y: `${y}%` };
+    }
+
+    const worldSprites = [
+      { x: 9,  y: 22, col: 0, row: 0, w: 14, h: 22, o: .05, dur: 5.1 },
+      { x: 16, y: 36, col: 2, row: 0, w: 18, h: 18, o: .08, dur: 4.8 },
+      { x: 12, y: 72, col: 0, row: 3, w: 15, h: 23, o: .06, dur: 4.9 },
+      { x: 38, y: 24, col: 4, row: 1, w: 14, h: 22, o: .04, dur: 4.7 },
+      { x: 44, y: 70, col: 1, row: 4, w: 15, h: 23, o: .04, dur: 4.5 },
+      { x: 68, y: 22, col: 6, row: 0, w: 14, h: 22, o: .04, dur: 5.2 },
+      { x: 82, y: 36, col: 7, row: 1, w: 13, h: 22, o: .03, dur: 4.8 },
+      { x: 88, y: 74, col: 5, row: 3, w: 16, h: 24, o: .05, dur: 4.1 },
+      { x: 95, y: 84, col: 7, row: 4, w: 14, h: 23, o: .03, dur: 5.1 },
+      { x: 28, y: 92, col: 3, row: 2, w: 14, h: 22, o: .03, dur: 5.3 },
+      { x: 58, y: 93, col: 4, row: 4, w: 14, h: 22, o: .03, dur: 5.0 }
+    ];
+
+    function renderWorldSprites(){
+      const layer = document.getElementById('worldLayer');
+      if (!layer) return;
+      layer.innerHTML = '';
+
+      worldSprites.forEach(s => {
+        const el = document.createElement('div');
+        const pos = spritePos(s.col, s.row);
+
+        el.className = 'mini-sprite';
+        el.style.left = s.x + '%';
+        el.style.top = s.y + '%';
+        el.style.setProperty('--w', (s.w || 14) + 'px');
+        el.style.setProperty('--h', (s.h || 22) + 'px');
+        el.style.setProperty('--o', s.o ?? .05);
+        el.style.setProperty('--dur', (s.dur || 4.8) + 's');
+        el.style.setProperty('--bgx', pos.x);
+        el.style.setProperty('--bgy', pos.y);
+
+        layer.appendChild(el);
+      });
+    }
+
+    renderWorldSprites();
+    window.addEventListener('resize', renderWorldSprites);
+  </script>
+</body>
+</html>
